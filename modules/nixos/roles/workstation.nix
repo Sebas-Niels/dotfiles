@@ -1,14 +1,17 @@
 # Includes modules or common programs needed for this role, not defined by the users configuration
+
+{ pkgs, ... }:
+{
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    vim
     wget
     discord
     git
-    #spotify
   ];
 
 
-    # Install firefox.
+  # Install firefox.
   programs.firefox.enable = true;
+}
