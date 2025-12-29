@@ -22,7 +22,7 @@
     in
     {
       nixosConfigurations = {
-        vmware-setup = nixpkgs.lib.nixosSystem {
+        "vmware-setup" = nixpkgs.lib.nixosSystem {
           specialArgs = {inherit inputs system; };
           modules = [
            ./hosts/vmware-setup
