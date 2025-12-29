@@ -31,8 +31,6 @@
       ../../modules/nixos/base.nix
 
       # User definition
-
-      ../../users/nixos/user.nix
       ../../users/nixtest/user.nix
 
     ];
@@ -51,7 +49,6 @@
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {
-      "nixos" = import ../../users/nixos/home.nix;
       "nixtest" = import ../../users/nixtest/home.nix;
 
     };
