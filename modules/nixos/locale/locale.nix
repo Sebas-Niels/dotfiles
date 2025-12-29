@@ -3,11 +3,9 @@
 # i18n.nix
 # console.nix
 
-
-
-
-
-# Set your time zone.
+{ ... }:
+{
+  # Set your time zone.
   time.timeZone = "Europe/Copenhagen";
 
   # Select internationalisation properties.
@@ -25,6 +23,6 @@
     LC_TIME = "da_DK.UTF-8";
   };
 
-
-    # Configure console keymap
+  # Configure console keymap
   console.keyMap = "dk-latin1";
+}
