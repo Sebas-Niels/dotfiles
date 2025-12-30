@@ -1,34 +1,18 @@
-{ ... }:
+{ config, pkgs, lib, ... }:
+
 {
-    programs.hyprland = {
-        enable = true;
-        xwayland.enable = true;
-    };
+  services.getty.autologinUser = "nixtest";
 
-    environment.sessionVariables = {
-        WLR_NO_HARDWARE_CURSORS = "1";
-        NIXOS_OZONE_WL = "1";
-    };
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
 
-    environment.systemPackages = [
-        (pkgs.waybar.overrideAttrs (oldAttrs: {
-            mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-            })
-        )
-        pkgs.dunst
-        libnotify
-        swww
-        kitty
-        rofi-wayland
-    ];
+  };
 
-    hardware = {
-        opengl.enable = true;
-        nvidia.modesetting.enable = true;
-    };
-
-    xdg.portal.enable = true;
-    xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-
-
+  environment.systemPackages = with pkgs; [
+    kitty
+    waybar
+    hyprpaper
+    foot
+  ];
 }
