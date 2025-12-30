@@ -21,8 +21,12 @@
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
-
+    discord
+    steam
+    imhex
     spotify
+    tor-browser
+    librewolf
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
