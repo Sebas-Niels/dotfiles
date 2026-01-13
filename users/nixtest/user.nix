@@ -5,7 +5,7 @@
   users.users.nixtest = {
     isNormalUser = true;
     description = "nixtest";
-    extraGroups = [ "wheel" "networkmanager" ];
+    extraGroups = [ "wheel" "networkmanager" "libvirtd" "kvm" ];
     #shell = pkgs.zsh;
   };
 }

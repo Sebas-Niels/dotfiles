@@ -1,159 +1,163 @@
 { config, pkgs, inputs, ... }:
 
 {
-
   imports = [
     ../../modules/home-manager/scripts/silent-sound.nix
     ../../modules/nixos/desktop/hyprland/waybar.nix
-
   ];
 
   home.username = "nixtest";
   home.homeDirectory = "/home/nixtest";
-
-  home.stateVersion = "25.11"; # Please read the comment before changing.
+  home.stateVersion = "25.11";
 
   home.packages = with pkgs; [
-
     # Common
     discord
     spotify
     tor-browser
-    librewolf # Need to make this into seperate package for customization
+    librewolf
     signal-desktop
+    obsidian
+    fractal
+    yazi-unwrapped
 
     # Util
     wootility
     imhex
     _1password-gui
     kdePackages.kate
+    wireshark
 
     # Games and launchers
     steam
-    prismlauncher-unwrapped # Java and drivers need to be managed
+    prismlauncher-unwrapped
     r2modman
+
+    # Lock screen
+    hyprlock
   ];
+
+  programs.kitty = {
+    enable = true;
+    font = {
+      name = "JetBrains Nerd Font Mono";
+      size = 12.0;
+    };
+    settings = {
+      adjust_line_height = "110%";
+    };
+  };
+
+  programs.ghostty = {
+    enable = true;
+    settings = {
+      font-family = "JetBrains Nerd Font Mono";
+      font-size = 12;
+    };
+  };
+
+  gtk = {
+    enable = true;
+    theme.name = "Adwaita-dark";
+  };
 
   wayland.windowManager.hyprland = {
-  enable = true;
+    enable = true;
 
-  plugins = [
-    inputs.hyprland-plugins.packages.${pkgs.system}.borders-plus-plus
-  ];
-
-  settings = {
-    #############################
-    # AUTOSTART
-    #############################
-
-    monitor = [
-      # Right monitor
-      "DP-1,1920x1200@59.95,2560x120,1"
-æk      # Middle monitor
-      "DP-2,2560x1440@164.96,0x0,1"
-      # Left monitor
-      "DP-3,1920x1200@59.95,-1920x120,1"
+    plugins = [
+      inputs.hyprland-plugins.packages.${pkgs.system}.borders-plus-plus
     ];
 
+    settings = {
+      #############################
+      # AUTOSTART
+      #############################
 
-    exec-once = [
-      "dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY HYPRLAND_INSTANCE_SIGNATURE XDG_CURRENT_DESKTOP"
-      "systemctl --user stop hyprland-session.target"
-      "systemctl --user start hyprland-session.target"
-      "swww init"
-      "waybar"
-      "dunst"
-    ];
+      monitor = [
+        "DP-1,1920x1200@59.95,2560x120,1"
+        "DP-2,2560x1440@164.96,0x0,1"
+        "DP-3,1920x1200@59.95,-1920x120,1"
+      ];
 
-    #############################
-    # MOD KEY
-    #############################
+      exec-once = [
+        "dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY HYPRLAND_INSTANCE_SIGNATURE XDG_CURRENT_DESKTOP"
+        "systemctl --user stop hyprland-session.target"
+        "systemctl --user start hyprland-session.target"
+        "swww init"
+        "waybar"
+        "dunst"
+      ];
 
-    "$mod" = "SUPER";
+      #############################
+      # MOD KEY
+      #############################
 
-    #############################
-    # KEYBINDS
-    #############################
+      "$mod" = "SUPER";
 
-    bind = [
-      "$mod, Return, exec, kitty"
-      "$mod SHIFT, Return, exec, foot"
-      "$mod, D, exec, rofi -show drun"
+      #############################
+      # KEYBINDS
+      #############################
 
-      "$mod, Q, killactive"
-      "$mod, F, fullscreen"
-      "$mod, M, exit"
+      bind = [
+        "$mod, Return, exec, kitty"
+        "$mod SHIFT, Return, exec, foot"
+        "$mod, D, exec, rofi -show drun"
 
-      "$mod, H, movefocus, l"
-      "$mod, L, movefocus, r"
-      "$mod, K, movefocus, u"
-      "$mod, J, movefocus, d"
+        "$mod, L, exec, hyprlock"
 
-      "$mod SHIFT, H, movewindow, l"
-      "$mod SHIFT, L, movewindow, r"
-      "$mod SHIFT, K, movewindow, u"
-      "$mod SHIFT, J, movewindow, d"
-    ];
+        "$mod, Q, killactive"
+        "$mod, F, fullscreen"
+        "$mod, M, exit"
 
-    #############################
-    # INPUT / GENERAL
-    #############################
+        "$mod, H, movefocus, l"
+        "$mod, L, movefocus, r"
+        "$mod, K, movefocus, u"
+        "$mod, J, movefocus, d"
 
-    input = {
-      kb_layout = "dk";
-      follow_mouse = 1;
-    };
+        "$mod SHIFT, H, movewindow, l"
+        "$mod SHIFT, L, movewindow, r"
+        "$mod SHIFT, K, movewindow, u"
+        "$mod SHIFT, J, movewindow, d"
+      ];
 
-    general = {
-      gaps_in = 5;
-      gaps_out = 10;
-      border_size = 2;
-      layout = "dwindle";
-    };
+      #############################
+      # INPUT / GENERAL
+      #############################
 
-    decoration = {
-      rounding = 8;
-    };
+      input = {
+        kb_layout = "dk";
+        follow_mouse = 1;
+      };
 
-    #############################
-    # PLUGIN CONFIG
-    #############################
+      general = {
+        gaps_in = 5;
+        gaps_out = 10;
+        border_size = 2;
+        layout = "dwindle";
+      };
 
-    "plugin:borders-plus-plus" = {
-      add_borders = 1;
+      decoration = {
+        rounding = 8;
+      };
 
-      border_size_1 = 10;
-      border_size_2 = -1;
+      #############################
+      # PLUGIN CONFIG
+      #############################
 
-      "col.border_1" = "rgb(ffffff)";
-      "col.border_2" = "rgb(2222ff)";
-
-      natural_rounding = "yes";
+      "plugin:borders-plus-plus" = {
+        add_borders = 1;
+        border_size_1 = 10;
+        border_size_2 = -1;
+        "col.border_1" = "rgb(ffffff)";
+        "col.border_2" = "rgb(2222ff)";
+        natural_rounding = "yes";
+      };
     };
   };
-};
 
+  home.file = { };
 
+  home.sessionVariables = { };
 
-  # Home Manager is pretty good at managing dotfiles. The primary way to manage
-  # plain files is through 'home.file'.
-  home.file = {
-    # # Building this configuration will create a copy of 'dotfiles/screenrc' in
-    # # the Nix store. Activating the configuration will then make '~/.screenrc' a
-    # # symlink to the Nix store copy.
-    # ".screenrc".source = dotfiles/screenrc;
-
-    # # You can also set the file content immediately.
-    # ".gradle/gradle.properties".text = ''
-    #   org.gradle.console=verbose
-    #   org.gradle.daemon.idletimeout=3600000
-    # '';
-  };
-
-  home.sessionVariables = {
-    # EDITOR = "emacs";
-  };
-
-  # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }

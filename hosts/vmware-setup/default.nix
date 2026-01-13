@@ -55,8 +55,47 @@
     };
   };
 
+  fonts.packages = with pkgs; [
+    jetbrains-mono
+    nerd-fonts.space-mono
+  ];
+
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
+
+
+
+
+
+  # Enable KVM / libvirt
+  virtualisation.libvirtd.enable = true;
+
+  # Enable SPICE USB redirection
+  virtualisation.spiceUSBRedirection.enable = true;
+
+  # Install virt-manager and SPICE tools
+  environment.systemPackages = with pkgs; [
+    virt-manager
+    virt-viewer
+    spice
+    spice-gtk
+    spice-protocol
+    virtio-win
+  ];
+
+  # Required kernel modules
+  boot.kernelModules = [ "kvm-intel" ]; # or "kvm-amd"
+
+  # Networking for VMs
+  networking.firewall.trustedInterfaces = [ "virbr0" ];
+
+  # Enable polkit for GUI auth
+  security.polkit.enable = true;
+
+  virtualisation.libvirtd.qemu.swtpm.enable = true; # Windows 11 later
+
+
+
 
 
   # MOVE THIS TO THE APPROPRIATE VM HOST EVENTUALLY

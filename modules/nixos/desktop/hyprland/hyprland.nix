@@ -4,7 +4,6 @@
   #services.getty.autologinUser = "nixtest";
 
   imports = [
-    ./waybar.nix
   ];
 
 
@@ -34,15 +33,25 @@
   services.xserver.videoDrivers = [ "nvidia" ];
 
   environment.systemPackages = with pkgs; [
-    kitty
-    waybar
+    #waybar
     #hyprpaper
     foot
     dunst
     libnotify
     swww
     rofi
+    wireplumber
+    pavucontrol
   ];
+
+services.pipewire = {
+  enable = true;
+
+  pulse.enable = true;        # REQUIRED for pavucontrol
+  wireplumber.enable = true;  # REQUIRED
+};
+
+
 
   xdg.portal = {
     enable = true;
