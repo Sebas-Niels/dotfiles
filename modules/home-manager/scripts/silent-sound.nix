@@ -1,11 +1,9 @@
 { config, pkgs, lib, ... }:
 
 {
-    description = "Silent sound playing to avoid audeze maxwell x standby audio startup"
-
   systemd.user.services.silent-sound = {
     Unit = {
-      Description = "Silent Sound Service";
+      Description = "Silent Sound Service script for audeze maxwell x, prevent startup delay during standby";
       After = [ "sound.target" ];
     };
 

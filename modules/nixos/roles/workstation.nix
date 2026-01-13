@@ -7,8 +7,10 @@
   environment.systemPackages = with pkgs; [
     vim
     wget
-    discord
     git
+    speedtest-cli
+    fastfetch
+
   ];
 
 

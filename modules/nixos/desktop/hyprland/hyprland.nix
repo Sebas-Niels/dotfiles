@@ -3,6 +3,11 @@
 {
   #services.getty.autologinUser = "nixtest";
 
+  imports = [
+    ./waybar.nix
+  ];
+
+
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
