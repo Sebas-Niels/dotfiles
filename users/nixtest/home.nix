@@ -4,6 +4,8 @@
   imports = [
     ../../modules/home-manager/scripts/silent-sound.nix
     ../../modules/nixos/desktop/hyprland/waybar.nix
+    ../../modules/home-manager/programs/steam.nix
+
   ];
 
   home.username = "nixtest";
@@ -29,7 +31,7 @@
     wireshark
 
     # Games and launchers
-    steam
+    #steam
     prismlauncher-unwrapped
     r2modman
 
@@ -54,11 +56,6 @@
       font-family = "JetBrains Nerd Font Mono";
       font-size = 12;
     };
-  };
-
-  gtk = {
-    enable = true;
-    theme.name = "Adwaita-dark";
   };
 
   wayland.windowManager.hyprland = {
@@ -103,7 +100,7 @@
         "$mod SHIFT, Return, exec, foot"
         "$mod, D, exec, rofi -show drun"
 
-        "$mod, L, exec, hyprlock"
+        "CTRL ALT, L, exec, hyprlock"
 
         "$mod, Q, killactive"
         "$mod, F, fullscreen"

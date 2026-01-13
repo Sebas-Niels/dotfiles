@@ -81,7 +81,14 @@
     spice-gtk
     spice-protocol
     virtio-win
+
+    protonup
   ];
+
+  environment.sessionVariables = {
+    STEAM_EXXTRA_COMPAT_TOOLS_PATHS =
+      "/home/user/.steam/root/compatibilitytools.d";
+  };
 
   # Required kernel modules
   boot.kernelModules = [ "kvm-intel" ]; # or "kvm-amd"
@@ -95,7 +102,14 @@
   virtualisation.libvirtd.qemu.swtpm.enable = true; # Windows 11 later
 
 
+  hardware.nvidia.prime = {
+    sync.enable = true;
 
+    nvidiaBusId = "PCI:1:0:0";
+  };
+
+
+  services.xserver.videoDrivers = ["nvidia"];
 
 
   # MOVE THIS TO THE APPROPRIATE VM HOST EVENTUALLY
