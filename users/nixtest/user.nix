@@ -7,6 +7,7 @@
     extraGroups = [ "wheel" "networkmanager" ];
     packages = with pkgs; [
       kdePackages.kate
+      _1password-gui
     ];
   };
 }

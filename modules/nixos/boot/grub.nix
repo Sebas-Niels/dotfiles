@@ -3,7 +3,12 @@
 {
   boot.loader.grub = {
     enable = true;
-    device = "/dev/sda";
+    efiSupport = true;
+    device = "nodev";
     useOSProber = true;
+  };
+
+  boot.loader.efi = {
+    canTouchEfiVariables = true;
   };
 }
