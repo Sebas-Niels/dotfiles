@@ -4,6 +4,8 @@
 
   imports = [
     ../../modules/home-manager/scripts/silent-sound.nix
+    ../../modules/nixos/desktop/hyprland/waybar.nix
+
   ];
 
   home.username = "nixtest";
@@ -47,7 +49,7 @@
     monitor = [
       # Right monitor
       "DP-1,1920x1200@59.95,2560x120,1"
-      # Middle monitor
+æk      # Middle monitor
       "DP-2,2560x1440@164.96,0x0,1"
       # Left monitor
       "DP-3,1920x1200@59.95,-1920x120,1"
