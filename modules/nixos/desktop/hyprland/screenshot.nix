@@ -19,16 +19,10 @@ in
   wayland.windowManager.hyprland.extraConfig = ''
     # Screenshot bindings
 
-    # Area → file
-    bind = SUPER, S, exec, grim -g "$(slurp)" ${screenshotDir}/shot-$(date +%F-%T).png
-
     # Area → clipboard
-    bind = SUPER SHIFT, S, exec, grim -g "$(slurp)" - | wl-copy
+    bind = , Print, exec, grim -g "$(slurp)" - | wl-copy
 
     # Fullscreen → clipboard
     bind = SUPER, Print, exec, grim - | wl-copy
-
-    # Fullscreen → file
-    bind = SUPER SHIFT, Print, exec, grim ${screenshotDir}/shot-$(date +%F-%T).png
-  '';
+ '';
 }
