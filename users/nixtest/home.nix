@@ -6,6 +6,7 @@
     ../../modules/nixos/desktop/hyprland/waybar.nix
     #../../modules/home-manager/programs/steam.nix
     ../../modules/nixos/desktop/hyprland/screenshot.nix
+    ../../modules/nixos/desktop/hyprland/clipboard.nix
 
   ];
 
