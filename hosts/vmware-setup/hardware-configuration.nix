@@ -24,6 +24,15 @@
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
+
+  fileSystems."/mnt/games" = {
+    device = "/dev/disk/by-uuid/12ef98a6-ad00-4a03-b80b-9b526717e67a";
+    fsType = "ext4";
+    options = [ "nofail" "noatime" ];
+  };
+
+
+
   swapDevices = [ ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

@@ -34,6 +34,8 @@
       # User definition
       ../../users/nixtest/user.nix
 
+      #../../modules/home-manager/programs/steam.nix
+
     ];
 
   # Define your hostname.
@@ -54,6 +56,11 @@
 
     };
   };
+
+  programs.steam.enable = true;
+  programs.gamemode.enable = true;
+  programs.gamescope.enable = true; # optional
+
 
   fonts.packages = with pkgs; [
     jetbrains-mono
@@ -82,7 +89,7 @@
     spice-protocol
     virtio-win
 
-    protonup
+    protonup-ng
   ];
 
   environment.sessionVariables = {
@@ -102,11 +109,11 @@
   virtualisation.libvirtd.qemu.swtpm.enable = true; # Windows 11 later
 
 
-  hardware.nvidia.prime = {
-    sync.enable = true;
-
-    nvidiaBusId = "PCI:1:0:0";
-  };
+  #hardware.nvidia.prime = {
+  #  sync.enable = true;
+  #
+  #  nvidiaBusId = "PCI:1:0:0";
+  #};
 
 
   services.xserver.videoDrivers = ["nvidia"];

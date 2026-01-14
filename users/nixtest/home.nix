@@ -4,7 +4,8 @@
   imports = [
     ../../modules/home-manager/scripts/silent-sound.nix
     ../../modules/nixos/desktop/hyprland/waybar.nix
-    ../../modules/home-manager/programs/steam.nix
+    #../../modules/home-manager/programs/steam.nix
+    ../../modules/nixos/desktop/hyprland/screenshot.nix
 
   ];
 
