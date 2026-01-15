@@ -7,6 +7,7 @@
     #../../modules/home-manager/programs/steam.nix
     ../../modules/nixos/desktop/hyprland/screenshot.nix
     ../../modules/nixos/desktop/hyprland/clipboard.nix
+    ../../modules/nixos/desktop/hyprland/workspaces.nix
 
   ];
 
@@ -154,9 +155,12 @@
     };
   };
 
+
   home.file = { };
 
-  home.sessionVariables = { };
+  home.sessionVariables = {
+
+  };
 
   programs.home-manager.enable = true;
 }
