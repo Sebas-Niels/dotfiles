@@ -3,11 +3,11 @@
 {
   imports = [
     ../../modules/home-manager/scripts/silent-sound.nix
-    ../../modules/nixos/desktop/hyprland/waybar.nix
+    ../../modules/home-manager/hyprland/waybar.nix
     #../../modules/home-manager/programs/steam.nix
-    ../../modules/nixos/desktop/hyprland/screenshot.nix
-    ../../modules/nixos/desktop/hyprland/clipboard.nix
-    ../../modules/nixos/desktop/hyprland/workspaces.nix
+    ../../modules/home-manager/hyprland/screenshot.nix
+    ../../modules/home-manager/hyprland/clipboard.nix
+    ../../modules/home-manager/hyprland/workspaces.nix
 
   ];
 
@@ -23,8 +23,8 @@
     librewolf
     signal-desktop
     obsidian
-    fractal
-    yazi-unwrapped
+    fractal # Matrix group messaging app
+    yazi-unwrapped # Terminal file explorer
 
     # Util
     wootility
@@ -32,10 +32,12 @@
     _1password-gui
     kdePackages.kate
     wireshark
+    p7zip
+    swayimg # Image viewer
 
     # Games and launchers
     #steam
-    prismlauncher-unwrapped
+    prismlauncher-unwrapped # Minecraft
     r2modman
 
     # Lock screen
@@ -58,6 +60,22 @@
     settings = {
       font-family = "JetBrains Nerd Font Mono";
       font-size = 12;
+    };
+  };
+
+  services.hyprpaper = {
+    enable = true;
+
+    settings = {
+      preload = [
+        "/home/nixtest/Pictures/Wallpapers/116123703_p0.jpg"
+      ];
+
+      wallpaper = [
+        "DP-1,/home/nixtest/dotfiles/wallpapers/116123703_p0.jpg"
+        "DP-2,/home/nixtest/dotfiles/wallpapers/116123703_p0.jpg"
+        "DP-3,/home/nixtest/dotfiles/wallpapers/116123703_p0.jpg"
+      ];
     };
   };
 
