@@ -8,6 +8,7 @@
     ../../modules/home-manager/hyprland/screenshot.nix
     ../../modules/home-manager/hyprland/clipboard.nix
     ../../modules/home-manager/hyprland/workspaces.nix
+    ../../modules/home-manager/hyprland/wireplumber.nix
 
   ];
 
@@ -68,7 +69,7 @@
 
     settings = {
       preload = [
-        "/home/nixtest/Pictures/Wallpapers/116123703_p0.jpg"
+        "/home/nixtest/dotfiles/wallpapers/116123703_p0.jpg"
       ];
 
       wallpaper = [

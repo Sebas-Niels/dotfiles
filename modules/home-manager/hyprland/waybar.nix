@@ -26,7 +26,7 @@
         ];
 
         modules-right = [
-          "pulseaudio"
+          "wireplumber"
           "network"
           "clock"
           "tray"
@@ -42,11 +42,11 @@
           separate-outputs = true;
         };
 
-        pulseaudio = {
+        wireplumber = {
           format = "{volume}% ";
           format-muted = "󰝟";
           scroll-step = 5;
-          on-click = "pavucontrol";
+          on-click = "hyprpwcenter";
         };
 
         network = {
@@ -106,7 +106,7 @@
 
   #clock,
   #network,
-  #pulseaudio,
+  #wireplumber,
 
   #tray {
     padding: 0 10px;

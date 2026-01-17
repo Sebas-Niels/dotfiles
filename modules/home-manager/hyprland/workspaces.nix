@@ -22,14 +22,9 @@
   #  "workspace 1, class:^(code|kitty|neovide)$"
   #  "workspace 2, class:^(firefox|spotify|discord)$"
   #  "workspace 3, class:^(steam|lutris)$"
-     "fullscreen, class:^(steam_app_.*)$"
-     "noborder, class:^(steam_app_.*)$"
-     "monitor:DP-1, class:^(steam_app_.*)$"
+     "stayfocused, title:^()$,class:^(steam)$"
+     "minsize 1 1, title:^()$,class:^(steam)$"
   ];
-
-  xwayland = {
-        force_zero_scaling = true;
-      };
 
     wayland.windowManager.hyprland.settings.workspace = [
         "special:temp, on-created-empty:spotify"
