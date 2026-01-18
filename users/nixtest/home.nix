@@ -8,7 +8,7 @@
     ../../modules/home-manager/hyprland/screenshot.nix
     ../../modules/home-manager/hyprland/clipboard.nix
     ../../modules/home-manager/hyprland/workspaces.nix
-    ../../modules/home-manager/hyprland/wireplumber.nix
+   # ../../modules/home-manager/hyprland/wireplumber.nix
 
   ];
 
@@ -63,6 +63,8 @@
       font-size = 12;
     };
   };
+
+  programs.ssh.startAgent = true;
 
 
   gtk = {
