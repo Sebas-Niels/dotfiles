@@ -64,6 +64,16 @@
     };
   };
 
+
+  gtk = {
+  enable = true;
+  iconTheme = {
+    name = "Papirus";
+    package = pkgs.papirus-icon-theme;
+  };
+};
+
+
   services.hyprpaper = {
     enable = true;
 
@@ -182,4 +192,5 @@
   };
 
   programs.home-manager.enable = true;
+
 }

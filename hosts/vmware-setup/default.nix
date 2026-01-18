@@ -55,20 +55,8 @@
       "nixtest" = import ../../users/nixtest/home.nix;
 
     };
+    backupFileExtension = "hm-backup";
   };
-
-
-  i18n.inputMethod = {
-  type = "fcitx5";
-  enable = true;
-
-  fcitx5.addons = with pkgs; [
-    fcitx5-gtk
-    qt6Packages.fcitx5-configtool
-    qt6Packages.fcitx5-with-addons
-    fcitx5-m17n
-  ];
-};
 
 
 
