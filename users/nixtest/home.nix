@@ -64,7 +64,8 @@
     };
   };
 
-  programs.ssh.startAgent = true;
+
+
 
 
   gtk = {

@@ -76,6 +76,7 @@
 
 
 
+  programs.ssh.startAgent = true;
 
   # Enable KVM / libvirt
   virtualisation.libvirtd.enable = true;
