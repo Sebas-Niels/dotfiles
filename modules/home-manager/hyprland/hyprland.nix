@@ -38,7 +38,7 @@
     #waybar
     #hyprpaper
     foot
-    dunst
+    #dunst
     libnotify
     swww
     rofi

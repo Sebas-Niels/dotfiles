@@ -8,7 +8,8 @@
     ../../modules/home-manager/hyprland/screenshot.nix
     ../../modules/home-manager/hyprland/clipboard.nix
     ../../modules/home-manager/hyprland/workspaces.nix
-   # ../../modules/home-manager/hyprland/wireplumber.nix
+    ../../modules/home-manager/hyprland/wireplumber.nix
+    ../../modules/home-manager/hyprland/dunst.nix
 
   ];
 
@@ -26,6 +27,7 @@
     obsidian
     fractal # Matrix group messaging app
     yazi-unwrapped # Terminal file explorer
+    # vesktop
 
     # Util
     wootility

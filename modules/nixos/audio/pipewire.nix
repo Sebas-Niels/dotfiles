@@ -11,6 +11,21 @@
     alsa.support32Bit = true;
     pulse.enable = true;
 
+    # Discord notification keepalive (prevents audio device from opening/closing)
+    extraConfig.pipewire-pulse."discord-keepalive" = {
+  "pulse.rules" = [
+    {
+      matches = [
+        { "application.process.binary" = ".Discord-wrapped"; }
+      ];
+      actions.update-props = {
+        "pulse.corked" = false;
+      };
+    }
+  ];
+};
+
+
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
 
@@ -18,21 +33,4 @@
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
-
-  home.file.".config/wireplumber/main.lua.d/51-discord-keepalive.lua".text = ''
-rule = {
-  matches = {
-    {
-      { "application.name", "equals", "Discord" },
-    },
-  },
-  apply_properties = {
-    ["node.pause-on-idle"] = false,
-    ["session.suspend-timeout-seconds"] = 0,
-  }
-}
-
-table.insert(alsa_monitor.rules, rule)
-'';
-
 }
