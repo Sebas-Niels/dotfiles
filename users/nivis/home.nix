@@ -41,6 +41,7 @@
     prismlauncher-unwrapped # Minecraft
     r2modman
 
+
     # Lock screen
     hyprlock
   ];

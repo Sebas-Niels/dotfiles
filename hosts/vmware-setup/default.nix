@@ -32,7 +32,7 @@
       ../../modules/nixos/base.nix
 
       # User definition
-      ../../users/nixtest/user.nix
+      ../../users/nivis/user.nix
 
       #../../modules/home-manager/programs/steam.nix
 
@@ -52,7 +52,7 @@
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {
-      "nixtest" = import ../../users/nixtest/home.nix;
+      "nixtest" = import ../../users/nivis/home.nix;
 
     };
     backupFileExtension = "hm-backup";

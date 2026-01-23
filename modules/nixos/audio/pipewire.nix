@@ -18,4 +18,21 @@
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
+
+  home.file.".config/wireplumber/main.lua.d/51-discord-keepalive.lua".text = ''
+rule = {
+  matches = {
+    {
+      { "application.name", "equals", "Discord" },
+    },
+  },
+  apply_properties = {
+    ["node.pause-on-idle"] = false,
+    ["session.suspend-timeout-seconds"] = 0,
+  }
+}
+
+table.insert(alsa_monitor.rules, rule)
+'';
+
 }
