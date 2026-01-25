@@ -1,16 +1,20 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, ... }:
 
 {
-  systemd.user.services.silent-sound = {
+  systemd.user.services.audeze-keepalive = {
     Unit = {
-      Description = "Silent Sound Service script for audeze maxwell x, prevent startup delay during standby";
-      After = [ "sound.target" ];
+      Description = "Audeze Maxwell keepalive (PulseAudio paplay)";
+      After = [ "pipewire-pulse.service" ];
     };
 
     Service = {
-      ExecStart =
-        "${pkgs.ffmpeg}/bin/ffplay -f lavfi -i anullsrc=channel_layout=2:sample_rate=48000 -nodisp -loglevel quiet";
+      ExecStart = ''
+        ${pkgs.pulseaudio}/bin/paplay \
+          --volume=2000 \
+          /run/current-system/sw/share/sounds/freedesktop/stereo/silence.oga
+      '';
       Restart = "always";
+      RestartSec = 1;
     };
 
     Install = {

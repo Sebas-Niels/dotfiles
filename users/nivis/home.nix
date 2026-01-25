@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ../../modules/home-manager/scripts/silent-sound.nix
+    #../../modules/home-manager/scripts/silent-sound.nix
     ../../modules/home-manager/hyprland/waybar.nix
     #../../modules/home-manager/programs/steam.nix
     ../../modules/home-manager/hyprland/screenshot.nix
@@ -10,6 +10,7 @@
     ../../modules/home-manager/hyprland/workspaces.nix
     ../../modules/home-manager/hyprland/wireplumber.nix
     ../../modules/home-manager/hyprland/dunst.nix
+    ../../modules/home-manager/noctalia/noctalia.nix
 
   ];
 
@@ -78,6 +79,20 @@
     package = pkgs.papirus-icon-theme;
   };
 };
+
+#Sets the color themes to darkmode, for Qt + GTK
+dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
+  dconf.settings."org/gnome/desktop/interface".gtk-theme = "Adwaita-dark";
+  qt = {
+    enable = true;
+    platformTheme.name = "kde";
+    style.name = "breeze";
+  };
+  home.file.".config/kdeglobals" = {
+    text = ''
+      ${builtins.readFile "${pkgs.kdePackages.breeze}/share/color-schemes/BreezeDark.colors"}
+    '';
+  };
 
 
   services.hyprpaper = {

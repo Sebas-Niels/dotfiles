@@ -45,6 +45,7 @@
     wireplumber
     pavucontrol
     hyprpwcenter
+    pulseaudio
   ];
 
 services.pipewire = {
