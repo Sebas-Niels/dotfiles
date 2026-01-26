@@ -39,7 +39,7 @@
     ];
 
   # Define your hostname.
-  networking.hostName = "vmware-setup";
+  networking.hostName = "lambda";
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -124,8 +124,6 @@
   services.xserver.videoDrivers = ["nvidia"];
 
 
-  # MOVE THIS TO THE APPROPRIATE VM HOST EVENTUALLY
-  virtualisation.vmware.guest.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

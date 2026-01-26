@@ -25,23 +25,21 @@
   outputs = { self, nixpkgs, ... } @ inputs:
 {
   nixosConfigurations = {
-    "vmware-setup" = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
+    lambda = nixpkgs.lib.nixosSystem {
 
       specialArgs = { inherit inputs; };
 
       modules = [
-        ./hosts/vmware-setup
+        ./hosts/lambda
       ];
     };
 
-    workmachine = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
+    "vmware-setup" = nixpkgs.lib.nixosSystem {
 
       specialArgs = { inherit inputs; };
 
       modules = [
-        ./hosts/workmachine/configuration.nix
+        ./hosts/vmware-setup/configuration.nix
       ];
     };
   };
