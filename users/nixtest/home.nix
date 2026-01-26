@@ -14,8 +14,8 @@
 
   ];
 
-  home.username = "nivis";
-  home.homeDirectory = "/home/nivis";
+  home.username = "nixtest";
+  home.homeDirectory = "/home/nixtest";
   home.stateVersion = "25.11";
 
   home.packages = with pkgs; [
@@ -104,9 +104,9 @@ dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
       ];
 
       wallpaper = [
-        "DP-1,/home/nivis/dotfiles/wallpapers/116123703_p0.jpg"
-        "DP-2,/home/nivis/dotfiles/wallpapers/116123703_p0.jpg"
-        "DP-3,/home/nivis/dotfiles/wallpapers/116123703_p0.jpg"
+        "DP-1,/home/nixtest/dotfiles/wallpapers/116123703_p0.jpg"
+        "DP-2,/home/nixtest/dotfiles/wallpapers/116123703_p0.jpg"
+        "DP-3,/home/nixtest/dotfiles/wallpapers/116123703_p0.jpg"
       ];
     };
   };

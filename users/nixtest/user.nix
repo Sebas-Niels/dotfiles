@@ -2,9 +2,9 @@
 { pkgs, ... }:
 
 {
-  users.users.nivis = {
+  users.users.nixtest = {
     isNormalUser = true;
-    description = "nivis";
+    description = "nixtest";
     extraGroups = [ "wheel" "networkmanager" "libvirtd" "kvm" ];
     #shell = pkgs.zsh;
   };

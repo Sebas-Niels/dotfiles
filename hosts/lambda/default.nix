@@ -52,7 +52,8 @@
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {
-      "nixtest" = import ../../users/nivis/home.nix;
+      "nixtest" = import ../../users/nixtest/home.nix;
+      "nivis" = import ../../users/nivis/home.nix
 
 
     };
