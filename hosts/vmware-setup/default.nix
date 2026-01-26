@@ -54,6 +54,7 @@
     users = {
       "nixtest" = import ../../users/nivis/home.nix;
 
+
     };
     backupFileExtension = "hm-backup";
   };

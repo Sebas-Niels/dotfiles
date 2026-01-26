@@ -16,10 +16,10 @@
       inputs.hyprland.follows = "hyprland";
     };
 
-    noctalia = {
-      url = "github:noctalia-dev/noctalia-shell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    #noctalia = {
+    #  url = "github:noctalia-dev/noctalia-shell";
+    #  inputs.nixpkgs.follows = "nixpkgs";
+    #};
   };
 
   outputs = { self, nixpkgs, ... } @ inputs:
@@ -32,7 +32,6 @@
 
       modules = [
         ./hosts/vmware-setup
-        ./modules/home-manager/noctalia/noctalia.nix
       ];
     };
 

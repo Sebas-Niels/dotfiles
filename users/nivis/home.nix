@@ -10,7 +10,7 @@
     ../../modules/home-manager/hyprland/workspaces.nix
     ../../modules/home-manager/hyprland/wireplumber.nix
     ../../modules/home-manager/hyprland/dunst.nix
-    ../../modules/home-manager/noctalia/noctalia.nix
+    #../../modules/home-manager/noctalia/noctalia.nix
 
   ];
 
