@@ -11,9 +11,11 @@
       swtpm.enable = true;
     };
 
-    spiceUSBRedirection.enable = true;
     allowedBridges = [ "virbr0" ];
   };
+
+  virtualisation.spiceUSBRedirection.enable = true;
+
 
   ## virt-manager
   programs.virt-manager.enable = true;

@@ -3,7 +3,9 @@
 {
   programs.git = {
     enable = true;
-    userName  = "Sebastian NIelsen";
-    userEmail = "sebas.nn@tuta.com";
+    settings.user = {
+      name  = "Sebastian NIelsen";
+      email = "sebas.nn@tuta.com";
+    };
   };
 }
