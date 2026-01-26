@@ -5,7 +5,7 @@
   users.users.nivis = {
     isNormalUser = true;
     description = "nivis";
-    extraGroups = [ "wheel" "networkmanager" "libvirtd" "kvm" ];
+    extraGroups = [ "wheel" "networkmanager" "libvirtd" "kvm" "storage" "disk" ];
     #shell = pkgs.zsh;
   };
 }

@@ -10,6 +10,7 @@
     ../../modules/home-manager/hyprland/workspaces.nix
     ../../modules/home-manager/hyprland/wireplumber.nix
     ../../modules/home-manager/hyprland/dunst.nix
+    ../../modules/home-manager/terminals/kitty.nix
     #../../modules/home-manager/noctalia/noctalia.nix
 
   ];
@@ -49,16 +50,7 @@
     hyprlock
   ];
 
-  programs.kitty = {
-    enable = true;
-    font = {
-      name = "JetBrains Nerd Font Mono";
-      size = 12.0;
-    };
-    settings = {
-      adjust_line_height = "110%";
-    };
-  };
+
 
   programs.ghostty = {
     enable = true;
