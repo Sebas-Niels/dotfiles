@@ -100,7 +100,7 @@ dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
 
     settings = {
       preload = [
-        "/home/nixtest/dotfiles/wallpapers/116123703_p0.jpg"
+        "/home/nivis/dotfiles/wallpapers/116123703_p0.jpg"
       ];
 
       wallpaper = [
