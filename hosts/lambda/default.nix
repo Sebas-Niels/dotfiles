@@ -31,6 +31,10 @@
       # Nix Settings
       ../../modules/nixos/base.nix
 
+      # Virtualisation
+      ../../modules/nixos/virtualisation/kvm_qemu.nix
+
+
       # User definition
       ../../users/nixtest/user.nix
       ../../users/nivis/user.nix
@@ -91,20 +95,8 @@
 
   programs.ssh.startAgent = true;
 
-  # Enable KVM / libvirt
-  virtualisation.libvirtd.enable = true;
-
-  # Enable SPICE USB redirection
-  virtualisation.spiceUSBRedirection.enable = true;
-
   # Install virt-manager and SPICE tools
   environment.systemPackages = with pkgs; [
-    virt-manager
-    virt-viewer
-    spice
-    spice-gtk
-    spice-protocol
-    virtio-win
 
     protonup-ng
   ];
@@ -115,15 +107,12 @@
   };
 
   # Required kernel modules
-  boot.kernelModules = [ "kvm-intel" ]; # or "kvm-amd"
+   # or "kvm-amd"
 
-  # Networking for VMs
-  networking.firewall.trustedInterfaces = [ "virbr0" ];
 
   # Enable polkit for GUI auth
   security.polkit.enable = true;
 
-  virtualisation.libvirtd.qemu.swtpm.enable = true; # Windows 11 later
 
 
   #hardware.nvidia.prime = {

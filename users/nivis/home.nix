@@ -12,7 +12,6 @@
     ../../modules/home-manager/hyprland/dunst.nix
     ../../modules/home-manager/terminals/kitty.nix
     #../../modules/home-manager/noctalia/noctalia.nix
-
   ];
 
   home.username = "nivis";
@@ -45,12 +44,9 @@
     prismlauncher-unwrapped # Minecraft
     r2modman
 
-
     # Lock screen
     hyprlock
   ];
-
-
 
   programs.ghostty = {
     enable = true;
@@ -60,32 +56,35 @@
     };
   };
 
-
-
-
-
   gtk = {
-  enable = true;
-  iconTheme = {
-    name = "Papirus";
-    package = pkgs.papirus-icon-theme;
+    enable = true;
+    iconTheme = {
+      name = "Papirus";
+      package = pkgs.papirus-icon-theme;
+    };
   };
-};
 
-#Sets the color themes to darkmode, for Qt + GTK
-dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
+  # Sets the color themes to darkmode, for Qt + GTK
+  dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
   dconf.settings."org/gnome/desktop/interface".gtk-theme = "Adwaita-dark";
+
+  # virt-manager: always default to local system connection
+  dconf.settings."org/virt-manager/virt-manager/connections" = {
+    autoconnect = [ "qemu:///system" ];
+    uris = [ "qemu:///system" ];
+  };
+
   qt = {
     enable = true;
     platformTheme.name = "kde";
     style.name = "breeze";
   };
+
   home.file.".config/kdeglobals" = {
     text = ''
       ${builtins.readFile "${pkgs.kdePackages.breeze}/share/color-schemes/BreezeDark.colors"}
     '';
   };
-
 
   services.hyprpaper = {
     enable = true;
@@ -197,13 +196,9 @@ dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
     };
   };
 
-
   home.file = { };
 
-  home.sessionVariables = {
-
-  };
+  home.sessionVariables = { };
 
   programs.home-manager.enable = true;
-
 }
