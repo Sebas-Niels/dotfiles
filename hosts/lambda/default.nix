@@ -95,7 +95,6 @@
 
   programs.ssh.startAgent = true;
 
-  # Install virt-manager and SPICE tools
   environment.systemPackages = with pkgs; [
 
     protonup-ng

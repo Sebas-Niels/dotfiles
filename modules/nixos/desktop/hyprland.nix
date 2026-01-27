@@ -35,10 +35,7 @@
   services.xserver.videoDrivers = [ "nvidia" ];
 
   environment.systemPackages = with pkgs; [
-    #waybar
-    #hyprpaper
     foot
-    #dunst
     libnotify
     swww
     rofi

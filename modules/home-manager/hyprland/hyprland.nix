@@ -1,7 +1,15 @@
-{ ... }:
+{ config, pkgs, inputs, ... }:
 
 {
-    # Move to a keybinds module, monitor module and others
+
+  imports = [
+    ./keybinds.nix
+    ./workspaces.nix
+    ./hyprpaper.nix
+
+  ];
+
+
   wayland.windowManager.hyprland = {
     enable = true;
 
@@ -10,8 +18,9 @@
     ];
 
     settings = {
+
       #############################
-      # AUTOSTART
+      # MONITOR
       #############################
 
       monitor = [
@@ -19,6 +28,10 @@
         "DP-2,2560x1440@164.96,0x0,1"
         "DP-3,1920x1200@59.95,-1920x120,1"
       ];
+
+      #############################
+      # AUTOSTART
+      #############################
 
       exec-once = [
         "dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY HYPRLAND_INSTANCE_SIGNATURE XDG_CURRENT_DESKTOP"
@@ -30,39 +43,7 @@
       ];
 
       #############################
-      # MOD KEY
-      #############################
-
-      "$mod" = "SUPER";
-
-      #############################
-      # KEYBINDS
-      #############################
-
-      bind = [
-        "$mod, Return, exec, kitty"
-        "$mod SHIFT, Return, exec, foot"
-        "$mod, D, exec, rofi -show drun"
-
-        "CTRL ALT, L, exec, hyprlock"
-
-        "$mod, Q, killactive"
-        "$mod, F, fullscreen"
-        "$mod, M, exit"
-
-        "$mod, H, movefocus, l"
-        "$mod, L, movefocus, r"
-        "$mod, K, movefocus, u"
-        "$mod, J, movefocus, d"
-
-        "$mod SHIFT, H, movewindow, l"
-        "$mod SHIFT, L, movewindow, r"
-        "$mod SHIFT, K, movewindow, u"
-        "$mod SHIFT, J, movewindow, d"
-      ];
-
-      #############################
-      # INPUT / GENERAL
+      # INPUT / GENERAL / DECORATION
       #############################
 
       input = {
