@@ -17,7 +17,7 @@
 
       # X11 & Desktop environment
       ../../modules/nixos/desktop/plasma.nix
-      ../../modules/home-manager/hyprland/hyprland.nix
+      ../../modules/nixos/desktop/hyprland.nix
 
       # Printing
       ../../modules/nixos/printing.nix

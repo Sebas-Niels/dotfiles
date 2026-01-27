@@ -1,8 +1,7 @@
 { ... }:
 
 {
-    # Move to a keybinds module, monitor module and others
-  wayland.windowManager.hyprland = {
+    wayland.windowManager.hyprland = {
     enable = true;
 
     plugins = [

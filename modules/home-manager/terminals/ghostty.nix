@@ -2,6 +2,10 @@
 
 {
     programs.ghostty = {
-        enable = true;
+    enable = true;
+    settings = {
+      font-family = "JetBrains Nerd Font Mono";
+      font-size = 12;
     };
+  };
 }
