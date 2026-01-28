@@ -36,7 +36,6 @@
 
 
       # User definition
-      ../../users/nixtest/user.nix
       ../../users/nivis/user.nix
 
       #../../modules/home-manager/programs/steam.nix
@@ -57,7 +56,6 @@
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {
-      "nixtest" = import ../../users/nixtest/home.nix;
       "nivis" = import ../../users/nivis/home.nix;
 
 
