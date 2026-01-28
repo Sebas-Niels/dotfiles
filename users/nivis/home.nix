@@ -2,17 +2,7 @@
 
 {
   imports = [
-    #../../modules/home-manager/scripts/silent-sound.nix
-    ../../modules/home-manager/hyprland/waybar.nix
-    ../../modules/home-manager/programs/git.nix
-    ../../modules/home-manager/hyprland/screenshot.nix
-    ../../modules/home-manager/hyprland/clipboard.nix
-    ../../modules/home-manager/hyprland/wireplumber.nix
-    ../../modules/home-manager/hyprland/dunst.nix
-    ../../modules/home-manager/terminals/kitty.nix
-    #../../modules/home-manager/noctalia/noctalia.nix
-    ../../modules/home-manager/hyprland/hyprland.nix
-
+    ../../modules/home-manager
   ];
 
   home.username = "nivis";
@@ -80,11 +70,6 @@
       ${builtins.readFile "${pkgs.kdePackages.breeze}/share/color-schemes/BreezeDark.colors"}
     '';
   };
-
-  # Wallpaper
-
-
-
 
   home.file = { };
 

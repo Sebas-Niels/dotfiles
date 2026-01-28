@@ -1,5 +1,13 @@
+{ config, inputs, pkgs, ... }:
 {
     imports = [
-    ./browsers.nix
+        ./adminutil
+        ./audio
+        ./browsers
+        ./desktop
+        ./dev
+        ./game
+        ./messaging
+        ./terminals
     ];
 }

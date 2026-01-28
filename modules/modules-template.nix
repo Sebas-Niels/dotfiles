@@ -13,3 +13,12 @@
     # ...
   };
 }
+
+
+
+{ config, inputs, pkgs, ... }:
+{
+    imports = [
+    ./browsers.nix
+    ];
+}

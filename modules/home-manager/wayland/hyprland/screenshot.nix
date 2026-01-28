@@ -26,3 +26,7 @@ in
     bind = SUPER, Print, exec, grim - | wl-copy
  '';
 }
+
+
+
+# THIS NEEDS TO BE MOVED TO A SCREENSHOT MODULE, AND THE KEYBIND NEEDS TO BE MOVED TO KEYBINDINGS MODULE
