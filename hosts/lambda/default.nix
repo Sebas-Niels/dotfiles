@@ -60,7 +60,7 @@
 
 
     };
-    backupFileExtension = null;
+    backupFileExtension = "backup";
 
   };
 

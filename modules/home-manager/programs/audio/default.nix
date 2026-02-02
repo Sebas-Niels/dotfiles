@@ -1,6 +1,6 @@
 { config, inputs, pkgs, ... }:
 {
     imports = [
-        ./wireplumber.nix
+        #./wireplumber.nix
     ];
 }
