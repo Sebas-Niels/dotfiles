@@ -36,6 +36,9 @@
         "$mod SHIFT, J, movewindow, d"
 
 
+
+
+
         # Workspace switching
         "SUPER, 1, exec, hyprctl dispatch moveworkspacetomonitor 1 current && hyprctl dispatch workspace 1"
         "SUPER, 2, exec, hyprctl dispatch moveworkspacetomonitor 2 current && hyprctl dispatch workspace 2"
@@ -49,5 +52,12 @@
         "SUPER SHIFT, 3, movetoworkspace, 3"
         "SUPER SHIFT, 4, movetoworkspace, 4"
       ];
+
+      bindm = [
+        "$mod, mouse:272, movewindow"
+        "$mod, mouse:273, resizeactive"
+      ];
     };
+
+
 }

@@ -8,6 +8,8 @@
   #  "workspace 3, class:^(steam|lutris)$"
      "stayfocused, title:^()$,class:^(steam)$"
      "minsize 1 1, title:^()$,class:^(steam)$"
+     #"float, class:.*"
+     #"center, class:.*"
   ];
 
     wayland.windowManager.hyprland.settings.workspace = [
