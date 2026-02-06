@@ -38,7 +38,7 @@
     foot
     libnotify
     swww
-    rofi
+    #rofi
     wireplumber
     pavucontrol
     hyprpwcenter

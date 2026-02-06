@@ -20,6 +20,7 @@
     fractal # Matrix group messaging app
     yazi-unwrapped # Terminal file explorer
     # vesktop
+    brave
 
     # Util
     wootility
@@ -45,6 +46,11 @@
     iconTheme = {
       name = "Papirus";
       package = pkgs.papirus-icon-theme;
+    };
+    colorScheme = "dark";
+      theme = {
+      name = "Adwaita-dark";
+      package = pkgs.gnome-themes-extra;
     };
   };
 
