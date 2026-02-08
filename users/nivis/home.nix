@@ -30,6 +30,7 @@
     wireshark
     p7zip
     swayimg # Image viewer
+    qimgv
 
     # Games and launchers
     #steam
