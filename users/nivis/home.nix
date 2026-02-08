@@ -31,6 +31,7 @@
     p7zip
     swayimg # Image viewer
     qimgv
+    xdg-utils
 
     # Games and launchers
     #steam

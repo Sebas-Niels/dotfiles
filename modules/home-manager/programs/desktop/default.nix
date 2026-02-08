@@ -3,5 +3,6 @@
     imports = [
         ./dunst.nix
         ./rofi.nix
+        ./yazi.nix
     ];
 }

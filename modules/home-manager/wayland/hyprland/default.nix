@@ -8,7 +8,7 @@
     ./hyprpaper.nix
     ./clipboard.nix
     ./screenshot.nix
-
+    ./defapps.nix
   ];
 
 

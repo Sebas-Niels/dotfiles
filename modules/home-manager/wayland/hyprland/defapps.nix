@@ -1,30 +1,42 @@
 { config, pkgs, ... }:
 
 {
+  xdg.enable = true;
+
+  home.packages = with pkgs; [
+    qimgv
+  ];
+
+  xdg.desktopEntries.qimgv = {
+    name = "qimgv";
+    exec = "${pkgs.qimgv}/bin/qimgv %U";
+    terminal = false;
+    categories = [ "Graphics" "Viewer" ];
+    mimeType = [
+      "image/png"
+      "image/jpeg"
+      "image/webp"
+      "image/gif"
+      "image/bmp"
+      "image/tiff"
+    ];
+  };
+
   xdg.mimeApps = {
     enable = true;
-
     defaultApplications = {
-      # PDFs
-      "application/pdf" = [ "org.pwmt.zathura.desktop" ];
+      "image/png" = [ "qimgv.desktop" ];
+      "image/jpeg" = [ "qimgv.desktop" ];
+      "image/webp" = [ "qimgv.desktop" ];
+      "image/gif" = [ "qimgv.desktop" ];
+      "image/bmp" = [ "qimgv.desktop" ];
+      "image/tiff" = [ "qimgv.desktop" ];
 
-      # Images
-      "image/png" = [ "imv.desktop" ];
-      "image/jpeg" = [ "imv.desktop" ];
+      "text/plain" = [ "org.kde.kate.desktop" ];
 
-      # Text files
-      "text/plain" = [ "kate.desktop" ]; # or "code.desktop", "org.gnome.gedit.desktop", etc.
-
-      # Directories (file manager)
-      "inode/directory" = [ "org.gnome.Nautilus.desktop" ];
-
-      # HTML
       "text/html" = [ "firefox.desktop" ];
       "x-scheme-handler/http" = [ "firefox.desktop" ];
       "x-scheme-handler/https" = [ "firefox.desktop" ];
-
-      # Mailto links
-      "x-scheme-handler/mailto" = [ "thunderbird.desktop" ];
     };
   };
 }
