@@ -18,7 +18,7 @@
     signal-desktop
     obsidian
     fractal # Matrix group messaging app
-    yazi-unwrapped # Terminal file explorer
+    #yazi-unwrapped # Terminal file explorer
     # vesktop
     brave
 
