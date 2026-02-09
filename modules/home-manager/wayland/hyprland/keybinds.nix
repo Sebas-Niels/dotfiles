@@ -35,6 +35,7 @@
         "$mod SHIFT, K, movewindow, u"
         "$mod SHIFT, J, movewindow, d"
 
+        "$mod, mouse:274, killactive"
 
 
 
@@ -56,7 +57,6 @@
       bindm = [
         "$mod, mouse:272, movewindow"
         "$mod, mouse:273, resizeactive"
-        "$mod, mouse:274, killactive"
       ];
     };
 
