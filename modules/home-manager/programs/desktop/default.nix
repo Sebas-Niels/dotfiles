@@ -4,5 +4,6 @@
         ./dunst.nix
         ./rofi.nix
         ./yazi.nix
+        ./keyring.nix
     ];
 }
