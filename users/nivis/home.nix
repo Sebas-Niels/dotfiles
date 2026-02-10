@@ -21,6 +21,7 @@
     #yazi-unwrapped # Terminal file explorer
     # vesktop
     brave
+    tutanota-desktop
 
     # Util
     wootility
