@@ -96,6 +96,10 @@
   environment.systemPackages = with pkgs; [
 
     protonup-ng
+
+
+            gnome-keyring
+        libsecret
   ];
 
   environment.sessionVariables = {
@@ -109,6 +113,14 @@
 
   # Enable polkit for GUI auth
   security.polkit.enable = true;
+
+
+  # TEMP, MOVE THIS TO A DIFFERENT MODULE FOR FUTURE
+  services.gnome = {
+    gnome-keyring.enable = true;
+    gcr-ssh-agent.enable = false;
+  };
+
 
 
 

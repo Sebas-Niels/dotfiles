@@ -45,7 +45,8 @@
         "SUPER, 2, exec, hyprctl dispatch moveworkspacetomonitor 2 current && hyprctl dispatch workspace 2"
         "SUPER, 3, exec, hyprctl dispatch moveworkspacetomonitor 3 current && hyprctl dispatch workspace 3"
         "SUPER, 4, exec, hyprctl dispatch moveworkspacetomonitor 4 current && hyprctl dispatch workspace 4"
-        "SUPER ALT, c, togglespecialworkspace, temp"
+        "SUPER ALT, c, togglespecialworkspace, music"
+        "SUPER ALT, v, togglespecialworkspace, notes"
 
         # Move windows
         "SUPER SHIFT, 1, movetoworkspace, 1"

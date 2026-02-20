@@ -37,12 +37,16 @@
 
       exec-once = [
         "dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY HYPRLAND_INSTANCE_SIGNATURE XDG_CURRENT_DESKTOP"
+        "gnome-keyring-daemon --start --components=secrets"
+
         "systemctl --user stop hyprland-session.target"
         "systemctl --user start hyprland-session.target"
+
         "swww init"
         "waybar"
         "dunst"
       ];
+
 
       #############################
       # INPUT / GENERAL / DECORATION

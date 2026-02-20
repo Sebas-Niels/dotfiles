@@ -13,7 +13,8 @@
   ];
 
     wayland.windowManager.hyprland.settings.workspace = [
-        "special:temp, on-created-empty:spotify"
+        "special:music, on-created-empty:spotify"
+        "special:notes, on-created-empty:obsidian"
     ];
 
 
