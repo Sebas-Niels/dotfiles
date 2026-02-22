@@ -22,6 +22,7 @@
     # vesktop
     brave
     tutanota-desktop
+    anydesk
 
     # Util
     wootility
