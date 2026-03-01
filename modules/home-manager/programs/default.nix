@@ -9,5 +9,6 @@
         ./game
         ./messaging
         ./terminals
+        ./music
     ];
 }
