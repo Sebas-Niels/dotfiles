@@ -85,5 +85,11 @@
 
   home.sessionVariables = { };
 
+  systemd.user.sessionVariables = {
+  DISPLAY = ":0";
+};
+
+wayland.windowManager.hyprland.systemd.variables = [ "--all" ];
+
   programs.home-manager.enable = true;
 }

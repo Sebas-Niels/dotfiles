@@ -24,6 +24,7 @@
 
       # Audio
       ../../modules/nixos/audio/pipewire.nix
+      ../../modules/nixos/audio/music.nix
 
       # Role Programs
       ../../modules/nixos/roles/workstation.nix
