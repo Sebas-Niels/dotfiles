@@ -9,6 +9,7 @@
       package = pkgs.qemu_kvm;
       runAsRoot = false;
       swtpm.enable = true;
+
     };
 
     allowedBridges = [ "virbr0" ];

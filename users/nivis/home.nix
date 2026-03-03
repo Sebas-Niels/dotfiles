@@ -23,6 +23,7 @@
     brave
     tutanota-desktop
     anydesk
+    bitwarden-desktop
 
     # Util
     wootility
@@ -34,6 +35,7 @@
     swayimg # Image viewer
     qimgv
     xdg-utils
+
 
     # Games and launchers
     #steam
