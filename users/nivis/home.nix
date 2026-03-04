@@ -24,6 +24,7 @@
     tutanota-desktop
     anydesk
     bitwarden-desktop
+    vscode
 
     # Util
     wootility
