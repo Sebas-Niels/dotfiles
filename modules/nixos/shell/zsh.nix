@@ -27,26 +27,30 @@
     };
 
     programs.starship = {
-        enable = true;
-
-        settings = {
-            add_newline = false;
-
-            character = {
-                #success_symbol = "[➜](green)";
-                #error_symbol = "[➜](red)";
-            };
-
-            #palette = "test-palette";
-
-            palettes.test-palette = {
-                red = "#823A2C";
-            };
-
-            time.disabled = true;
-
-        };
+  enable = true;
+  settings = {
+    add_newline = false;
+    jobs = {
+      disabled = false;
+      symbol_threshold = 1;
     };
+    username = {
+      show_always = true;
+      format = "[$user](blue)";
+    };
+    hostname = {
+      ssh_only = false;
+      format = "[@](yellow)[$hostname]($style) ";
+    };
+    format = "$username$hostname[../](bright-blue)$directory$git_branch$git_status\n$character";
+    directory = {
+      truncation_length = 0;
+    };
+  };
+
+  presets = [
+  ];
+};
 
     
 }
