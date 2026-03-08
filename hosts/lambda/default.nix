@@ -69,6 +69,14 @@
     nixrb = "sudo nixos-rebuild switch --flake .#$(hostname)";
   };
 
+ programs.bash.interactiveShellInit = ''
+  gitacp() {
+    git add -A
+    git commit -m "$*"
+    git push
+  }
+'';
+
 
   fileSystems."/mnt/games" = {
   device = "/dev/disk/by-uuid/12ef98a6-ad00-4a03-b80b-9b526717e67a";
