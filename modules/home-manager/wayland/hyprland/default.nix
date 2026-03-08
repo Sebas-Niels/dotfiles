@@ -36,16 +36,17 @@
       #############################
 
       exec-once = [
-        "dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY HYPRLAND_INSTANCE_SIGNATURE XDG_CURRENT_DESKTOP"
-        "gnome-keyring-daemon --start --components=secrets"
-
-        "systemctl --user stop hyprland-session.target"
-        "systemctl --user start hyprland-session.target"
-
-        "swww init"
-        "waybar"
-        "dunst"
-      ];
+  "dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY HYPRLAND_INSTANCE_SIGNATURE XDG_CURRENT_DESKTOP"
+  "gnome-keyring-daemon --start --components=secrets"
+  "systemctl --user stop hyprland-session.target"
+  "systemctl --user start hyprland-session.target"
+  "waybar"
+  "dunst"
+  "sleep 2 && hyprctl hyprpaper preload '/home/nivis/dotfiles/wallpapers/116123703_p0.jpg'"
+  "sleep 3 && hyprctl hyprpaper wallpaper 'DP-1,/home/nivis/dotfiles/wallpapers/116123703_p0.jpg'"
+  "sleep 3 && hyprctl hyprpaper wallpaper 'DP-2,/home/nivis/dotfiles/wallpapers/116123703_p0.jpg'"
+  "sleep 3 && hyprctl hyprpaper wallpaper 'DP-3,/home/nivis/dotfiles/wallpapers/116123703_p0.jpg'"
+];
 
 
       #############################

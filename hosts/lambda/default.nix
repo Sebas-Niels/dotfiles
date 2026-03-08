@@ -72,6 +72,8 @@
     nixrb = "sudo nixos-rebuild switch --flake .#$(hostname)";
   };
 
+  nix.settings.download-buffer-size = 524288000; # 500MB
+
 
   fileSystems."/mnt/games" = {
   device = "/dev/disk/by-uuid/12ef98a6-ad00-4a03-b80b-9b526717e67a";

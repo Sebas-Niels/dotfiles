@@ -2,7 +2,7 @@
 
 {
 
-  wayland.windowManager.hyprland.settings.windowrulev2 = [
+  wayland.windowManager.hyprland.settings.windowrulev = [
   #  "workspace 1, class:^(code|kitty|neovide)$"
   #  "workspace 2, class:^(firefox|spotify|discord)$"
   #  "workspace 3, class:^(steam|lutris)$"
