@@ -1,7 +1,14 @@
 { config, inputs, pkgs, ... }:
 {
+    environment.systemPackages = with pkgs; [
+        moreutils
+    ];
+
+
     programs.zsh = {
         enable = true;
+
+        
 
         autosuggestions.enable = true;
         syntaxHighlighting.enable = true;
@@ -30,6 +37,15 @@
                 #success_symbol = "[➜](green)";
                 #error_symbol = "[➜](red)";
             };
+
+            #palette = "test-palette";
+
+            palettes.test-palette = {
+                red = "#823A2C";
+            };
+
+            time.disabled = true;
+
         };
     };
 
