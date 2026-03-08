@@ -6,6 +6,6 @@
     isNormalUser = true;
     description = "nivis";
     extraGroups = [ "wheel" "networkmanager" "libvirtd" "kvm" "storage" "disk" ];
-    #shell = pkgs.zsh;
+    shell = pkgs.zsh;
   };
 }

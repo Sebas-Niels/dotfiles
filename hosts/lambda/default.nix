@@ -41,6 +41,9 @@
 
       #../../modules/home-manager/programs/steam.nix
 
+      ../../modules/nixos/shell/zsh.nix
+      
+
     ];
 
   # Define your hostname.
