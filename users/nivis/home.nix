@@ -36,6 +36,7 @@
     swayimg # Image viewer
     qimgv
     xdg-utils
+    bruno
 
 
     # Games and launchers
