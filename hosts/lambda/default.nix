@@ -16,7 +16,7 @@
       ../../modules/nixos/locale/locale.nix
 
       # X11 & Desktop environment
-      ../../modules/nixos/desktop/plasma.nix
+      #../../modules/nixos/desktop/plasma.nix
       ../../modules/nixos/desktop/hyprland.nix
 
       # Printing
@@ -42,6 +42,8 @@
       #../../modules/home-manager/programs/steam.nix
 
       ../../modules/nixos/shell/zsh.nix
+
+      ../../modules/nixos/display-manager/sddm.nix
       
 
     ];
@@ -85,7 +87,11 @@
 };
 
 
-  programs.steam.enable = true;
+programs.steam = {
+  enable = true;
+  extraCompatPackages = with pkgs; [ proton-ge-bin ];  # or manage via protonup-ng
+  gamescopeSession.enable = true;
+};
   programs.gamemode.enable = true;
   programs.gamescope.enable = true; # optional
 
@@ -99,11 +105,15 @@
   home-manager.useUserPackages = true;
 
 
-
+hardware.graphics = {
+  enable = true;
+  enable32Bit = true;  # this is the critical missing piece
+};
 
   programs.ssh.startAgent = true;
 
   environment.systemPackages = with pkgs; [
+    protontricks
 
     protonup-ng
 
