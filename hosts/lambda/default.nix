@@ -16,7 +16,7 @@
       ../../modules/nixos/locale/locale.nix
 
       # X11 & Desktop environment
-      #../../modules/nixos/desktop/plasma.nix
+      ../../modules/nixos/desktop/plasma.nix
       ../../modules/nixos/desktop/hyprland.nix
 
       # Printing
@@ -43,7 +43,7 @@
 
       ../../modules/nixos/shell/zsh.nix
 
-      ../../modules/nixos/display-manager/sddm.nix
+      #../../modules/nixos/display-manager/sddm.nix
       
 
     ];
