@@ -28,7 +28,7 @@
     # Virtualisation
     ../../modules/nixos/virtualisation/kvm_qemu.nix
     # Hardware
-    ../../modules/nixos/hardware/nvidia.nix
+    ../../modules/nixos/graphics/nvidia.nix
     # Fonts
     ../../modules/nixos/utility/fonts.nix
     # Security / Secrets
