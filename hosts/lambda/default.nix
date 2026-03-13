@@ -1,73 +1,54 @@
 # This used to be the configuration.nix file, but is renamed to default.nix for flakes convention and convenience.
 # Nix automatically imports the default.nix in a directory.
-
 { config, pkgs, lib, inputs, ... }:
-
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      inputs.home-manager.nixosModules.default
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ../../modules/nixos/utility/filesystems.nix
+    inputs.home-manager.nixosModules.default
 
-      # Bootloader
-      ../../modules/nixos/boot/grub.nix
+    # Bootloader
+    ../../modules/nixos/boot/grub.nix
+    # Time & Locale
+    ../../modules/nixos/utility/locale.nix
+    # X11 & Desktop environment
+    ../../modules/nixos/desktop/plasma.nix
+    ../../modules/nixos/desktop/hyprland.nix
+    # Printing
+    ../../modules/nixos/printing.nix
+    # Audio
+    ../../modules/nixos/audio/pipewire.nix
+    ../../modules/nixos/audio/music.nix
+    # Role Programs
+    ../../modules/nixos/roles/workstation.nix
+    ../../modules/nixos/roles/gaming.nix
+    # Nix Settings
+    ../../modules/nixos/base.nix
+    # Virtualisation
+    ../../modules/nixos/virtualisation/kvm_qemu.nix
+    # Hardware
+    ../../modules/nixos/hardware/nvidia.nix
+    # Fonts
+    ../../modules/nixos/utility/fonts.nix
+    # Security / Secrets
+    ../../modules/nixos/security/keyring.nix
+    # User definition
+    ../../users/nivis/user.nix
+    ../../modules/nixos/shell/zsh.nix
+  ];
 
-      # Time & Locale
-      ../../modules/nixos/locale/locale.nix
-
-      # X11 & Desktop environment
-      ../../modules/nixos/desktop/plasma.nix
-      ../../modules/nixos/desktop/hyprland.nix
-
-      # Printing
-      ../../modules/nixos/printing.nix
-
-      # Audio
-      ../../modules/nixos/audio/pipewire.nix
-      ../../modules/nixos/audio/music.nix
-
-      # Role Programs
-      ../../modules/nixos/roles/workstation.nix
-
-      # Nix Settings
-      ../../modules/nixos/base.nix
-
-      # Virtualisation
-      ../../modules/nixos/virtualisation/kvm_qemu.nix
-
-
-      # User definition
-      ../../users/nivis/user.nix
-
-      #../../modules/home-manager/programs/steam.nix
-
-      ../../modules/nixos/shell/zsh.nix
-
-      #../../modules/nixos/display-manager/sddm.nix
-      
-
-    ];
-
-  # Define your hostname.
   networking.hostName = "lambda";
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
   networking.networkmanager.enable = true;
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {
       "nivis" = import ../../users/nivis/home.nix;
-
-
     };
     backupFileExtension = "backup";
-
+    useGlobalPkgs = true;
+    useUserPackages = true;
   };
 
   environment.shellAliases = {
@@ -76,89 +57,5 @@
 
   nix.settings.download-buffer-size = 524288000; # 500MB
 
-
-  fileSystems."/mnt/games" = {
-  device = "/dev/disk/by-uuid/12ef98a6-ad00-4a03-b80b-9b526717e67a";
-  fsType = "ext4";
-  options = [
-    "rw"
-    "nofail"
-  ];
-};
-
-
-programs.steam = {
-  enable = true;
-  extraCompatPackages = with pkgs; [ proton-ge-bin ];  # or manage via protonup-ng
-  gamescopeSession.enable = true;
-};
-  programs.gamemode.enable = true;
-  programs.gamescope.enable = true; # optional
-
-
-  fonts.packages = with pkgs; [
-    jetbrains-mono
-    nerd-fonts.space-mono
-  ];
-
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
-
-
-hardware.graphics = {
-  enable = true;
-  enable32Bit = true;  # this is the critical missing piece
-};
-
-  programs.ssh.startAgent = true;
-
-  environment.systemPackages = with pkgs; [
-    protontricks
-
-    protonup-ng
-
-
-            gnome-keyring
-        libsecret
-  ];
-
-  environment.sessionVariables = {
-    STEAM_EXXTRA_COMPAT_TOOLS_PATHS =
-      "/home/user/.steam/root/compatibilitytools.d";
-  };
-
-  # Required kernel modules
-   # or "kvm-amd"
-
-
-  # Enable polkit for GUI auth
-  security.polkit.enable = true;
-
-
-  # TEMP, MOVE THIS TO A DIFFERENT MODULE FOR FUTURE
-  services.gnome = {
-    gnome-keyring.enable = true;
-    gcr-ssh-agent.enable = false;
-  };
-
-
-
-
-  #hardware.nvidia.prime = {
-  #  sync.enable = true;
-  #
-  #  nvidiaBusId = "PCI:1:0:0";
-  #};
-
-
-  services.xserver.videoDrivers = ["nvidia"];
-
-
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
   system.stateVersion = "25.11";
-
 }
