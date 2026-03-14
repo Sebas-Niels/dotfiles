@@ -9,6 +9,7 @@
     ./clipboard.nix
     ./screenshot.nix
     ./defapps.nix
+    ./hyprsunset.nix
   ];
 
 
@@ -42,6 +43,7 @@
   "systemctl --user start hyprland-session.target"
   "waybar"
   "dunst"
+  "hyprsunset"
   "sleep 2 && hyprctl hyprpaper preload '/home/nivis/dotfiles/wallpapers/116123703_p0.jpg'"
   "sleep 3 && hyprctl hyprpaper wallpaper 'DP-1,/home/nivis/dotfiles/wallpapers/116123703_p0.jpg'"
   "sleep 3 && hyprctl hyprpaper wallpaper 'DP-2,/home/nivis/dotfiles/wallpapers/116123703_p0.jpg'"

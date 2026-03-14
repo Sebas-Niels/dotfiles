@@ -1,0 +1,12 @@
+{ ... }:
+{
+  services.hyprsunset = {
+    enable = true;
+
+    profile = {
+      time = "20:00";
+      temperature = "5500";
+      gamma = "0.8";
+    };
+  };
+}
