@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {services.greetd = {
   enable = true;
   settings = {
@@ -7,4 +7,5 @@
       user = "greeter";
     };
   };
-};}
+};
+}
