@@ -13,7 +13,7 @@
     # Time & Locale
     ../../modules/nixos/utility/locale.nix
     # X11 & Desktop environment
-    ../../modules/nixos/desktop/plasma.nix
+    #../../modules/nixos/desktop/plasma.nix
     ../../modules/nixos/desktop/hyprland.nix
     # Printing
     ../../modules/nixos/printing.nix
@@ -33,6 +33,7 @@
     ../../modules/nixos/utility/fonts.nix
     # Security / Secrets
     ../../modules/nixos/security/keyring.nix
+    ../../modules/nixos/display-manager/greetd.nix
     # User definition
     ../../users/nivis/user.nix
     ../../modules/nixos/shell/zsh.nix

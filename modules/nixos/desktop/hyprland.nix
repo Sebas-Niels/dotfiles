@@ -22,11 +22,15 @@
   environment.sessionVariables = {
     XDG_CURRENT_DESKTOP = "Hyprland";
     XDG_SESSION_TYPE = "wayland";
+    LIBVA_DRIVER_NAME = "nvidia";
+  GBM_BACKEND = "nvidia-drm";
+  __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+  WLR_NO_HARDWARE_CURSORS = "1";
   };
 
-  services.displayManager.sessionPackages = [
-  pkgs.hyprland
-];
+#  services.displayManager.sessionPackages = [
+#    inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland
+#];
 
   hardware.nvidia.modesetting.enable = true;
   hardware.nvidia.powerManagement.enable = true;
