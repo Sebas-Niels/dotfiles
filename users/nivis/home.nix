@@ -91,6 +91,13 @@
 
   home.sessionVariables = { };
 
+  home.pointerCursor = {
+    name = "breeze_cursors";
+    package = pkgs.kdePackages.breeze;
+    size = 24;
+    gtk.enable = true;
+  };
+
   systemd.user.sessionVariables = {
   DISPLAY = ":0";
 };
