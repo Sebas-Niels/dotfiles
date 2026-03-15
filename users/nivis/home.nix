@@ -25,6 +25,7 @@
     anydesk
     bitwarden-desktop
     vscode
+    kdePackages.dolphin
 
     # Util
     wootility

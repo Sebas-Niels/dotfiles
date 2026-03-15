@@ -6,6 +6,15 @@
     mpc
   ];
 
+#programs.rmpc = {
+#  enable = true;
+#  config = ''
+#    (
+#        volume_step: 5,
+#    )
+#  '';
+#}
+
   xdg.configFile."rmpc/config.ron".text = ''
 (
   address: "/run/user/1000/mpd.socket",
