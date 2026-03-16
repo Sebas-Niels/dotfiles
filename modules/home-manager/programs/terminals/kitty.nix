@@ -12,6 +12,6 @@
             background_opacity = "1";
 
         };
-        theme = "Gruvbox Dark";
+        themeFile = "gruvbox-dark";
     };
 }

@@ -13,14 +13,11 @@
     # Common
     discord
     spotify
-    tor-browser
-    librewolf
     signal-desktop
     obsidian
     fractal # Matrix group messaging app
     #yazi-unwrapped # Terminal file explorer
     # vesktop
-    brave
     tutanota-desktop
     anydesk
     bitwarden-desktop
