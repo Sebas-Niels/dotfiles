@@ -46,7 +46,7 @@
     ssh_only = false;
     format = "[@](bright-green)[$hostname](bright-blue) ";
   };
-  format = "[\\[](bright-red)$username$hostname$directory[\\] ](bright-red)$git_branch$git_status\n└─►$character";
+  format = "┌[\\[](bright-red)$username$hostname$directory[\\] ](bright-red)$git_branch$git_status\n└─►$character";
 directory = {
   truncation_length = 0;
   truncate_to_repo = false;
