@@ -18,6 +18,10 @@
         };
 
         interactiveShellInit = ''
+            gitac() {
+                git add -A
+                git commit -m "$*"
+            }
             gitacp() {
                 git add -A
                 git commit -m "$*"
