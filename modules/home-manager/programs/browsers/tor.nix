@@ -1,6 +1,6 @@
-{ ... }:
+{ pkgs, ... }:
 {
-  programs.tor-browser = {
-    enable = true;
-  };
+  home.packages = with pkgs; [
+    tor-browser
+  ];
 }
