@@ -35,6 +35,7 @@
     qimgv
     xdg-utils
     bruno
+    ffmpeg
 
 
     # Games and launchers
