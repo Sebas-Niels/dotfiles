@@ -1,15 +1,8 @@
 { config, inputs, pkgs, username, ... }:
 {
     imports = [
-        #./librewolf.nix
-        #./firefox.nix
+        ./librewolf.nix
+        ./tor.nix
+        ./brave.nix
     ];
-
-
-    programs = {
-      firefox = {
-        enable = true;
-        #profiles.${username} = {};
-      };
-    };
 }

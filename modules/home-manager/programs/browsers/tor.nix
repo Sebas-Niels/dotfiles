@@ -1,7 +1,6 @@
 { ... }:
 {
-  programs.librewolf = {
+  programs.tor-browser = {
     enable = true;
-
   };
 }
