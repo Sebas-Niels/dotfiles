@@ -1,6 +1,6 @@
 { config, inputs, pkgs, ... }:
 {
     imports = [
-        #./godot.nix
+        ./godot.nix
     ];
 }
