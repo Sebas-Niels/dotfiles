@@ -1,4 +1,4 @@
 { config, pkgs, ... }:
 {
-  home.packages.godot = [ pkgs.godot ];
+  home.packages = [ pkgs.godot ];
 }
