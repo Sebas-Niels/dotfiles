@@ -5,12 +5,12 @@
     package = inputs.hyprpaper.packages.${pkgs.stdenv.hostPlatform.system}.hyprpaper;
     settings = {
       preload = [
-        "/home/nivis/dotfiles/wallpapers/116123703_p0.jpg"
+        "/home/nivis/dotfiles/wallpapers/1361831.jpeg"
       ];
       wallpaper = [
-        "DP-1,/home/nivis/dotfiles/wallpapers/116123703_p0.jpg"
-        "DP-2,/home/nivis/dotfiles/wallpapers/116123703_p0.jpg"
-        "DP-3,/home/nivis/dotfiles/wallpapers/116123703_p0.jpg"
+        "DP-1,/home/nivis/dotfiles/wallpapers/1361831.jpeg"
+        "DP-2,/home/nivis/dotfiles/wallpapers/1361831.jpeg"
+        "DP-3,/home/nivis/dotfiles/wallpapers/1361831.jpeg"
       ];
     };
   };
