@@ -44,10 +44,10 @@
   "waybar"
   "dunst"
   "hyprsunset"
-  "sleep 2 && hyprctl hyprpaper preload '/home/nivis/dotfiles/wallpapers/116123703_p0.jpg'"
-  "sleep 3 && hyprctl hyprpaper wallpaper 'DP-1,/home/nivis/dotfiles/wallpapers/116123703_p0.jpg'"
-  "sleep 3 && hyprctl hyprpaper wallpaper 'DP-2,/home/nivis/dotfiles/wallpapers/116123703_p0.jpg'"
-  "sleep 3 && hyprctl hyprpaper wallpaper 'DP-3,/home/nivis/dotfiles/wallpapers/116123703_p0.jpg'"
+  "sleep 2 && hyprctl hyprpaper preload '/home/nivis/dotfiles/wallpapers/1361831.jpeg'"
+  "sleep 3 && hyprctl hyprpaper wallpaper 'DP-1,/home/nivis/dotfiles/wallpapers/1361831.jpeg'"
+  "sleep 3 && hyprctl hyprpaper wallpaper 'DP-2,/home/nivis/dotfiles/wallpapers/1361831.jpeg'"
+  "sleep 3 && hyprctl hyprpaper wallpaper 'DP-3,/home/nivis/dotfiles/wallpapers/1361831.jpeg'"
 ];
 
 

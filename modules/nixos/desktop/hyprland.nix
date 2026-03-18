@@ -41,7 +41,6 @@
   environment.systemPackages = with pkgs; [
     foot
     libnotify
-    swww
     #rofi
     wireplumber
     pavucontrol
