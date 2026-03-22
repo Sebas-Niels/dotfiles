@@ -39,6 +39,8 @@
     ../../modules/nixos/shell/zsh.nix
   ];
 
+  services.flatpak.enable = true;
+
   networking.hostName = "lambda";
   networking.networkmanager.enable = true;
 

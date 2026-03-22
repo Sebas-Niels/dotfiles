@@ -36,6 +36,7 @@
     xdg-utils
     bruno
     ffmpeg
+    neovim
 
 
     # Games and launchers
