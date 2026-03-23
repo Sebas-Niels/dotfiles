@@ -39,6 +39,12 @@
     ../../modules/nixos/shell/zsh.nix
   ];
 
+  # /etc/nixos/configuration.nix
+programs.appimage = {
+  enable = true;
+  binfmt = true;  # lets you run AppImages directly like any executable
+};
+
   services.flatpak.enable = true;
 
   networking.hostName = "lambda";
