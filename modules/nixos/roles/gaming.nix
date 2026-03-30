@@ -15,6 +15,7 @@
     protontricks
     protonup-ng
     bottles
+    scanmem
   ];
 
   environment.sessionVariables = {
