@@ -1,7 +1,9 @@
 { pkgs, ... }:
-
 {
-  programs.yazi.enable = true;
+  programs.yazi = {
+    enable = true;
+    enableZshIntegration = true;  # or enableBashIntegration / enableFishIntegration
+  };
 
   home.packages = with pkgs; [
     xdg-utils
@@ -14,11 +16,10 @@
     ]
   '';
 
-xdg.configFile."yazi/keymap.toml".text = ''
-  [manager]
-  prepend_keymap = [
-    { on = [ "o" ], run = "open", desc = "Open (default app)" },
-  ]
-'';
-
+  xdg.configFile."yazi/keymap.toml".text = ''
+    [manager]
+    prepend_keymap = [
+      { on = [ "o" ], run = "open", desc = "Open (default app)" },
+    ]
+  '';
 }
