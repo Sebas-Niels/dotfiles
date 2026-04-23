@@ -22,6 +22,7 @@
         "CTRL ALT, L, exec, hyprlock"
 
         "$mod, Q, killactive"
+        "$mod SHIFT, Q, forcekillactive"
         "$mod, F, fullscreen"
         "$mod, M, exit"
 
