@@ -43,6 +43,7 @@
     #steam
     prismlauncher-unwrapped # Minecraft
     r2modman
+    runelite
 
     # Lock screen
     hyprlock
@@ -61,6 +62,21 @@
       package = pkgs.gnome-themes-extra;
     };
   };
+
+  xdg.desktopEntries.tutanota-desktop = {
+  name = "Tuta Mail";
+  comment = "The desktop client for Tuta Mail, the secure e-mail service.";
+  genericName = "Mail Client";
+  exec = "tutanota-desktop %U";
+  terminal = false;
+  icon = "tutanota-desktop";
+  categories = [ "Network" ];
+  mimeType = [ "x-scheme-handler/mailto" ];
+  settings = {
+    Keywords = "Email;E-mail";
+    StartupWMClass = "tutanota-desktop";
+  };
+};
 
   # virt-manager: always default to local system connection
   dconf.settings."org/virt-manager/virt-manager/connections" = {
