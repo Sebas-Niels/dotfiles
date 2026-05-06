@@ -24,6 +24,8 @@
     vscode
     kdePackages.dolphin
 
+    qalculate-qt
+
     # Util
     wootility
     imhex
