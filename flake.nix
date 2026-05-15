@@ -6,6 +6,12 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # The three modules below are for the dendritic pattern
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    import-tree.url = "github:vic/import-tree";
+    wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
+
     hyprland.url = "github:hyprwm/Hyprland";
     hyprland-plugins = {
       url = "github:hyprwm/hyprland-plugins";
@@ -23,7 +29,7 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./hosts/lambda
-        ];
+        ]; 
       };
       "vmware-setup" = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
