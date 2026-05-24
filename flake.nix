@@ -1,7 +1,7 @@
 {
   description = "Nixos config flake";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -12,7 +12,10 @@
     import-tree.url = "github:vic/import-tree";
     wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
 
-    hyprland.url = "github:hyprwm/Hyprland";
+hyprland = {
+  url = "github:hyprwm/Hyprland";
+  inputs.nixpkgs.follows = "nixpkgs";
+};
     hyprland-plugins = {
       url = "github:hyprwm/hyprland-plugins";
       inputs.hyprland.follows = "hyprland";

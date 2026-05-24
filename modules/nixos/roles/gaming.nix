@@ -14,7 +14,7 @@
   environment.systemPackages = with pkgs; [
     protontricks
     protonup-ng
-    bottles
+    #bottles
     scanmem
   ];
 

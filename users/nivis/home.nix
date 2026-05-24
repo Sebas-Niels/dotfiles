@@ -12,6 +12,7 @@
   home.packages = with pkgs; [
     # Common
     discord
+    vesktop
     spotify
     signal-desktop
     obsidian

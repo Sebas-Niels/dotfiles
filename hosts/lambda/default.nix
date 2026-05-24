@@ -60,6 +60,8 @@ programs.appimage = {
     useUserPackages = true;
   };
 
+  
+
   environment.shellAliases = {
     nixrb = "sudo nixos-rebuild switch --flake .#$(hostname)";
   };
