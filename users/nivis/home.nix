@@ -26,6 +26,7 @@
     kdePackages.dolphin
 
     qalculate-qt
+    lm_sensors
 
     # Util
     wootility

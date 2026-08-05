@@ -1,26 +1,21 @@
 { pkgs, ... }:
-
 let
   rofiThemesCollection = pkgs.fetchFromGitHub {
     owner = "newmanls";
     repo = "rofi-themes-collection";
     rev = "master";
-    sha256 = "sha256-96wSyOp++1nXomnl8rbX5vMzaqRhTi/N7FUq6y0ukS8=";
+    hash = "sha256-YdsuzmpU/fokvF1/vKuiK/eOLFGfhJcFu8HvUIqx9Ao=";
   };
 in
 {
-  # Optional but recommended: makes themes show up like normal in ~/.config
-  home.file.".config/rofi/themes".source =
-    "${rofiThemesCollection}/themes";
+  # Makes themes browsable in ~/.config (e.g. for rofi-theme-selector)
+  home.file.".config/rofi/themes".source = "${rofiThemesCollection}/themes";
 
   programs.rofi = {
     enable = true;
-
     extraConfig = {
-        show-icons = true;
+      show-icons = true;
     };
-
-    # Use a real path (this is the important part)
-    theme = "~/.config/rofi/themes/rounded-pink-dark.rasi";
+    theme = "${rofiThemesCollection}/themes/rounded-pink-dark.rasi";
   };
 }

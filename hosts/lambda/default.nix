@@ -37,6 +37,7 @@
     # User definition
     ../../users/nivis/user.nix
     ../../modules/nixos/shell/zsh.nix
+    ../../modules/home-manager/wayland/hyprland/glaze-temp-fix.nix
   ];
 
   # /etc/nixos/configuration.nix
