@@ -5,6 +5,7 @@
       grubEfi
       lambdaHardware
       niri
+      noctalia
       git
       users
       danishLocale

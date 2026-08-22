@@ -39,15 +39,6 @@
             "useDistroLogo": false
           },
           {
-            "clockColor": "none",
-            "customFont": "",
-            "formatHorizontal": "HH:mm ddd, MMM dd",
-            "formatVertical": "HH mm - dd MM",
-            "id": "Clock",
-            "tooltipFormat": "HH:mm ddd, MMM dd",
-            "useCustomFont": false
-          },
-          {
             "compactMode": false,
             "diskPath": "/",
             "iconColor": "error",
@@ -170,6 +161,15 @@
             "icon": "noctalia",
             "id": "ControlCenter",
             "useDistroLogo": false
+          },
+          {
+            "clockColor": "none",
+            "customFont": "",
+            "formatHorizontal": "HH:mm ddd, MMM dd",
+            "formatVertical": "HH mm - dd MM",
+            "id": "Clock",
+            "tooltipFormat": "HH:mm ddd, MMM dd",
+            "useCustomFont": false
           }
         ]
       },
@@ -746,7 +746,7 @@
       }
     },
     "notificationsState": {
-      "lastSeenTs": 1787430503000
+      "lastSeenTs": 1787433442000
     },
     "changelogState": {
       "lastSeenVersion": "v4.7.7"
