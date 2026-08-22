@@ -17,6 +17,7 @@
       kitty
       starship
       zsh
+      defaultApps
     ];
 
     environment.systemPackages = with pkgs; [
@@ -29,8 +30,6 @@
       papirus-icon-theme
       claude-code
     ];
-
-    programs.firefox.enable = true;
 
     services.flatpak.enable = true;
 
