@@ -10,6 +10,7 @@
             inherit pkgs;
             settings = {
 
+                prefer-no-csd = _: { };
                 screenshot-path = null;
                 
                 environment = {
@@ -54,6 +55,7 @@
                     focus-follows-mouse = _: { props.max-scroll-amount = "0%"; };
                     keyboard = {
                         xkb.layout = "dk";
+                        numlock = _: { };
                     };
                 };
 
@@ -65,7 +67,7 @@
                         "${lib.getExe self'.packages.lambdaNoctalia} ipc call launcher toggle";
                     "Mod+Return".spawn-sh = lib.getExe self'.packages.lambdaKitty;
                     "Mod+Q".close-window = _: { };
-
+                    "Mod+O".toggle-overview = _: { };
                     "Print".screenshot = _: { };
                 };
             };
