@@ -23,7 +23,6 @@
 
     environment.systemPackages = with pkgs; [
       librewolf
-      firefox
       git
       kitty
       kdePackages.dolphin
