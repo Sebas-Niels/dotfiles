@@ -50,8 +50,11 @@
                 xwayland-satellite.path =
                     lib.getExe pkgs.xwayland-satellite;
 
-                input.keyboard = {
-                    xkb.layout = "dk";
+                input = {
+                    focus-follows-mouse = _: { props.max-scroll-amount = "0%"; };
+                    keyboard = {
+                        xkb.layout = "dk";
+                    };
                 };
                 layout.gaps = 5;
                 binds = {
