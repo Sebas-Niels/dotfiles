@@ -56,6 +56,9 @@
                         xkb.layout = "dk";
                     };
                 };
+
+                gestures.hot-corners.off = _: { };
+
                 layout.gaps = 5;
                 binds = {
                     "Mod+D".spawn-sh =
