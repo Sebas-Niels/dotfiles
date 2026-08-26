@@ -4,6 +4,12 @@
         programs.steam = {
             enable = true;
             gamescopeSession.enable = true;
+
+            package = pkgs.steam.override {
+                extraProfile = ''
+                    export PULSE_SERVER=none
+                '';
+            };
         };
 
         programs.gamemode.enable = true;

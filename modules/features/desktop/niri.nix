@@ -69,6 +69,10 @@
                     "Mod+Q".close-window = _: { };
                     "Mod+O".toggle-overview = _: { };
                     "Print".screenshot = _: { };
+
+                    "Mod+F".maximize-column = _: { };
+                    "Mod+Ctrl+F".fullscreen-window = _: { };
+                    "Mod+Shift+F".expand-column-to-available-width = _: { };
                 };
             };
         };
