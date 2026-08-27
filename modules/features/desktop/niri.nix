@@ -77,6 +77,9 @@
                     "Mod+Comma".consume-window-into-column = _: { };
                     "Mod+Period".expel-window-from-column = _: { };
 
+                    # WHAT IS THE KEYBIND FOR LOCKING NIRI?!?!??!?!?!
+                    "Mod+Alt+L".spawn-sh =
+                        "${lib.getExe self'.packages.lambdaNoctalia} ipc call lockScreen lock";
 
                       # scroll focus left/right through columns
                     "Mod+H".focus-column-left = _: { };
