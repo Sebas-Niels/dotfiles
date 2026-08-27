@@ -22,6 +22,7 @@
           _1password-gui
           wireshark
           p7zip
+          signal-desktop
         ];
       };
 

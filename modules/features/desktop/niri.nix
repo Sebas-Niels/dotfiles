@@ -73,6 +73,34 @@
                     "Mod+F".maximize-column = _: { };
                     "Mod+Ctrl+F".fullscreen-window = _: { };
                     "Mod+Shift+F".expand-column-to-available-width = _: { };
+
+                    "Mod+Comma".consume-window-into-column = _: { };
+                    "Mod+Period".expel-window-from-column = _: { };
+
+
+                      # scroll focus left/right through columns
+                    "Mod+H".focus-column-left = _: { };
+                    "Mod+L".focus-column-right = _: { };
+                    "Mod+Left".focus-column-left = _: { };
+                    "Mod+Right".focus-column-right = _: { };
+
+                    # drag the focused column along with you
+                    "Mod+Ctrl+H".move-column-left = _: { };
+                    "Mod+Ctrl+L".move-column-right = _: { };
+                    "Mod+Ctrl+Left".move-column-left = _: { };
+                    "Mod+Ctrl+Right".move-column-right = _: { };
+
+                    # jump to the ends of the scrollable row
+                    "Mod+Home".focus-column-first = _: { };
+                    "Mod+End".focus-column-last = _: { };
+                    "Mod+Ctrl+Home".move-column-to-first = _: { };
+                    "Mod+Ctrl+End".move-column-to-last = _: { };
+
+                    # mouse wheel scrolling
+                    "Mod+WheelScrollRight".focus-column-right = _: { };
+                    "Mod+WheelScrollLeft".focus-column-left = _: { };
+                    "Mod+WheelScrollDown".focus-column-right = _: { };
+                    "Mod+WheelScrollUp".focus-column-left = _: { };
                 };
             };
         };
