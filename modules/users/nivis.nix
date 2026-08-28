@@ -23,7 +23,6 @@
           wireshark
           p7zip
           signal-desktop
-          fastfetch
         ];
       };
 

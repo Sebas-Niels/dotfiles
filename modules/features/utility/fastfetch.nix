@@ -14,20 +14,19 @@
     let
       inherit (pkgs) lib;
 
-      # ── raw ANSI, since fastfetch's JSON parser eats \u001b fine ──
+      # fastfetch's JSON parser handles \u001b, and toJSON escapes it for us
       esc = builtins.fromJSON ''"\u001b"'';
       dim = s: "${esc}[90m${s}${esc}[0m";
 
-      # ── box helpers ──────────────────────────────────────────────
       width = 62;
       rule = n: lib.concatStrings (lib.genList (_: "─") n);
 
-      box = title: rec {
-        label = " ${title} ";
+      box = title: {
         head = {
           type = "custom";
           format = dim (
             let
+              label = " ${title} ";
               rest = width - lib.stringLength label;
               l = rest / 2;
             in
@@ -43,8 +42,17 @@
       hw = box "Hardware";
       sw = box "Software";
       up = box "Uptime / Age";
+      pal = box "Palette";
 
-      br = { type = "break"; };
+      # 8 swatches * 3 columns each, centred inside the box
+      swatchWidth = 24;
+      swatchPad = 1 + (width - swatchWidth) / 2;
+
+      # a real blank line; `break` gets swallowed between modules in a block
+      gap = {
+        type = "custom";
+        format = " ";
+      };
     in
     {
       packages.lambdaFastfetch = inputs.wrapper-modules.wrappers.fastfetch.wrap {
@@ -53,54 +61,71 @@
         settings = {
           "$schema" = "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json";
 
-          logo.type = "none";
+          logo = {
+            type = "builtin";
+            padding.right = 4;
+          };
 
           display = {
             separator = ": ";
-            keyWidth = 6;
-            color = {
-              keys = "green";
-              output = "white";
-            };
+            key.width = 18;
+            color.keys = "green";
             size.ndigits = 2;
           };
 
           modules = [
             hw.head
-            { type = "cpu";    key = "├─  "; keyColor = "green"; }
-            { type = "gpu";    key = "├─ 󰢮 "; keyColor = "green"; }
-            { type = "memory"; key = "├─ 󰍛 "; keyColor = "green"; }
-            { type = "disk";   key = "├─ 󰋊 "; folders = "/";     keyColor = "green"; }
-            { type = "disk";   key = "└─ 󰋊 "; folders = "/home"; keyColor = "green"; }
+            { type = "cpu";    key = "├─ 󰻠 CPU";    keyColor = "green"; }
+            { type = "gpu";    key = "├─ 󰢮 GPU";    keyColor = "green"; }
+            { type = "memory"; key = "├─ 󰍛 Memory"; keyColor = "green"; }
+            { type = "disk";   key = "├─ 󰋊 Root";   folders = "/";          keyColor = "green"; }
+            { type = "disk";   key = "├─ 󰋊 Games";  folders = "/mnt/games"; keyColor = "green"; }
             hw.foot
-            br
+            gap
 
             sw.head
-            { type = "os";       key = "├─  OS"; keyColor = "yellow"; }
-            { type = "kernel";   key = "├─  ";   keyColor = "yellow"; }
-            { type = "packages"; key = "├─ 󰏖 ";   keyColor = "yellow"; }
-            { type = "shell";    key = "└─  ";   keyColor = "yellow"; }
-            br
-            { type = "lm"; key = "├─ 󰧨 "; keyColor = "blue"; }
-            { type = "wm"; key = "├─  "; keyColor = "blue"; }
+            { type = "os";       key = "├─ 󱄅 OS";       keyColor = "yellow"; }
+            { type = "kernel";   key = "├─ 󰌽 Kernel";   keyColor = "yellow"; }
+            { type = "packages"; key = "├─ 󰏖 Packages"; keyColor = "yellow"; }
+            { type = "shell";    key = "├─ 󰆍 Shell";    keyColor = "yellow"; }
+            gap
+            { type = "wm";       key = "├─ 󰖯 WM";       keyColor = "blue"; }
+            { type = "terminal"; key = "├─ 󰆍 Terminal"; keyColor = "blue"; }
             {
               type = "command";
-              key = "└─ 󰢮 ";
+              key = "├─ 󰢮 Driver";
               keyColor = "blue";
-              text = ''basename "$(readlink -f /sys/class/drm/card0/device/driver)" 2>/dev/null || echo unknown'';
+              text = ''
+                for d in /sys/class/drm/card*/device/driver; do
+                  [ -e "$d" ] && basename "$(readlink -f "$d")"
+                done | sort -u | paste -sd', ' -
+              '';
             }
             sw.foot
-            br
+            gap
 
             up.head
             {
               type = "command";
-              key = "OS Age";
+              key = "├─ 󰃭 OS Age";
               keyColor = "magenta";
-              text = ''echo "$(( ( $(date +%s) - $(stat -c %W /) ) / 86400 )) days"'';
+              text = ''
+                b=$(stat -c %W /nix/store 2>/dev/null || echo 0)
+                [ "''${b:-0}" -gt 0 ] || b=$(stat -c %W / 2>/dev/null || echo 0)
+                echo "$(( ( $(date +%s) - b ) / 86400 )) days"
+              '';
             }
-            { type = "uptime"; key = "Uptime"; keyColor = "magenta"; }
+            { type = "uptime"; key = "├─ 󰅐 Uptime"; keyColor = "magenta"; }
             up.foot
+            gap
+
+            pal.head
+            {
+              type = "colors";
+              symbol = "block";
+              paddingLeft = swatchPad;
+            }
+            pal.foot
           ];
         };
       };
