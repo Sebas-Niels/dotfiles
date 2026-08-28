@@ -19,6 +19,7 @@
       starship
       zsh
       defaultApps
+      fastfetch
     ];
 
     environment.systemPackages = with pkgs; [
