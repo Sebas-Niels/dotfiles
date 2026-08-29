@@ -31,24 +31,31 @@
         env.STARSHIP_CONFIG =
           "${self'.packages.lambdaStarship.configuration.constructFiles."starship.toml"}";
 
-        zshrc.content = ''
-          source ${pkgs.zsh-syntax-highlighting}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+zshrc.content = ''
+  autoload -Uz compinit && compinit
 
-          eval "$(${lib.getExe self'.packages.lambdaStarship} init zsh)"
+  eval "$(${lib.getExe self'.packages.lambdaStarship} init zsh)"
 
-          nixrb() {
-              sudo nixos-rebuild switch --flake .#$(hostname)
-          }
+  source ${pkgs.zsh-autosuggestions}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+  ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=8"
 
-          gitac() {
-              git add -A
-              git commit -m "$*"
-          }
-          gitacp() {
-              git add -A && git commit -m "$*" && git push
-          }
+  nixrb() {
+      sudo nixos-rebuild switch --flake .#$(hostname)
+  }
 
-        '';
+  gitac() {
+      git add -A
+      git commit -m "$*"
+  }
+  gitacp() {
+      git add -A && git commit -m "$*" && git push
+  }
+
+  ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+
+  # Must stay last — hooks run in registration order.
+  source ${pkgs.zsh-syntax-highlighting}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+'';
       };
     };
 }

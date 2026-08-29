@@ -4,6 +4,7 @@
     imports = with config.flake.nixosModules; [
       nivis
       test
+      root
     ];
   };
 }
