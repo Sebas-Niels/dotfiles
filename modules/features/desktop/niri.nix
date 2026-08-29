@@ -36,6 +36,15 @@
             (lib.getExe self'.packages.lambdaNoctalia)
           ];
 
+          window-rules = [
+            {
+              match = _: { props.app-id = "^kitty-float$"; };
+              open-floating = true;
+              default-column-width.fixed = 900;
+              default-window-height.fixed = 600;
+            }
+          ];
+
           outputs = {
             # centre — 2560x1440, pinned to its high refresh mode
             "Dell Inc. AW2724DM GFGYHV3" = {
@@ -86,6 +95,8 @@
           binds = {
             "Mod+D".spawn-sh = "${lib.getExe self'.packages.lambdaNoctalia} ipc call launcher toggle";
             "Mod+Return".spawn-sh = lib.getExe self'.packages.lambdaKitty;
+            "Mod+Shift+Return".spawn-sh =
+              "${lib.getExe self'.packages.lambdaKitty} --class=kitty-float & sleep 0.3 && niri msg action center-window";
             "Mod+Q".close-window = _: { };
             "Mod+O".toggle-overview = _: { };
             "Print".screenshot = _: { };
