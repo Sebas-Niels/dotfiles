@@ -11,7 +11,10 @@
       users.users."test" = {
         isNormalUser = true;
         description = "test";
-        extraGroups = [ "networkmanager" "wheel" ];
+        extraGroups = [
+          "networkmanager"
+          "wheel"
+        ];
         initialPassword = "changeme";
         packages = with pkgs; [
           kdePackages.kate

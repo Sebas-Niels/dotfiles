@@ -14,7 +14,12 @@
     };
 
   perSystem =
-    { pkgs, lib, self', ... }:
+    {
+      pkgs,
+      lib,
+      self',
+      ...
+    }:
     {
       packages.lambdaZsh = inputs.wrapper-modules.wrappers.zsh.wrap {
         inherit pkgs;
@@ -26,36 +31,39 @@
           gs = "git status";
         };
 
-        runtimePkgs = with pkgs; [ yazi git ];
+        runtimePkgs = with pkgs; [
+          yazi
+          git
+        ];
 
-        env.STARSHIP_CONFIG =
-          "${self'.packages.lambdaStarship.configuration.constructFiles."starship.toml"}";
+        env.STARSHIP_CONFIG = "${self'.packages.lambdaStarship.configuration.constructFiles."starship.toml"
+        }";
 
-zshrc.content = ''
-  autoload -Uz compinit && compinit
+        zshrc.content = ''
+          autoload -Uz compinit && compinit
 
-  eval "$(${lib.getExe self'.packages.lambdaStarship} init zsh)"
+          eval "$(${lib.getExe self'.packages.lambdaStarship} init zsh)"
 
-  source ${pkgs.zsh-autosuggestions}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-  ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=8"
+          source ${pkgs.zsh-autosuggestions}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+          ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=8"
 
-  nixrb() {
-      sudo nixos-rebuild switch --flake .#$(hostname)
-  }
+          nixrb() {
+              sudo nixos-rebuild switch --flake .#$(hostname)
+          }
 
-  gitac() {
-      git add -A
-      git commit -m "$*"
-  }
-  gitacp() {
-      git add -A && git commit -m "$*" && git push
-  }
+          gitac() {
+              git add -A
+              git commit -m "$*"
+          }
+          gitacp() {
+              git add -A && git commit -m "$*" && git push
+          }
 
-  ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+          ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 
-  # Must stay last — hooks run in registration order.
-  source ${pkgs.zsh-syntax-highlighting}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-'';
+          # Must stay last — hooks run in registration order.
+          source ${pkgs.zsh-syntax-highlighting}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+        '';
       };
     };
 }

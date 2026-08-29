@@ -1,36 +1,39 @@
 { ... }:
 {
   flake.nixosModules.nivis = { pkgs, ... }: {
-      users.users."nivis" = {
-        isNormalUser = true;
-        description = "nivis";
-        extraGroups = [ "networkmanager" "wheel" ];
-        initialPassword = "changeme";
-        packages = with pkgs; [
-          kdePackages.kate
-          vesktop
-          spotify
-          obsidian
-          tutanota-desktop
-          anydesk
-          bitwarden-desktop
-          vscode
-          qalculate-qt
-          lm_sensors
-          wootility
-          imhex
-          _1password-gui
-          wireshark
-          p7zip
-          signal-desktop
-        ];
-      };
-
-      fonts.packages = with pkgs; [
-        nerd-fonts.jetbrains-mono
-        nerd-fonts.space-mono
+    users.users."nivis" = {
+      isNormalUser = true;
+      description = "nivis";
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+      ];
+      initialPassword = "changeme";
+      packages = with pkgs; [
+        kdePackages.kate
+        vesktop
+        spotify
+        obsidian
+        tutanota-desktop
+        anydesk
+        bitwarden-desktop
+        vscode
+        qalculate-qt
+        lm_sensors
+        wootility
+        imhex
+        _1password-gui
+        wireshark
+        p7zip
+        signal-desktop
       ];
     };
+
+    fonts.packages = with pkgs; [
+      nerd-fonts.jetbrains-mono
+      nerd-fonts.space-mono
+    ];
+  };
 
   flake.profiles.nivis = {
     name = "nivis";
@@ -48,5 +51,5 @@
       name = "JetBrainsMono Nerd Font";
       size = 14.0;
     };
-  };    
+  };
 }

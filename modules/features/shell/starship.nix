@@ -52,12 +52,12 @@
 
           git_branch.format = "on [$symbol$branch](blue) ";
 
-character = {
-  format = "$symbol";
-  success_symbol = "";
-  error_symbol = "";
-  vimcmd_symbol = "[V](white)";
-};
+          character = {
+            format = "$symbol";
+            success_symbol = "";
+            error_symbol = "";
+            vimcmd_symbol = "[V](white)";
+          };
 
           custom = {
             rootchar = {

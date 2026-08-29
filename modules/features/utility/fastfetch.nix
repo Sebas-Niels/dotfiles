@@ -75,22 +75,68 @@
 
           modules = [
             hw.head
-            { type = "cpu";    key = "├─ 󰻠 CPU";    keyColor = "green"; }
-            { type = "gpu";    key = "├─ 󰢮 GPU";    keyColor = "green"; }
-            { type = "memory"; key = "├─ 󰍛 Memory"; keyColor = "green"; }
-            { type = "disk";   key = "├─ 󰋊 Root";   folders = "/";          keyColor = "green"; }
-            { type = "disk";   key = "├─ 󰋊 Games";  folders = "/mnt/games"; keyColor = "green"; }
+            {
+              type = "cpu";
+              key = "├─ 󰻠 CPU";
+              keyColor = "green";
+            }
+            {
+              type = "gpu";
+              key = "├─ 󰢮 GPU";
+              keyColor = "green";
+            }
+            {
+              type = "memory";
+              key = "├─ 󰍛 Memory";
+              keyColor = "green";
+            }
+            {
+              type = "disk";
+              key = "├─ 󰋊 Root";
+              folders = "/";
+              keyColor = "green";
+            }
+            {
+              type = "disk";
+              key = "├─ 󰋊 Games";
+              folders = "/mnt/games";
+              keyColor = "green";
+            }
             hw.foot
             gap
 
             sw.head
-            { type = "os";       key = "├─ 󱄅 OS";       keyColor = "yellow"; }
-            { type = "kernel";   key = "├─ 󰌽 Kernel";   keyColor = "yellow"; }
-            { type = "packages"; key = "├─ 󰏖 Packages"; keyColor = "yellow"; }
-            { type = "shell";    key = "├─ 󰆍 Shell";    keyColor = "yellow"; }
+            {
+              type = "os";
+              key = "├─ 󱄅 OS";
+              keyColor = "yellow";
+            }
+            {
+              type = "kernel";
+              key = "├─ 󰌽 Kernel";
+              keyColor = "yellow";
+            }
+            {
+              type = "packages";
+              key = "├─ 󰏖 Packages";
+              keyColor = "yellow";
+            }
+            {
+              type = "shell";
+              key = "├─ 󰆍 Shell";
+              keyColor = "yellow";
+            }
             gap
-            { type = "wm";       key = "├─ 󰖯 WM";       keyColor = "blue"; }
-            { type = "terminal"; key = "├─ 󰆍 Terminal"; keyColor = "blue"; }
+            {
+              type = "wm";
+              key = "├─ 󰖯 WM";
+              keyColor = "blue";
+            }
+            {
+              type = "terminal";
+              key = "├─ 󰆍 Terminal";
+              keyColor = "blue";
+            }
             {
               type = "command";
               key = "├─ 󰢮 Driver";
@@ -115,7 +161,11 @@
                 echo "$(( ( $(date +%s) - b ) / 86400 )) days"
               '';
             }
-            { type = "uptime"; key = "├─ 󰅐 Uptime"; keyColor = "magenta"; }
+            {
+              type = "uptime";
+              key = "├─ 󰅐 Uptime";
+              keyColor = "magenta";
+            }
             up.foot
             gap
 

@@ -1,4 +1,4 @@
-{self, inputs, ... }: {
+{ self, inputs, ... }: {
 
   flake.nixosModules.lambdaConfiguration = { pkgs, lib, ... }: {
     imports = with self.nixosModules; [
@@ -38,7 +38,10 @@
       nixrb = "sudo nixos-rebuild switch --flake .#$(hostname)";
     };
 
-    nix.settings.experimental-features = [ "nix-command" "flakes" ];
+    nix.settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
 
     nixpkgs.config.allowUnfree = true;
 
