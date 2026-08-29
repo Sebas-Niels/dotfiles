@@ -33,7 +33,7 @@
 
         font = {
           name = "JetBrainsMono Nerd Font";
-          size = 16.0;
+          size = 14.0;
         };
 
         themeFile = themes.duckbones;

@@ -48,7 +48,7 @@
           ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=8"
 
           nixrb() {
-              sudo nixos-rebuild switch --flake .#$(hostname)
+              sudo nixos-rebuild switch --flake ~/dotfiles#$(hostname)
           }
 
           gitac() {

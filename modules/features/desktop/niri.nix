@@ -40,8 +40,8 @@
             {
               match = _: { props.app-id = "^kitty-float$"; };
               open-floating = true;
-              default-column-width.fixed = 900;
-              default-window-height.fixed = 600;
+              default-column-width.fixed = 1250;
+              default-window-height.fixed = 750;
             }
           ];
 
@@ -94,9 +94,9 @@
           layout.gaps = 5;
           binds = {
             "Mod+D".spawn-sh = "${lib.getExe self'.packages.lambdaNoctalia} ipc call launcher toggle";
-            "Mod+Return".spawn-sh = lib.getExe self'.packages.lambdaKitty;
-            "Mod+Shift+Return".spawn-sh =
-              "${lib.getExe self'.packages.lambdaKitty} --class=kitty-float & sleep 0.3 && niri msg action center-window";
+            "Mod+Shift+Return".spawn-sh = lib.getExe self'.packages.lambdaKitty;
+            "Mod+Return".spawn-sh =
+              "${lib.getExe self'.packages.lambdaKitty} --class=kitty-float ${lib.getExe self'.packages.lambdaZsh} -c '${lib.getExe self'.packages.lambdaFastfetch}; exec ${lib.getExe self'.packages.lambdaZsh}' & sleep 0.3 && niri msg action center-window";
             "Mod+Q".close-window = _: { };
             "Mod+O".toggle-overview = _: { };
             "Print".screenshot = _: { };

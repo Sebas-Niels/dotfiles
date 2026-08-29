@@ -42,7 +42,6 @@
       hw = box "Hardware";
       sw = box "Software";
       up = box "Uptime / Age";
-      pal = box "Palette";
 
       # 8 swatches * 3 columns each, centred inside the box
       swatchWidth = 24;
@@ -103,7 +102,6 @@
               keyColor = "green";
             }
             hw.foot
-            gap
 
             sw.head
             {
@@ -148,7 +146,6 @@
               '';
             }
             sw.foot
-            gap
 
             up.head
             {
@@ -167,15 +164,12 @@
               keyColor = "magenta";
             }
             up.foot
-            gap
 
-            pal.head
             {
               type = "colors";
               symbol = "block";
               paddingLeft = swatchPad;
             }
-            pal.foot
           ];
         };
       };
