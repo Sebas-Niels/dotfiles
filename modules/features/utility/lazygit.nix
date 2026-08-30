@@ -8,11 +8,19 @@
 
   perSystem = { pkgs, ... }: {
 
-    packages.lambdaLazygit = inputs.wrapper-modules.wrappers.lazygit.wrap {
-      inherit pkgs;
-      settings = {
-        gui.mouseEvents = false;
+    packages.lambdaLazygit =
+      let
+        configFile = (pkgs.formats.yaml { }).generate "lazygit-config.yml" {
+          gui.mouseEvents = false;
+        };
+      in
+      pkgs.symlinkJoin {
+        name = "lazygit";
+        paths = [ pkgs.lazygit ];
+        nativeBuildInputs = [ pkgs.makeWrapper ];
+        postBuild = ''
+          wrapProgram $out/bin/lazygit --set LG_CONFIG_FILE ${configFile}
+        '';
       };
-    };
   };
 }
