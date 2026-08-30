@@ -627,9 +627,9 @@
       "backlightDeviceMappings": []
     },
     "colorSchemes": {
-      "useWallpaperColors": false,
+      "useWallpaperColors": true,
       "predefinedScheme": "Noctalia (default)",
-      "darkMode": true,
+      "darkMode": false,
       "schedulingMode": "off",
       "manualSunrise": "06:30",
       "manualSunset": "18:30",
@@ -695,60 +695,60 @@
     "openedPanel": "",
     "lockScreenActive": false,
     "wallpapers": {
-      "DP-2": "/home/nivis/Pictures/Wallpapers/wall.jpg",
-      "DP-1": "/home/nivis/Pictures/Wallpapers/wall.jpg",
-      "DP-3": "/home/nivis/Pictures/Wallpapers/wall.jpg"
+      "DP-2": "/home/nivis/Pictures/Wallpapers/wallhaven-x6l5vl.jpg",
+      "DP-1": "/home/nivis/Pictures/Wallpapers/wallhaven-x6l5vl.jpg",
+      "DP-3": "/home/nivis/Pictures/Wallpapers/wallhaven-x6l5vl.jpg"
     },
     "desktopWidgetsEditMode": false,
     "display": {
       "DP-1": {
-        "connected": true,
-        "height": 1200,
         "name": "DP-1",
-        "physical_height": 320,
-        "physical_width": 520,
-        "refresh_rate": 59950,
+        "connected": true,
         "scale": 1,
-        "transform": "Normal",
-        "vrr_enabled": false,
-        "vrr_supported": false,
         "width": 1920,
+        "height": 1200,
         "x": 0,
-        "y": 120
+        "y": 120,
+        "physical_width": 520,
+        "physical_height": 320,
+        "refresh_rate": 59950,
+        "vrr_supported": false,
+        "vrr_enabled": false,
+        "transform": "Normal"
       },
       "DP-2": {
-        "connected": true,
-        "height": 1440,
         "name": "DP-2",
-        "physical_height": 340,
-        "physical_width": 600,
-        "refresh_rate": 143973,
+        "connected": true,
         "scale": 1,
-        "transform": "Normal",
-        "vrr_enabled": false,
-        "vrr_supported": false,
         "width": 2560,
+        "height": 1440,
         "x": 1920,
-        "y": 0
+        "y": 0,
+        "physical_width": 600,
+        "physical_height": 340,
+        "refresh_rate": 143973,
+        "vrr_supported": true,
+        "vrr_enabled": false,
+        "transform": "Normal"
       },
       "DP-3": {
-        "connected": true,
-        "height": 1200,
         "name": "DP-3",
-        "physical_height": 320,
-        "physical_width": 520,
-        "refresh_rate": 59950,
+        "connected": true,
         "scale": 1,
-        "transform": "Normal",
-        "vrr_enabled": false,
-        "vrr_supported": false,
         "width": 1920,
+        "height": 1200,
         "x": 4480,
-        "y": 120
+        "y": 120,
+        "physical_width": 520,
+        "physical_height": 320,
+        "refresh_rate": 59950,
+        "vrr_supported": false,
+        "vrr_enabled": false,
+        "transform": "Normal"
       }
     },
     "notificationsState": {
-      "lastSeenTs": 1787433442000
+      "lastSeenTs": 1787502028000
     },
     "changelogState": {
       "lastSeenVersion": "v4.7.7"
