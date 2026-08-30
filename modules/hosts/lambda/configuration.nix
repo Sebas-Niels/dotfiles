@@ -22,6 +22,7 @@
       fastfetch
       rmpc
       foreignApps
+      lazygit
     ];
 
     environment.systemPackages = with pkgs; [

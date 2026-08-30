@@ -28,6 +28,7 @@
         signal-desktop
         yazi
         spotiflac
+        lazygit
       ];
     };
 
