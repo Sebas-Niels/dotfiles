@@ -48,7 +48,7 @@
       services.xserver.enable = true;
 
       services.xserver.displayManager.setupCommands = ''
-        ${pkgs.xorg.xrandr}/bin/xrandr --output DP-2 --primary
+        ${pkgs.xrandr}/bin/xrandr --output DP-2 --primary
         ${pkgs.xdotool}/bin/xdotool mousemove 1280 720
 
         (
@@ -56,7 +56,7 @@
             ${pkgs.coreutils}/bin/sleep 1
             eval "$(${pkgs.xdotool}/bin/xdotool getmouselocation --shell 2>/dev/null)"
             [ -n "$WINDOW" ] && [ "$WINDOW" != 0 ] || continue
-            ${pkgs.xorg.xprop}/bin/xprop -id "$WINDOW" WM_CLASS 2>/dev/null \
+            ${pkgs.xprop}/bin/xprop -id "$WINDOW" WM_CLASS 2>/dev/null \
               | ${pkgs.gnugrep}/bin/grep -qi sddm || continue
             ${pkgs.xdotool}/bin/xdotool windowfocus "$WINDOW" && break
           done
