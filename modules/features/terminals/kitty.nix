@@ -60,13 +60,13 @@
           size = 14.0;
         };
         # Dark theme:
-        #themeFile = themes.moonlight;
+        themeFile = themes.moonlight;
         #Light theme:
-        themeFile = themes.gruvbox-light;
+        #themeFile = themes.gruvbox-light;
 
         settings = {
           adjust_line_height = "120%";
-          background_opacity = "0.60";
+          background_opacity = "0.75";
           background_blur = "64";
           shell = lib.getExe self'.packages.lambdaZsh;
         };
