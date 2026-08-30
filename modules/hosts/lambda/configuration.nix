@@ -23,6 +23,7 @@
       rmpc
       foreignApps
       lazygit
+      theming
     ];
 
     environment.systemPackages = with pkgs; [
