@@ -21,6 +21,7 @@
       defaultApps
       fastfetch
       rmpc
+      foreignApps
     ];
 
     environment.systemPackages = with pkgs; [
