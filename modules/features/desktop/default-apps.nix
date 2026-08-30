@@ -8,10 +8,5 @@
       "x-scheme-handler/about" = "librewolf.desktop";
       "x-scheme-handler/unknown" = "librewolf.desktop";
     };
-
-    programs.appimage = {
-      enable = true;
-      binfmt = true;
-    };
   };
 }

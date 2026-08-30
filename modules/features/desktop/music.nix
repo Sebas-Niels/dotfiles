@@ -39,7 +39,13 @@ in
       packages.lambdaRmpc = inputs.wrapper-modules.lib.evalPackage [
         { inherit pkgs; }
         (
-          { config, wlib, lib, pkgs, ... }:
+          {
+            config,
+            wlib,
+            lib,
+            pkgs,
+            ...
+          }:
           {
             imports = [ wlib.modules.default ];
             package = lib.mkDefault pkgs.rmpc;
