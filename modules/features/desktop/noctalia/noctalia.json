@@ -629,11 +629,11 @@
     "colorSchemes": {
       "useWallpaperColors": true,
       "predefinedScheme": "Noctalia (default)",
-      "darkMode": false,
+      "darkMode": true,
       "schedulingMode": "off",
       "manualSunrise": "06:30",
       "manualSunset": "18:30",
-      "generationMethod": "tonal-spot",
+      "generationMethod": "fruit-salad",
       "monitorForColors": "",
       "syncGsettings": true
     },
