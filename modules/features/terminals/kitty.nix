@@ -54,7 +54,7 @@
           size = 14.0;
         };
 
-        themeFile = themes.duckbones;
+        themeFile = themes.moonlight;
 
         settings = {
           adjust_line_height = "120%";
