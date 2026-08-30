@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.nixosModules.theming =
+  flake.nixosModules.darkTheming =
     { pkgs, lib, ... }:
     {
       qt = {

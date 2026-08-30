@@ -17,6 +17,7 @@
     }:
     let
       themes = {
+        # Dark themes:
         gruvbox-dark = "gruvbox-dark";
         dainty-dark = "daintyDark";
         duckbones = "duckbones";
@@ -43,6 +44,11 @@
         sea-shells = "SeaShells";
         spacedust = "Spacedust";
         toy-chest = "ToyChest";
+
+        # Light themes:
+        solarized-light = "Solarized_Light";
+        solarized-osaka-light = "solarized_osaka_light";
+        gruvbox-light = "GruvboxMaterialLightHard";
       };
     in
     {
@@ -53,12 +59,14 @@
           name = "JetBrainsMono Nerd Font";
           size = 14.0;
         };
-
-        themeFile = themes.moonlight;
+        # Dark theme:
+        #themeFile = themes.moonlight;
+        #Light theme:
+        themeFile = themes.gruvbox-light;
 
         settings = {
           adjust_line_height = "120%";
-          background_opacity = "0.90";
+          background_opacity = "0.60";
           background_blur = "64";
           shell = lib.getExe self'.packages.lambdaZsh;
         };
