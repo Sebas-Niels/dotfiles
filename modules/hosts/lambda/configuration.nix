@@ -20,6 +20,7 @@
       zsh
       defaultApps
       fastfetch
+      rmpc
     ];
 
     environment.systemPackages = with pkgs; [

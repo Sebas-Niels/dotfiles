@@ -27,6 +27,7 @@
         p7zip
         signal-desktop
         yazi
+        spotiflac
       ];
     };
 
