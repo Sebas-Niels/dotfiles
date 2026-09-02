@@ -15,12 +15,24 @@
     programs.gamemode.enable = true;
     programs.gamescope.enable = true;
 
-    environment.systemPackages = with pkgs; [
-      protontricks
-      protonup-ng
-      scanmem
+environment.systemPackages = with pkgs; [
+  labwc
+  (writeShellScriptBin "steam-labwc" ''
+    exec ${labwc}/bin/labwc -s steam
+  '')
+  (makeDesktopItem {
+  name = "steam-labwc";
+  desktopName = "Steam (labwc)";
+  exec = "steam-labwc";
+  icon = "steam";
+  categories = [ "Game" ];
+})
+  protontricks
+  protonup-ng
+  scanmem
+];
 
-    ];
+
 
     environment.sessionVariables = {
       STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/user/.steam/root/compatibilitytools.d";
