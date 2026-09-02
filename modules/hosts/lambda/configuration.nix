@@ -34,6 +34,7 @@
       kdePackages.breeze
       papirus-icon-theme
       claude-code
+      unzip
     ];
 
     services.flatpak.enable = true;
