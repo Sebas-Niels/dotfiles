@@ -24,6 +24,7 @@
       foreignApps
       lazygit
       darkTheming
+      helpwire
     ];
 
     environment.systemPackages = with pkgs; [
