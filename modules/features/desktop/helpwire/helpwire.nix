@@ -22,8 +22,11 @@
     packages = lib.optionalAttrs (pkgs.stdenv.hostPlatform.system == "x86_64-linux") {
       helpwire-operator = pkgs.callPackage (
         { lib, stdenv, rpm, cpio, autoPatchelfHook, makeWrapper
-        , libGL, xorg, fontconfig, freetype, libpng, udev, wayland
-        , libxkbcommon, zlib, util-linux, dbus, xdg-utils }:
+        , libGL, fontconfig, freetype, libpng, udev, wayland
+        , libxkbcommon, zlib, util-linux, dbus, xdg-utils
+        , libx11, libxau, libxdmcp, libxext, libxfixes
+        , libxinerama, libxrandr, libxtst
+        , libxcb-wm, libxcb-image, libxcb-keysyms, libxcb-render-util }:
 
         stdenv.mkDerivation {
           pname = "helpwire-operator";
@@ -35,8 +38,13 @@
           buildInputs = [
             stdenv.cc.cc.lib libGL fontconfig freetype libpng udev wayland
             libxkbcommon zlib util-linux.lib
-            xorg.libX11 xorg.libXau xorg.libXdmcp xorg.libXext xorg.libXfixes
-            xorg.libXinerama xorg.libXrandr xorg.libXtst
+            libx11 libxau libxdmcp libxext libxfixes
+            libxinerama libxrandr libxtst
+            # Needed by the bundled libQt5XcbQpa.so.5
+            libxcb-wm            # libxcb-icccm.so.4
+            libxcb-image         # libxcb-image.so.0
+            libxcb-keysyms       # libxcb-keysyms.so.1
+            libxcb-render-util   # libxcb-render-util.so.0
           ];
 
           unpackPhase = ''
@@ -46,7 +54,7 @@
           installPhase = ''
             runHook preInstall
 
-            mkdir -p $out/opt $out/bin $out/etc
+            mkdir -p $out/opt $out/bin $out/etc $out/share/applications
             cp -r opt/HelpWire $out/opt/
             cp -r etc/HelpWire $out/etc/
 
@@ -54,6 +62,7 @@
 
             makeWrapper $out/opt/HelpWire/Operator/bin/helpwire-operator $out/bin/helpwire-operator \
               --set QT_QPA_PLATFORM xcb \
+              --chdir "$out/opt/HelpWire/Operator" \
               --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [ dbus libGL ]} \
               --prefix PATH : ${lib.makeBinPath [ xdg-utils ]}
 
@@ -62,12 +71,18 @@
                 $out/share/icons/hicolor/''${s}x''${s}/apps/helpwire-operator.png
             done
 
-            install -Dm644 opt/HelpWire/Operator/desktop/helpwire-operator.desktop \
-              $out/share/applications/helpwire-operator.desktop
-            sed -i \
-              -e "s|^Exec=[^ ]*|Exec=$out/bin/helpwire-operator|" \
-              -e "s|^Icon=.*|Icon=helpwire-operator|" \
-              $out/share/applications/helpwire-operator.desktop
+            # Clean desktop entry; the vendor's Exec line is a /bin/sh wrapper we can't reuse
+            cat > $out/share/applications/helpwire-operator.desktop <<EOF
+            [Desktop Entry]
+            Type=Application
+            Name=HelpWire Operator
+            Comment=Remote control solution
+            Exec=$out/bin/helpwire-operator %u
+            Icon=helpwire-operator
+            Terminal=false
+            Categories=Network;RemoteAccess;
+            MimeType=x-scheme-handler/helpwire;
+            EOF
 
             runHook postInstall
           '';
