@@ -35,8 +35,8 @@
         hour=$(date +%-H)
 
         # ---- your schedule (percent) ----
-        if   (( hour >= 21 || hour < 9 )); then target=20
-        elif (( hour >= 19 ));             then target=35
+        if   (( hour >= 21 || hour < 9 )); then target=5
+        elif (( hour >= 19 ));             then target=30
         else                                    target=50
         fi
 
