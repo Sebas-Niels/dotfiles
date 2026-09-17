@@ -25,6 +25,7 @@
       lazygit
       darkTheming
       helpwire
+      brightnessSchedule
     ];
 
     environment.systemPackages = with pkgs; [
@@ -36,7 +37,11 @@
       papirus-icon-theme
       claude-code
       unzip
+      ddcutil #This is for allowing noctalia to change screen brightness
     ];
+
+    hardware.i2c.enable = true;
+    boot.kernelModules = [ "i2c-dev" ];
 
     services.flatpak.enable = true;
 

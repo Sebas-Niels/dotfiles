@@ -623,7 +623,7 @@
     "brightness": {
       "brightnessStep": 5,
       "enforceMinimum": true,
-      "enableDdcSupport": false,
+      "enableDdcSupport": true,
       "backlightDeviceMappings": []
     },
     "colorSchemes": {
@@ -642,13 +642,13 @@
       "enableUserTheming": false
     },
     "nightLight": {
-      "enabled": false,
+      "enabled": true,
       "forced": false,
-      "autoSchedule": true,
-      "nightTemp": "4000",
+      "autoSchedule": false,
+      "nightTemp": "4208",
       "dayTemp": "6500",
       "manualSunrise": "06:30",
-      "manualSunset": "18:30"
+      "manualSunset": "20:00"
     },
     "hooks": {
       "enabled": false,
@@ -748,7 +748,7 @@
       }
     },
     "notificationsState": {
-      "lastSeenTs": 1787502028000
+      "lastSeenTs": 1788449110000
     },
     "changelogState": {
       "lastSeenVersion": "v4.7.7"

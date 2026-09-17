@@ -7,6 +7,7 @@
       extraGroups = [
         "networkmanager"
         "wheel"
+        "i2c"
       ];
       initialPassword = "changeme";
       packages = with pkgs; [
