@@ -35,9 +35,9 @@
         hour=$(date +%-H)
 
         # ---- your schedule (percent) ----
-        if   (( hour >= 22 || hour < 7 )); then target=25
-        elif (( hour >= 19 ));             then target=60
-        else                                    target=100
+        if   (( hour >= 21 || hour < 9 )); then target=20
+        elif (( hour >= 19 ));             then target=35
+        else                                    target=50
         fi
 
         # Apply once per period so manual slider changes aren't overridden
