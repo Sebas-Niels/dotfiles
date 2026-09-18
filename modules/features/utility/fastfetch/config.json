@@ -2,6 +2,10 @@
     "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/master/doc/json_schema.json",
     "logo": {
         "source": "PrismLinux",
+        "color": {
+          "1": "green",
+          "2": "blue"
+        },
         "padding": {
             "top": 4,
             "left": 5,
