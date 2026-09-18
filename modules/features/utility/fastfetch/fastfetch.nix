@@ -13,7 +13,7 @@
     {
       packages.lambdaFastfetch = inputs.wrapper-modules.wrappers.fastfetch.wrap {
         inherit pkgs;
-        settings = builtins.fromJSON (builtins.readFile ./config.jsonc);
+        settings = builtins.fromJSON (builtins.readFile ./config.json);
       };
     };
 }
