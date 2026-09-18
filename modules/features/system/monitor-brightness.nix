@@ -1,9 +1,11 @@
 { self, ... }: {
 
-  flake.nixosModules.brightnessSchedule = { pkgs, ... }:
+  flake.nixosModules.brightnessSchedule =
+    { pkgs, ... }:
     let
       brightnessSchedule = self.packages.${pkgs.stdenv.hostPlatform.system}.brightnessSchedule;
-    in {
+    in
+    {
       environment.systemPackages = [ brightnessSchedule ];
 
       systemd.user.services.brightness-schedule = {
@@ -30,7 +32,10 @@
 
     packages.brightnessSchedule = pkgs.writeShellApplication {
       name = "brightness-schedule";
-      runtimeInputs = [ pkgs.coreutils self'.packages.lambdaNoctalia ];
+      runtimeInputs = [
+        pkgs.coreutils
+        self'.packages.lambdaNoctalia
+      ];
       text = ''
         hour=$(date +%-H)
 

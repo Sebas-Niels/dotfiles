@@ -1,9 +1,11 @@
 { self, inputs, ... }: {
 
-  flake.nixosModules.helpwire = { pkgs, ... }:
+  flake.nixosModules.helpwire =
+    { pkgs, ... }:
     let
       helpwire = self.packages.${pkgs.stdenv.hostPlatform.system}.helpwire-operator;
-    in {
+    in
+    {
       environment.systemPackages = [ helpwire ];
 
       # The app reads its config from this absolute path
@@ -21,30 +23,74 @@
     # Upstream only ships x86_64-linux binaries
     packages = lib.optionalAttrs (pkgs.stdenv.hostPlatform.system == "x86_64-linux") {
       helpwire-operator = pkgs.callPackage (
-        { lib, stdenv, rpm, cpio, autoPatchelfHook, makeWrapper
-        , libGL, fontconfig, freetype, libpng, udev, wayland
-        , libxkbcommon, zlib, util-linux, dbus, xdg-utils
-        , libx11, libxau, libxdmcp, libxext, libxfixes
-        , libxinerama, libxrandr, libxtst
-        , libxcb-wm, libxcb-image, libxcb-keysyms, libxcb-render-util }:
+        {
+          lib,
+          stdenv,
+          rpm,
+          cpio,
+          autoPatchelfHook,
+          makeWrapper,
+          libGL,
+          fontconfig,
+          freetype,
+          libpng,
+          udev,
+          wayland,
+          libxkbcommon,
+          zlib,
+          util-linux,
+          dbus,
+          xdg-utils,
+          libx11,
+          libxau,
+          libxdmcp,
+          libxext,
+          libxfixes,
+          libxinerama,
+          libxrandr,
+          libxtst,
+          libxcb-wm,
+          libxcb-image,
+          libxcb-keysyms,
+          libxcb-render-util,
+        }:
 
         stdenv.mkDerivation {
           pname = "helpwire-operator";
           version = "2.2.30.11";
           src = ./helpwire-operator.rpm;
 
-          nativeBuildInputs = [ rpm cpio autoPatchelfHook makeWrapper ];
+          nativeBuildInputs = [
+            rpm
+            cpio
+            autoPatchelfHook
+            makeWrapper
+          ];
 
           buildInputs = [
-            stdenv.cc.cc.lib libGL fontconfig freetype libpng udev wayland
-            libxkbcommon zlib util-linux.lib
-            libx11 libxau libxdmcp libxext libxfixes
-            libxinerama libxrandr libxtst
+            stdenv.cc.cc.lib
+            libGL
+            fontconfig
+            freetype
+            libpng
+            udev
+            wayland
+            libxkbcommon
+            zlib
+            util-linux.lib
+            libx11
+            libxau
+            libxdmcp
+            libxext
+            libxfixes
+            libxinerama
+            libxrandr
+            libxtst
             # Needed by the bundled libQt5XcbQpa.so.5
-            libxcb-wm            # libxcb-icccm.so.4
-            libxcb-image         # libxcb-image.so.0
-            libxcb-keysyms       # libxcb-keysyms.so.1
-            libxcb-render-util   # libxcb-render-util.so.0
+            libxcb-wm # libxcb-icccm.so.4
+            libxcb-image # libxcb-image.so.0
+            libxcb-keysyms # libxcb-keysyms.so.1
+            libxcb-render-util # libxcb-render-util.so.0
           ];
 
           unpackPhase = ''
@@ -63,7 +109,12 @@
             makeWrapper $out/opt/HelpWire/Operator/bin/helpwire-operator $out/bin/helpwire-operator \
               --set QT_QPA_PLATFORM xcb \
               --chdir "$out/opt/HelpWire/Operator" \
-              --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [ dbus libGL ]} \
+              --prefix LD_LIBRARY_PATH : ${
+                lib.makeLibraryPath [
+                  dbus
+                  libGL
+                ]
+              } \
               --prefix PATH : ${lib.makeBinPath [ xdg-utils ]}
 
             for s in 16 24 32 48 64 96 128 256; do

@@ -37,7 +37,7 @@
       papirus-icon-theme
       claude-code
       unzip
-      ddcutil #This is for allowing noctalia to change screen brightness
+      ddcutil # This is for allowing noctalia to change screen brightness
     ];
 
     hardware.i2c.enable = true;
