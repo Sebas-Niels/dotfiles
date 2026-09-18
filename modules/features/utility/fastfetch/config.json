@@ -3,8 +3,7 @@
     "logo": {
         "source": "PrismLinux",
         "color": {
-          "1": "green",
-          "2": "blue"
+          "1": "38;2;1;127;223"
         },
         "padding": {
             "top": 4,
