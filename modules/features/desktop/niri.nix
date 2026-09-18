@@ -40,8 +40,8 @@
             {
               match = _: { props.app-id = "^kitty-float$"; };
               open-floating = true;
-              default-column-width.fixed = 1250;
-              default-window-height.fixed = 750;
+              default-column-width.fixed = 1620;
+              default-window-height.fixed = 910;
             }
           ];
 

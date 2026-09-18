@@ -57,7 +57,7 @@
 
         font = {
           name = "JetBrainsMono Nerd Font";
-          size = 14.0;
+          size = 16.0;
         };
         # Dark theme:
         themeFile = themes.moonlight;
@@ -65,7 +65,6 @@
         #themeFile = themes.gruvbox-light;
 
         settings = {
-          adjust_line_height = "120%";
           background_opacity = "0.75";
           background_blur = "64";
           shell = lib.getExe self'.packages.apertureZsh;
