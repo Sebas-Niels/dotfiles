@@ -34,7 +34,7 @@
       name = "brightness-schedule";
       runtimeInputs = [
         pkgs.coreutils
-        self'.packages.lambdaNoctalia
+        self'.packages.apertureNoctalia
       ];
       text = ''
         hour=$(date +%-H)

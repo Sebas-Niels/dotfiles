@@ -1,9 +1,9 @@
 { self, inputs, ... }: {
 
-  flake.nixosModules.lambdaConfiguration = { pkgs, lib, ... }: {
+  flake.nixosModules.apertureConfiguration = { pkgs, lib, ... }: {
     imports = with self.nixosModules; [
       grubEfi
-      lambdaHardware
+      apertureHardware
       niri
       noctalia
       git
@@ -56,7 +56,7 @@
 
     nixpkgs.config.allowUnfree = true;
 
-    networking.hostName = "lambda";
+    networking.hostName = "aperture";
     system.stateVersion = "26.05";
   };
 }

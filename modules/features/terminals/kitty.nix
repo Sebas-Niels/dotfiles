@@ -4,7 +4,7 @@
     { pkgs, ... }:
     {
       environment.systemPackages = [
-        self.packages.${pkgs.stdenv.hostPlatform.system}.lambdaKitty
+        self.packages.${pkgs.stdenv.hostPlatform.system}.apertureKitty
       ];
     };
 
@@ -52,7 +52,7 @@
       };
     in
     {
-      packages.lambdaKitty = inputs.wrapper-modules.wrappers.kitty.wrap {
+      packages.apertureKitty = inputs.wrapper-modules.wrappers.kitty.wrap {
         inherit pkgs;
 
         font = {
@@ -68,7 +68,7 @@
           adjust_line_height = "120%";
           background_opacity = "0.75";
           background_blur = "64";
-          shell = lib.getExe self'.packages.lambdaZsh;
+          shell = lib.getExe self'.packages.apertureZsh;
         };
       };
     };

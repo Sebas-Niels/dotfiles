@@ -4,14 +4,14 @@
     { pkgs, ... }:
     {
       environment.systemPackages = [
-        self.packages.${pkgs.stdenv.hostPlatform.system}.lambdaFastfetch
+        self.packages.${pkgs.stdenv.hostPlatform.system}.apertureFastfetch
       ];
     };
 
   perSystem =
     { pkgs, ... }:
     {
-      packages.lambdaFastfetch = inputs.wrapper-modules.wrappers.fastfetch.wrap {
+      packages.apertureFastfetch = inputs.wrapper-modules.wrappers.fastfetch.wrap {
         inherit pkgs;
         settings = builtins.fromJSON (builtins.readFile ./config.json);
       };

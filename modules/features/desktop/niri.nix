@@ -2,7 +2,7 @@
   flake.nixosModules.niri = { pkgs, lib, ... }: {
     programs.niri = {
       enable = true;
-      package = self.packages.${pkgs.stdenv.hostPlatform.system}.lambdaNiri;
+      package = self.packages.${pkgs.stdenv.hostPlatform.system}.apertureNiri;
     };
   };
   perSystem =
@@ -13,7 +13,7 @@
       ...
     }:
     {
-      packages.lambdaNiri = inputs.wrapper-modules.wrappers.niri.wrap {
+      packages.apertureNiri = inputs.wrapper-modules.wrappers.niri.wrap {
         inherit pkgs;
         settings = {
 
@@ -33,7 +33,7 @@
           };
 
           spawn-at-startup = [
-            (lib.getExe self'.packages.lambdaNoctalia)
+            (lib.getExe self'.packages.apertureNoctalia)
           ];
 
           window-rules = [
@@ -93,10 +93,10 @@
 
           layout.gaps = 5;
           binds = {
-            "Mod+D".spawn-sh = "${lib.getExe self'.packages.lambdaNoctalia} ipc call launcher toggle";
-            "Mod+Shift+Return".spawn-sh = lib.getExe self'.packages.lambdaKitty;
+            "Mod+D".spawn-sh = "${lib.getExe self'.packages.apertureNoctalia} ipc call launcher toggle";
+            "Mod+Shift+Return".spawn-sh = lib.getExe self'.packages.apertureKitty;
             "Mod+Return".spawn-sh =
-              "${lib.getExe self'.packages.lambdaKitty} --class=kitty-float ${lib.getExe self'.packages.lambdaZsh} -c '${lib.getExe self'.packages.lambdaFastfetch}; exec ${lib.getExe self'.packages.lambdaZsh}' & sleep 0.3 && niri msg action center-window";
+              "${lib.getExe self'.packages.apertureKitty} --class=kitty-float ${lib.getExe self'.packages.apertureZsh} -c '${lib.getExe self'.packages.apertureFastfetch}; exec ${lib.getExe self'.packages.apertureZsh}' & sleep 0.3 && niri msg action center-window";
             "Mod+Q".close-window = _: { };
             "Mod+O".toggle-overview = _: { };
             "Print".screenshot = _: { };
@@ -109,7 +109,7 @@
             "Mod+Period".expel-window-from-column = _: { };
 
             # WHAT IS THE KEYBIND FOR LOCKING NIRI?!?!??!?!?!
-            "Ctrl+Alt+L".spawn-sh = "${lib.getExe self'.packages.lambdaNoctalia} ipc call lockScreen lock";
+            "Ctrl+Alt+L".spawn-sh = "${lib.getExe self'.packages.apertureNoctalia} ipc call lockScreen lock";
 
             # scroll focus left/right through columns
             "Mod+H".focus-column-left = _: { };

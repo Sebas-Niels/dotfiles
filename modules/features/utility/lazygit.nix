@@ -2,13 +2,13 @@
 
   flake.nixosModules.lazygit = { pkgs, ... }: {
     environment.systemPackages = [
-      self.packages.${pkgs.stdenv.hostPlatform.system}.lambdaLazygit
+      self.packages.${pkgs.stdenv.hostPlatform.system}.apertureLazygit
     ];
   };
 
   perSystem = { pkgs, ... }: {
 
-    packages.lambdaLazygit =
+    packages.apertureLazygit =
       let
         configFile = (pkgs.formats.yaml { }).generate "lazygit-config.yml" {
           gui.mouseEvents = false;

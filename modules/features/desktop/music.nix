@@ -8,7 +8,7 @@ in
     { pkgs, ... }:
     {
       environment.systemPackages = [
-        self.packages.${pkgs.stdenv.hostPlatform.system}.lambdaRmpc
+        self.packages.${pkgs.stdenv.hostPlatform.system}.apertureRmpc
         pkgs.mpc
       ];
 
@@ -36,7 +36,7 @@ in
   perSystem =
     { pkgs, ... }:
     {
-      packages.lambdaRmpc = inputs.wrapper-modules.lib.evalPackage [
+      packages.apertureRmpc = inputs.wrapper-modules.lib.evalPackage [
         { inherit pkgs; }
         (
           {

@@ -3,10 +3,10 @@
   flake.nixosModules.starship =
     { pkgs, ... }:
     let
-      inherit (self.packages.${pkgs.stdenv.hostPlatform.system}) lambdaStarship;
+      inherit (self.packages.${pkgs.stdenv.hostPlatform.system}) apertureStarship;
     in
     {
-      environment.systemPackages = [ lambdaStarship ];
+      environment.systemPackages = [ apertureStarship ];
     };
 
   perSystem =
@@ -19,7 +19,7 @@
       ];
     in
     {
-      packages.lambdaStarship = inputs.wrapper-modules.wrappers.starship.wrap {
+      packages.apertureStarship = inputs.wrapper-modules.wrappers.starship.wrap {
         inherit pkgs;
 
         settings = {

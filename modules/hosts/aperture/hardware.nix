@@ -1,6 +1,6 @@
 { self, inputs, ... }: {
 
-  flake.nixosModules.lambdaHardware =
+  flake.nixosModules.apertureHardware =
     {
       config,
       lib,

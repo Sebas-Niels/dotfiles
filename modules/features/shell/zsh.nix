@@ -3,14 +3,14 @@
   flake.nixosModules.zsh =
     { pkgs, ... }:
     let
-      inherit (self.packages.${pkgs.stdenv.hostPlatform.system}) lambdaZsh;
+      inherit (self.packages.${pkgs.stdenv.hostPlatform.system}) apertureZsh;
     in
     {
-      environment.systemPackages = [ lambdaZsh ];
-      environment.shells = [ lambdaZsh ];
+      environment.systemPackages = [ apertureZsh ];
+      environment.shells = [ apertureZsh ];
       environment.pathsToLink = [ "/share/zsh" ];
 
-      users.users.nivis.shell = lambdaZsh;
+      users.users.nivis.shell = apertureZsh;
     };
 
   perSystem =
@@ -21,7 +21,7 @@
       ...
     }:
     {
-      packages.lambdaZsh = inputs.wrapper-modules.wrappers.zsh.wrap {
+      packages.apertureZsh = inputs.wrapper-modules.wrappers.zsh.wrap {
         inherit pkgs;
 
         hmSessionVariables = null;
@@ -36,13 +36,13 @@
           git
         ];
 
-        env.STARSHIP_CONFIG = "${self'.packages.lambdaStarship.configuration.constructFiles."starship.toml"
+        env.STARSHIP_CONFIG = "${self'.packages.apertureStarship.configuration.constructFiles."starship.toml"
         }";
 
         zshrc.content = ''
           autoload -Uz compinit && compinit
 
-          eval "$(${lib.getExe self'.packages.lambdaStarship} init zsh)"
+          eval "$(${lib.getExe self'.packages.apertureStarship} init zsh)"
 
           source ${pkgs.zsh-autosuggestions}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
           ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=8"
