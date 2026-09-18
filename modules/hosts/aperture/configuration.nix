@@ -25,7 +25,6 @@
       lazygit
       darkTheming
       helpwire
-      brightnessSchedule
     ];
 
     environment.systemPackages = with pkgs; [
