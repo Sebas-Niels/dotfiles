@@ -30,6 +30,7 @@
         yazi
         spotiflac
         ghostty
+        stoat-desktop
       ];
     };
 
