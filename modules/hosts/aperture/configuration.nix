@@ -25,6 +25,8 @@
       lazygit
       darkTheming
       helpwire
+      godot
+      lutris
     ];
 
     environment.systemPackages = with pkgs; [
