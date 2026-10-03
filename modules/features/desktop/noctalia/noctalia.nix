@@ -6,7 +6,16 @@
     ];
   };
 
-  perSystem = { pkgs, ... }: {
+  perSystem = { pkgs, system, ... }: {
+
+    _module.args.pkgs = import inputs.nixpkgs {
+    inherit system;
+    overlays = [
+      (final: prev: {
+        noctalia-qs = prev.noctalia-qs.override { withCrashReporter = false; };
+      })
+    ];
+  };
 
     packages.apertureNoctalia = inputs.wrapper-modules.wrappers.noctalia-shell.wrap {
       inherit pkgs;

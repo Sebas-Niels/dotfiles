@@ -31,6 +31,7 @@
         spotiflac
         ghostty
         stoat-desktop
+        jetbrains.rider
       ];
     };
 
