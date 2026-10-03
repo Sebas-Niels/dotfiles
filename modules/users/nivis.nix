@@ -32,6 +32,7 @@
         ghostty
         stoat-desktop
         jetbrains.rider
+        brave
       ];
     };
 
