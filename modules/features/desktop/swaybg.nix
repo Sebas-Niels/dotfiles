@@ -12,10 +12,8 @@
       nativeBuildInputs = [ pkgs.makeWrapper ];
       postBuild = ''
         wrapProgram $out/bin/swaybg \
-          --add-flags "-c '#1e1e2e'"
+          --add-flags "-i ${./wallpaper.jpg} -m fill"
       '';
-      # For an image instead, put a wallpaper next to this file and use:
-      #   --add-flags "-i ${./wallpaper.png} -m fill"
       meta.mainProgram = "swaybg";
     };
   };
