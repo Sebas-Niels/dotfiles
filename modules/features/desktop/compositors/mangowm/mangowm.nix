@@ -69,9 +69,8 @@
             "XCURSOR_SIZE,24"
           ];
 
-          # Scrolling layout on every tag, to behave like niri
-          tagrule = [ "id:*,layout_name:scroller" ];
-          scroller_default_proportion = 0.5;
+          # Master/stack tiling on every tag
+          tagrule = [ "id:*,layout_name:tile" ];
 
           monitorrule = [
             # centre — Dell AW2724DM, pinned to its high refresh mode
@@ -110,16 +109,17 @@
             "SUPER,r,reload_config"
             "SUPER+SHIFT,e,quit"
 
-            "SUPER,f,set_proportion,1.0"
             "SUPER+CTRL,f,togglefullscreen"
             "SUPER+SHIFT,f,togglemaximizescreen"
             "SUPER,space,togglefloating"
 
-            # stack/unstack windows in a column
-            "SUPER,comma,scroller_stack,left"
-            "SUPER,period,scroller_stack,right"
+            # grow/shrink the master area, and add/remove master windows
+            "SUPER,equal,setmfact,+0.05"
+            "SUPER,minus,setmfact,-0.05"
+            "SUPER,comma,incnmaster,+1"
+            "SUPER,period,incnmaster,-1"
 
-            # focus left/right through columns, up/down within a column
+            # focus the neighbouring window in each direction
             "SUPER,h,focusdir,left"
             "SUPER,l,focusdir,right"
             "SUPER,k,focusdir,up"
@@ -127,7 +127,7 @@
             "SUPER,Left,focusdir,left"
             "SUPER,Right,focusdir,right"
 
-            # drag the focused window along with you
+            # swap the focused window with its neighbour
             "SUPER+CTRL,h,exchange_client,left"
             "SUPER+CTRL,l,exchange_client,right"
             "SUPER+CTRL,Left,exchange_client,left"
