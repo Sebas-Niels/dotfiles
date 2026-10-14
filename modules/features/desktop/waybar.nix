@@ -13,16 +13,15 @@
         height = 28;
         spacing = 4;
 
-        modules-left = [ "dwl/tags" "dwl/window" ];
+        # mango exposes its tags over ext-workspace, not the dwl ipc protocol
+        modules-left = [ "ext/workspaces" ];
         modules-center = [ "clock" ];
         modules-right = [ "pulseaudio" "network" "cpu" "memory" "tray" ];
 
-        "dwl/tags" = {
-          num-tags = 9;
-        };
-
-        "dwl/window" = {
-          max-length = 60;
+        "ext/workspaces" = {
+          format = "{name}";
+          on-click = "activate";
+          sort-by-id = true;
         };
 
         clock = {
@@ -61,27 +60,23 @@
           color: #cdd6f4;
         }
 
-        #tags button {
+        #workspaces button {
           padding: 0 6px;
-          color: #6c7086;
+          color: #cdd6f4;
           background: transparent;
         }
 
-        #tags button.occupied {
-          color: #cdd6f4;
-        }
-
-        #tags button.focused {
+        #workspaces button.active {
           color: #1e1e2e;
           background: #89b4fa;
         }
 
-        #tags button.urgent {
+        #workspaces button.urgent {
           color: #1e1e2e;
           background: #fab387;
         }
 
-        #window, #clock, #pulseaudio, #network, #cpu, #memory, #tray {
+        #clock, #pulseaudio, #network, #cpu, #memory, #tray {
           padding: 0 10px;
         }
       '';
