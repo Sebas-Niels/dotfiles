@@ -10,8 +10,8 @@
       waybarConfig = (pkgs.formats.json { }).generate "waybar-config.json" {
         layer = "top";
         position = "top";
-        height = 35;
-        spacing = 5;
+        height = 44;
+        spacing = 6;
 
         # mango exposes its tags over ext-workspace, not the dwl ipc protocol
         modules-left = [ "ext/workspaces" ];
@@ -43,13 +43,13 @@
         cpu.format = "cpu {usage}%";
         memory.format = "mem {percentage}%";
 
-        tray.spacing = 10;
+        tray.spacing = 12;
       };
 
       waybarStyle = pkgs.writeText "waybar-style.css" ''
         * {
           font-family: monospace;
-          font-size: 16px;
+          font-size: 20px;
           border: none;
           border-radius: 0;
           min-height: 0;
@@ -61,7 +61,7 @@
         }
 
         #workspaces button {
-          padding: 0 8px;
+          padding: 0 10px;
           color: #cdd6f4;
           background: transparent;
         }
@@ -77,7 +77,7 @@
         }
 
         #clock, #pulseaudio, #network, #cpu, #memory, #tray {
-          padding: 0 12px;
+          padding: 0 15px;
         }
       '';
     in
