@@ -9,15 +9,15 @@
     let
       fuzzelConfig = (pkgs.formats.ini { }).generate "fuzzel.ini" {
         main = {
-          font = "monospace:size=12";
+          font = "monospace:size=18";
           terminal = "${lib.getExe self'.packages.apertureKitty} -e";
           prompt = ''"> "'';
           layer = "overlay";
           width = 40;
           lines = 12;
-          horizontal-pad = 16;
-          vertical-pad = 12;
-          inner-pad = 8;
+          horizontal-pad = 24;
+          vertical-pad = 18;
+          inner-pad = 12;
         };
 
         # Colors are RRGGBBAA, no leading #
@@ -32,8 +32,8 @@
         };
 
         border = {
-          width = 2;
-          radius = 8;
+          width = 3;
+          radius = 12;
         };
       };
     in
