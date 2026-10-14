@@ -1,4 +1,10 @@
-{ ... }: {
+{ self, ... }: {
+  flake.nixosModules.fuzzel = { pkgs, ... }: {
+    environment.systemPackages = [
+      self.packages.${pkgs.stdenv.hostPlatform.system}.apertureFuzzel
+    ];
+  };
+
   perSystem = { pkgs, lib, self', ... }:
     let
       fuzzelConfig = (pkgs.formats.ini { }).generate "fuzzel.ini" {
