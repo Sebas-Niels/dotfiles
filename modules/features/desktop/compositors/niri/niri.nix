@@ -77,15 +77,30 @@
                 };
               };
             };
+            # bottom — Corsair Xeneon Edge, flush under the Dell
+                        "Cyrix Corporation XENEON EDGE 578526065656" = {
+              mode = "2560x720@60.266";
+              scale = 1.0;
+              position = _: {
+                props = {
+                  x = 1920;
+                  y = 1440;
+                };
+              };
+            };
           };
+
 
           xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite;
 
           input = {
             focus-follows-mouse = _: { props.max-scroll-amount = "0%"; };
             keyboard = {
-              xkb.layout = "dk";
+              xkb.layout = "us";
               numlock = _: { };
+            };
+            touch = {
+              map-to-output = "Cyrix Corporation XENEON EDGE 578526065656";
             };
           };
 

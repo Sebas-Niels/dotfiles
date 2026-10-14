@@ -4,8 +4,8 @@
     imports = with self.nixosModules; [
       grubEfi
       apertureHardware
-      niri
-      noctalia
+      #niri
+      #noctalia
       git
       users
       danishLocale
@@ -27,6 +27,7 @@
       helpwire
       godot
       lutris
+      mangowm
     ];
 
     environment.systemPackages = with pkgs; [

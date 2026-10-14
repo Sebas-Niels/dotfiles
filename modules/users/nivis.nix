@@ -33,6 +33,7 @@
         stoat-desktop
         jetbrains.rider
         brave
+        bazecor
       ];
     };
 
