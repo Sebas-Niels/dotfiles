@@ -3,7 +3,7 @@
     imports = [
       inputs.mango.nixosModules.mango
       self.nixosModules.fuzzel
-      self.nixosModules.swaybg
+      self.nixosModules.swww
       self.nixosModules.mako
       self.nixosModules.waybar
     ];
@@ -92,7 +92,7 @@
           ];
 
           "exec-once" = [
-            "${lib.getExe self'.packages.apertureSwaybg}"
+            "${lib.getExe self'.packages.apertureSwww}"
             "${lib.getExe self'.packages.apertureWaybar}"
             "${lib.getExe self'.packages.apertureMako}"
             # Start focused on the centre monitor
