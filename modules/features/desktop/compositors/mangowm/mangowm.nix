@@ -73,14 +73,12 @@
           tagrule = [ "id:*,layout_name:tile" ];
 
           monitorrule = [
-            # centre — Dell AW2724DM, pinned to its high refresh mode
-            "serial:GFGYHV3,width:2560,height:1440,refresh:143.973,x:1920,y:0,scale:1,primary:1"
-            # left — Samsung SyncMaster
-            "serial:H9XB408702,width:1920,height:1200,refresh:59.950,x:0,y:120,scale:1"
-            # right — Samsung SyncMaster
-            "serial:H9XZ111348,width:1920,height:1200,refresh:59.950,x:4480,y:120,scale:1"
-            # bottom — Corsair Xeneon Edge, flush under the Dell
-            "serial:578526065656,width:2560,height:720,refresh:60.266,x:1920,y:1440,scale:1"
+            # centre — Dell AW3425DWM ultrawide, pinned to its high refresh mode
+            "serial:BH96444,width:3440,height:1440,refresh:179.989,x:0,y:0,scale:1,primary:1"
+            # right — Dell AW2724DM, pinned to its high refresh mode
+            "serial:GFGYHV3,width:2560,height:1440,refresh:143.973,x:3440,y:0,scale:1"
+            # bottom — Corsair Xeneon Edge, centred under the ultrawide
+            "serial:578526065656,width:2560,height:720,refresh:60.266,x:440,y:1440,scale:1"
           ];
 
           # Keep the Xeneon's touchscreen on the Xeneon
@@ -95,7 +93,7 @@
             "${lib.getExe self'.packages.apertureWaybar}"
             "${lib.getExe self'.packages.apertureMako}"
             # Start focused on the centre monitor
-            "mmsg dispatch focusmon,serial:GFGYHV3"
+            "mmsg dispatch focusmon,serial:BH96444"
           ];
 
           bind = [

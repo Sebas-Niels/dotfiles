@@ -48,8 +48,8 @@
       services.xserver.enable = true;
 
       services.xserver.displayManager.setupCommands = ''
-        ${pkgs.xrandr}/bin/xrandr --output DP-2 --primary
-        ${pkgs.xdotool}/bin/xdotool mousemove 1280 720
+        ${pkgs.xrandr}/bin/xrandr --output DP-1 --primary
+        ${pkgs.xdotool}/bin/xdotool mousemove 1720 720
 
         (
           for i in $(${pkgs.coreutils}/bin/seq 1 20); do
