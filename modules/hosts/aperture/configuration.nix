@@ -24,7 +24,6 @@
       rmpc
       foreignApps
       lazygit
-      darkTheming
       helpwire
       godot
       lutris
@@ -36,6 +35,8 @@
       git
       kitty
       kdePackages.dolphin
+      kdePackages.kio-extras
+      kdePackages.qtwayland
       kdePackages.breeze
       papirus-icon-theme
       claude-code

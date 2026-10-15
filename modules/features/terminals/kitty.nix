@@ -15,43 +15,26 @@
       self',
       ...
     }:
-    let
-      themes = {
-        # Dark themes:
-        gruvbox-dark = "gruvbox-dark";
-        dainty-dark = "daintyDark";
-        duckbones = "duckbones";
-        vimbones = "vimbones";
-        dracula = "Dracula";
-        eldritch = "Eldritch";
-        farin = "Farin";
-        galaxy = "Galaxy";
-        base2tone-field-dark = "base2tone-field-dark";
-        blueloco-dark = "BlulocoDark";
-        challenger-deep = "ChallengerDeep";
-        cherry = "cherry";
-        cherry-midnight = "cherry-midnight";
-        cobalt-neon = "Cobalt_Neon";
-        cyberpunk = "cyberpunk";
-        cyberpunk-neon = "Cyberpunk-Neon";
-        kaolin-aurora = "Kaolin_Aurora";
-        kaolin-galaxy = "Kaolin_Galaxy";
-        midsummer-night = "midsummer-night";
-        moonfly = "moonfly";
-        moonlight = "moonlight";
-        night-owl = "night_owl";
-        rose-pine = "rose-pine";
-        sea-shells = "SeaShells";
-        spacedust = "Spacedust";
-        toy-chest = "ToyChest";
-
-        # Light themes:
-        solarized-light = "Solarized_Light";
-        solarized-osaka-light = "solarized_osaka_light";
-        gruvbox-light = "GruvboxMaterialLightHard";
-      };
-    in
     {
+      # Colours come from the theme menu (see theme-menu.nix)
+      apertureTheme.targets."kitty.conf" = t: ''
+        foreground ${t.c.text}
+        background ${t.c.bg}
+        selection_foreground ${t.c.text}
+        selection_background ${t.term.selection}
+        cursor ${t.term.cursor}
+        cursor_text_color ${t.c.bg}
+        url_color ${t.c.accent}
+        active_border_color ${t.c.accent}
+        inactive_border_color ${t.c.overlay}
+        active_tab_foreground ${t.c.bg}
+        active_tab_background ${t.c.accent}
+        inactive_tab_foreground ${t.c.subtext}
+        inactive_tab_background ${t.c.mantle}
+        tab_bar_background ${t.c.mantle}
+        ${lib.concatImapStringsSep "\n" (i: color: "color${toString (i - 1)} ${color}") t.ansi}
+      '';
+
       packages.apertureKitty = inputs.wrapper-modules.wrappers.kitty.wrap {
         inherit pkgs;
 
@@ -59,16 +42,17 @@
           name = "JetBrainsMono Nerd Font";
           size = 16.0;
         };
-        # Dark theme:
-        themeFile = themes.moonlight;
-        #Light theme:
-        #themeFile = themes.gruvbox-light;
 
         settings = {
           background_opacity = "0.75";
           background_blur = "64";
           shell = lib.getExe self'.packages.apertureZsh;
         };
+
+        # kitty skips a missing include, so this is safe before a theme has been picked
+        extraConfig = ''
+          include ~/.local/state/aperture-theme/current/kitty.conf
+        '';
       };
     };
 }

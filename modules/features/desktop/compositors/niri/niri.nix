@@ -4,6 +4,21 @@
       enable = true;
       package = self.packages.${pkgs.stdenv.hostPlatform.system}.apertureNiri;
     };
+
+    xdg.portal = {
+      enable = true;
+      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+      config.niri = {
+        default = [
+          "gnome"
+          "gtk"
+        ];
+        "org.freedesktop.impl.portal.Settings" = [
+          "gnome"
+          "gtk"
+        ];
+      };
+    };
   };
   perSystem =
     {

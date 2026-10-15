@@ -7,7 +7,8 @@
 
   perSystem = { pkgs, lib, self', ... }:
     let
-      fuzzelConfig = (pkgs.formats.ini { }).generate "fuzzel.ini" {
+      # Rendered once per theme by the theme menu (see theme-menu.nix)
+      fuzzelConfig = t: lib.generators.toINI { } {
         main = {
           font = "monospace:size=18";
           terminal = "${lib.getExe self'.packages.apertureKitty} -e";
@@ -22,13 +23,13 @@
 
         # Colors are RRGGBBAA, no leading #
         colors = {
-          background = "1e1e2eee";
-          text = "cdd6f4ff";
-          match = "89b4faff";
-          selection = "313244ff";
-          selection-text = "cdd6f4ff";
-          selection-match = "89b4faff";
-          border = "89b4faff";
+          background = "${t.bare t.c.bg}ee";
+          text = "${t.bare t.c.text}ff";
+          match = "${t.bare t.c.accent}ff";
+          selection = "${t.bare t.c.surface}ff";
+          selection-text = "${t.bare t.c.text}ff";
+          selection-match = "${t.bare t.c.accent}ff";
+          border = "${t.bare t.c.accent}ff";
         };
 
         border = {
@@ -36,15 +37,20 @@
           radius = 12;
         };
       };
+
+      fuzzel = pkgs.writeShellScript "fuzzel" ''
+        exec ${lib.getExe pkgs.fuzzel} --config "$HOME/.local/state/aperture-theme/current/fuzzel.ini" "$@"
+      '';
     in
     {
+      apertureTheme.targets."fuzzel.ini" = fuzzelConfig;
+
       packages.apertureFuzzel = pkgs.symlinkJoin {
         name = "aperture-fuzzel";
         paths = [ pkgs.fuzzel ];
-        nativeBuildInputs = [ pkgs.makeWrapper ];
         postBuild = ''
-          wrapProgram $out/bin/fuzzel \
-            --add-flags "--config ${fuzzelConfig}"
+          rm $out/bin/fuzzel
+          ln -s ${fuzzel} $out/bin/fuzzel
         '';
         meta.mainProgram = "fuzzel";
       };

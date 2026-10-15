@@ -6,6 +6,7 @@
       self.nixosModules.swww
       self.nixosModules.mako
       self.nixosModules.waybar
+      self.nixosModules.themeMenu
     ];
 
     programs.mango = {
@@ -34,6 +35,7 @@
       kitty = lib.getExe self'.packages.apertureKitty;
       zsh = lib.getExe self'.packages.apertureZsh;
       fastfetch = lib.getExe self'.packages.apertureFastfetch;
+      themeMenu = lib.getExe self'.packages.apertureThemeMenu;
 
       # Floating kitty running fastfetch, sized by the window rule below
       floatingKitty = pkgs.writeShellScript "mango-floating-kitty" ''
@@ -66,8 +68,22 @@
       ]) (lib.range 1 9);
     in
     {
+      # Window border colours, rendered once per theme by the theme menu (see theme-menu.nix)
+      apertureTheme.targets."mango.conf" = t: ''
+        border_color=0x${t.bare t.c.overlay}ff
+        focus_color=0x${t.bare t.c.accent}ff
+        urgent_color=0x${t.bare t.c.red}ff
+        scratchpad_color=0x${t.bare t.c.accent2}ff
+        maximized_screen_color=0x${t.bare t.c.accent2}ff
+        root_color=0x${t.bare t.c.mantle}ff
+      '';
+
       packages.apertureMango = inputs.wrapper-modules.wrappers.mangowc.wrap {
         inherit pkgs;
+        # Last, so the theme's colours win; optional, so mango starts before a theme is picked
+        extraConfig = ''
+          source_optional=~/.local/state/aperture-theme/current/mango.conf
+        '';
         settings = {
           xkb_rules_layout = "us";
           numlockon = 1;
@@ -122,6 +138,8 @@
             "${lib.getExe self'.packages.apertureSwww}"
             "${lib.getExe self'.packages.apertureWaybar}"
             "${lib.getExe self'.packages.apertureMako}"
+            # Start the theme menu hidden so SUPER+T opens it instantly
+            "${themeMenu} daemon"
             "${brightness}"
             # Hot-reload the config on rebuild
             "systemctl --user start mangoReloadConfig.service"
@@ -131,6 +149,7 @@
 
           bind = [
             "SUPER,d,spawn,${lib.getExe self'.packages.apertureFuzzel}"
+            "SUPER,t,spawn,${themeMenu} toggle"
             "SUPER,Return,spawn,${kitty}"
             "SUPER+SHIFT,Return,spawn,${floatingKitty}"
             "SUPER,q,killclient"

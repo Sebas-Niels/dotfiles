@@ -5,7 +5,7 @@
     ];
   };
 
-  perSystem = { pkgs, ... }:
+  perSystem = { pkgs, lib, self', ... }:
     let
       waybarConfig = (pkgs.formats.json { }).generate "waybar-config.json" {
         layer = "top";
@@ -46,7 +46,8 @@
         tray.spacing = 12;
       };
 
-      waybarStyle = pkgs.writeText "waybar-style.css" ''
+      # Rendered once per theme by the theme menu (see theme-menu.nix)
+      waybarStyle = t: ''
         * {
           font-family: monospace;
           font-size: 20px;
@@ -56,39 +57,68 @@
         }
 
         window#waybar {
-          background: rgba(30, 30, 46, 0.93);
-          color: #cdd6f4;
+          background: ${t.rgba t.c.bg "0.93"};
+          color: ${t.c.text};
         }
 
         #workspaces button {
           padding: 0 10px;
-          color: #cdd6f4;
+          color: ${t.c.text};
           background: transparent;
+          transition: background-color 200ms ease, color 200ms ease;
+        }
+
+        #workspaces button:hover {
+          background: ${t.c.surface};
         }
 
         #workspaces button.active {
-          color: #1e1e2e;
-          background: #89b4fa;
+          color: ${t.c.bg};
+          background: ${t.c.accent};
         }
 
         #workspaces button.urgent {
-          color: #1e1e2e;
-          background: #fab387;
+          color: ${t.c.bg};
+          background: ${t.c.yellow};
         }
 
         #clock, #pulseaudio, #network, #cpu, #memory, #tray {
           padding: 0 15px;
         }
       '';
+
+      # nixos-rebuild doesn't restart anything started by the compositor, so waybar watches for a
+      # switch itself: once the system's waybar is a different build, it hands over to that one
+      waybar = pkgs.writeShellScript "waybar" ''
+        ${lib.getExe self'.packages.apertureTheme} init
+        ${lib.getExe pkgs.waybar} -c ${waybarConfig} \
+          -s "$HOME/.local/state/aperture-theme/current/waybar.css" "$@" &
+        bar=$!
+
+        trap 'kill "$bar" 2>/dev/null' EXIT
+
+        self=$(${pkgs.coreutils}/bin/readlink -f "$0")
+        while kill -0 "$bar" 2>/dev/null; do
+          ${pkgs.coreutils}/bin/sleep 3
+          installed=$(${pkgs.coreutils}/bin/readlink -f /run/current-system/sw/bin/waybar) || continue
+          if [ "$installed" != "$self" ]; then
+            kill "$bar"
+            wait "$bar" 2>/dev/null
+            trap - EXIT
+            exec /run/current-system/sw/bin/waybar "$@"
+          fi
+        done
+      '';
     in
     {
+      apertureTheme.targets."waybar.css" = waybarStyle;
+
       packages.apertureWaybar = pkgs.symlinkJoin {
         name = "aperture-waybar";
         paths = [ pkgs.waybar ];
-        nativeBuildInputs = [ pkgs.makeWrapper ];
         postBuild = ''
-          wrapProgram $out/bin/waybar \
-            --add-flags "-c ${waybarConfig} -s ${waybarStyle}"
+          rm $out/bin/waybar
+          ln -s ${waybar} $out/bin/waybar
         '';
         meta.mainProgram = "waybar";
       };
