@@ -112,6 +112,10 @@
             # to 90% of it. scratchpad_*_ratio would be ignored: mango only applies it to windows
             # that are not already floating, and this rule makes Obsidian float on map.
             "isnamedscratchpad:1,width:0.9971,height:0.9625,appid:^md\\.obsidian\\.Obsidian$"
+            # LibreWolf always opens on tag 2 and the Steam client on tag 3 (games are
+            # steam_app_<id>, so they stay where they are launched)
+            "tags:2,appid:^librewolf$"
+            "tags:3,appid:^steam$"
           ];
 
           "exec-once" = [
