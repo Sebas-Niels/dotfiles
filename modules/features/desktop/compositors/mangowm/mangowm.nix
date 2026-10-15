@@ -31,13 +31,13 @@
 
   perSystem = { pkgs, lib, self', ... }:
     let
-      kitty = lib.getExe self'.packages.apertureKitty;
+      ghostty = lib.getExe self'.packages.apertureGhostty;
       zsh = lib.getExe self'.packages.apertureZsh;
       fastfetch = lib.getExe self'.packages.apertureFastfetch;
 
-      # Floating kitty running fastfetch, sized/centred by the window rule below
-      floatingKitty = pkgs.writeShellScript "mango-floating-kitty" ''
-        exec ${kitty} --class=kitty-float ${zsh} -c '${fastfetch}; exec ${zsh}'
+      # Floating ghostty running fastfetch, sized/centred by the window rule below
+      floatingTerminal = pkgs.writeShellScript "mango-floating-terminal" ''
+        exec ${ghostty} --class=com.mitchellh.ghostty-float -e ${zsh} -c '${fastfetch}; exec ${zsh}'
       '';
 
       # Region screenshot, copied to the clipboard and saved like niri did
@@ -104,7 +104,7 @@
           devicerule = [ "name:wch.cn TouchScreen,monitor:serial:578526065656" ];
 
           windowrule = [
-            "isfloating:1,width:1620,height:910,appid:^kitty-float$"
+            "isfloating:1,width:1620,height:910,appid:^com\\.mitchellh\\.ghostty-float$"
             # Obsidian lives in a named scratchpad, toggled with SUPER+SHIFT+O, sized like a
             # maximized window. Sizes <= 1 are fractions of the monitor: on the ultrawide that is
             # 3430x1386, the 3440x1396 area below the 44px waybar minus the 5px outer gaps.
@@ -131,8 +131,8 @@
 
           bind = [
             "SUPER,d,spawn,${lib.getExe self'.packages.apertureFuzzel}"
-            "SUPER+SHIFT,Return,spawn,${kitty}"
-            "SUPER,Return,spawn,${floatingKitty}"
+            "SUPER+SHIFT,Return,spawn,${ghostty}"
+            "SUPER,Return,spawn,${floatingTerminal}"
             "SUPER,q,killclient"
             "SUPER,o,toggleoverview"
             "SUPER+SHIFT,o,toggle_named_scratchpad,md\\.obsidian\\.Obsidian,none,obsidian"
