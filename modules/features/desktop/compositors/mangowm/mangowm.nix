@@ -31,15 +31,13 @@
 
   perSystem = { pkgs, lib, self', ... }:
     let
-      ghostty = lib.getExe self'.packages.apertureGhostty;
+      kitty = lib.getExe self'.packages.apertureKitty;
       zsh = lib.getExe self'.packages.apertureZsh;
       fastfetch = lib.getExe self'.packages.apertureFastfetch;
 
-      # Floating ghostty running fastfetch, sized by the window rule below. It runs
-      # as its own short-lived process, outside the shared single instance, so its
-      # class and command always apply.
-      floatingTerminal = pkgs.writeShellScript "mango-floating-terminal" ''
-        exec ${ghostty} --gtk-single-instance=false --quit-after-last-window-closed=true --class=com.mitchellh.ghostty-float -e ${zsh} -c '${fastfetch}; exec ${zsh}'
+      # Floating kitty running fastfetch, sized by the window rule below
+      floatingKitty = pkgs.writeShellScript "mango-floating-kitty" ''
+        exec ${kitty} --class=kitty-float ${zsh} -c '${fastfetch}; exec ${zsh}'
       '';
 
       # Region screenshot, copied to the clipboard and saved like niri did
@@ -106,10 +104,7 @@
           devicerule = [ "name:wch.cn TouchScreen,monitor:serial:578526065656" ];
 
           windowrule = [
-            # Floating terminal sized to fit fastfetch exactly: its output (logo included) is 123x30
-            # cells, plus 2 rows for the starship prompt. At font size 16 a cell is 13x28px, and each
-            # side adds ghostty's 2px padding and mango's 4px border: 123*13+12 x 32*28+12.
-            "isfloating:1,width:1611,height:908,appid:^com\\.mitchellh\\.ghostty-float$"
+            "isfloating:1,width:1620,height:910,appid:^kitty-float$"
             # Obsidian lives in a named scratchpad, toggled with SUPER+SHIFT+O, sized like a
             # maximized window. Sizes <= 1 are fractions of the monitor: on the ultrawide that is
             # 3430x1386, the 3440x1396 area below the 44px waybar minus the 5px outer gaps.
@@ -128,8 +123,6 @@
             "${lib.getExe self'.packages.apertureWaybar}"
             "${lib.getExe self'.packages.apertureMako}"
             "${brightness}"
-            # Start ghostty in the background so SUPER+Return opens a window instantly
-            "${ghostty} --initial-window=false"
             # Hot-reload the config on rebuild
             "systemctl --user start mangoReloadConfig.service"
             # Start focused on the centre monitor
@@ -138,8 +131,8 @@
 
           bind = [
             "SUPER,d,spawn,${lib.getExe self'.packages.apertureFuzzel}"
-            "SUPER,Return,spawn,${ghostty}"
-            "SUPER+SHIFT,Return,spawn,${floatingTerminal}"
+            "SUPER,Return,spawn,${kitty}"
+            "SUPER+SHIFT,Return,spawn,${floatingKitty}"
             "SUPER,q,killclient"
             "SUPER,o,toggleoverview"
             "SUPER+SHIFT,o,toggle_named_scratchpad,md\\.obsidian\\.Obsidian,none,obsidian"

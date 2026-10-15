@@ -45,12 +45,6 @@
           command = lib.getExe self'.packages.apertureZsh;
           # Close without asking, even with a program still running
           confirm-close-surface = false;
-          # Open new windows in the already-running instance instead of starting
-          # GTK from scratch each time. `detect` would turn this off, since the
-          # wrapper always passes --config-file. Staying alive after the last
-          # window closes keeps the next launch instant too.
-          gtk-single-instance = true;
-          quit-after-last-window-closed = false;
         };
       };
     };
