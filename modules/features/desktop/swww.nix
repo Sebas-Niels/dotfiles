@@ -15,7 +15,7 @@
       text = ''
         awww-daemon &
         until awww query >/dev/null 2>&1; do sleep 0.1; done
-        awww img --transition-type grow ${./wallpaper.png}
+        awww img --transition-type grow ${./wallpaper.jpg}
         wait
       '';
     };
