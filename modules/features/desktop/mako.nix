@@ -5,9 +5,10 @@
     ];
   };
 
-  perSystem = { pkgs, ... }:
+  perSystem = { pkgs, lib, self', ... }:
     let
-      makoConfig = pkgs.writeText "mako-config" ''
+      # Rendered once per theme by the theme menu (see theme-menu.nix)
+      makoConfig = t: ''
         font=monospace 11
         anchor=top-right
         layer=overlay
@@ -18,27 +19,33 @@
         border-radius=8
         default-timeout=5000
 
-        background-color=#1e1e2eee
-        text-color=#cdd6f4
-        border-color=#89b4fa
-        progress-color=over #313244
+        background-color=${t.c.bg}ee
+        text-color=${t.c.text}
+        border-color=${t.c.accent}
+        progress-color=over ${t.c.surface}
 
         [urgency=low]
-        border-color=#313244
+        border-color=${t.c.surface}
 
         [urgency=high]
-        border-color=#fab387
+        border-color=${t.c.yellow}
         default-timeout=0
+      '';
+
+      mako = pkgs.writeShellScript "mako" ''
+        ${lib.getExe self'.packages.apertureTheme} init
+        exec ${lib.getExe pkgs.mako} --config "$HOME/.local/state/aperture-theme/current/mako" "$@"
       '';
     in
     {
+      apertureTheme.targets."mako" = makoConfig;
+
       packages.apertureMako = pkgs.symlinkJoin {
         name = "aperture-mako";
         paths = [ pkgs.mako ];
-        nativeBuildInputs = [ pkgs.makeWrapper ];
         postBuild = ''
-          wrapProgram $out/bin/mako \
-            --add-flags "--config ${makoConfig}"
+          rm $out/bin/mako
+          ln -s ${mako} $out/bin/mako
         '';
         meta.mainProgram = "mako";
       };
