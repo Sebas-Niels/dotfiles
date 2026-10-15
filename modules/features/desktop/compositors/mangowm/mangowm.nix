@@ -35,9 +35,11 @@
       zsh = lib.getExe self'.packages.apertureZsh;
       fastfetch = lib.getExe self'.packages.apertureFastfetch;
 
-      # Floating ghostty running fastfetch, sized by the window rule below
+      # Floating ghostty running fastfetch, sized by the window rule below. It runs
+      # as its own short-lived process, outside the shared single instance, so its
+      # class and command always apply.
       floatingTerminal = pkgs.writeShellScript "mango-floating-terminal" ''
-        exec ${ghostty} --class=com.mitchellh.ghostty-float -e ${zsh} -c '${fastfetch}; exec ${zsh}'
+        exec ${ghostty} --gtk-single-instance=false --quit-after-last-window-closed=true --class=com.mitchellh.ghostty-float -e ${zsh} -c '${fastfetch}; exec ${zsh}'
       '';
 
       # Region screenshot, copied to the clipboard and saved like niri did
@@ -126,6 +128,8 @@
             "${lib.getExe self'.packages.apertureWaybar}"
             "${lib.getExe self'.packages.apertureMako}"
             "${brightness}"
+            # Start ghostty in the background so SUPER+Return opens a window instantly
+            "${ghostty} --initial-window=false"
             # Hot-reload the config on rebuild
             "systemctl --user start mangoReloadConfig.service"
             # Start focused on the centre monitor
