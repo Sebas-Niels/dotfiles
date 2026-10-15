@@ -10,7 +10,7 @@
       fuzzelConfig = (pkgs.formats.ini { }).generate "fuzzel.ini" {
         main = {
           font = "monospace:size=18";
-          terminal = "${lib.getExe self'.packages.apertureGhostty} -e";
+          terminal = "${lib.getExe self'.packages.apertureKitty} -e";
           prompt = ''"> "'';
           layer = "overlay";
           width = 40;
