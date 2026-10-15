@@ -42,6 +42,14 @@
 
       lock = "${lib.getExe pkgs.swaylock} -f -c 000000";
 
+      # Set every DDC/CI-capable monitor to 30% brightness at login
+      brightness = pkgs.writeShellScript "mango-brightness" ''
+        ddcutil=${lib.getExe pkgs.ddcutil}
+        for display in $($ddcutil detect --terse | ${lib.getExe pkgs.gawk} '/^Display/ {print $2}'); do
+          $ddcutil --display "$display" setvcp 10 30
+        done
+      '';
+
       # SUPER+N views tag N, SUPER+SHIFT+N moves the focused window there
       tagBinds = lib.concatMap (n: [
         "SUPER,${toString n},view,${toString n},0"
@@ -94,6 +102,7 @@
             "${lib.getExe self'.packages.apertureSwww}"
             "${lib.getExe self'.packages.apertureWaybar}"
             "${lib.getExe self'.packages.apertureMako}"
+            "${brightness}"
             # Start focused on the centre monitor
             "mmsg dispatch focusmon,serial:BH96444"
           ];
