@@ -99,8 +99,8 @@
           layout.gaps = 5;
           binds = {
             "Mod+D".spawn-sh = "${lib.getExe self'.packages.apertureNoctalia} ipc call launcher toggle";
-            "Mod+Shift+Return".spawn-sh = lib.getExe self'.packages.apertureGhostty;
-            "Mod+Return".spawn-sh =
+            "Mod+Return".spawn-sh = lib.getExe self'.packages.apertureGhostty;
+            "Mod+Shift+Return".spawn-sh =
               "${lib.getExe self'.packages.apertureGhostty} --class=com.mitchellh.ghostty-float -e ${lib.getExe self'.packages.apertureZsh} -c '${lib.getExe self'.packages.apertureFastfetch}; exec ${lib.getExe self'.packages.apertureZsh}' & sleep 0.3 && niri msg action center-window";
             "Mod+Q".close-window = _: { };
             "Mod+O".toggle-overview = _: { };
