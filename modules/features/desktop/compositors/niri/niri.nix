@@ -46,44 +46,34 @@
           ];
 
           outputs = {
-            # centre — 2560x1440, pinned to its high refresh mode
-            "Dell Inc. AW2724DM GFGYHV3" = {
-              mode = "2560x1440@143.973";
+            # centre — 3440x1440 ultrawide, pinned to its high refresh mode
+            "Dell Inc. AW3425DWM BH96444" = {
+              mode = "3440x1440@179.989";
               position = _: {
                 props = {
-                  x = 1920;
+                  x = 0;
                   y = 0;
                 };
               };
               focus-at-startup = _: { };
             };
-            # left
-            "Samsung Electric Company SyncMaster H9XB408702" = {
-              mode = "1920x1200@59.950";
+            # right — 2560x1440, pinned to its high refresh mode
+            "Dell Inc. AW2724DM GFGYHV3" = {
+              mode = "2560x1440@143.973";
               position = _: {
                 props = {
-                  x = 0;
-                  y = 120;
+                  x = 3440;
+                  y = 0;
                 };
               };
             };
-            # right
-            "Samsung Electric Company SyncMaster H9XZ111348" = {
-              mode = "1920x1200@59.950";
-              position = _: {
-                props = {
-                  x = 4480;
-                  y = 120;
-                };
-              };
-            };
-            # bottom — Corsair Xeneon Edge, flush under the Dell
-                        "Cyrix Corporation XENEON EDGE 578526065656" = {
+            # bottom — Corsair Xeneon Edge, centred under the ultrawide
+            "Cyrix Corporation XENEON EDGE 578526065656" = {
               mode = "2560x720@60.266";
               scale = 1.0;
               position = _: {
                 props = {
-                  x = 1920;
+                  x = 440;
                   y = 1440;
                 };
               };

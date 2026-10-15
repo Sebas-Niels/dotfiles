@@ -568,7 +568,7 @@
       "enableMarkdown": false,
       "density": "default",
       "monitors": [
-        "DP-2"
+        "DP-1"
       ],
       "location": "top_right",
       "overlayLayer": true,
