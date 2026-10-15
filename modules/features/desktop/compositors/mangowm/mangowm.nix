@@ -13,6 +13,11 @@
       package = self.packages.${pkgs.stdenv.hostPlatform.system}.apertureMango;
     };
 
+    # mango runs with -c pointing at an immutable store path, so reload_config would only ever
+    # re-read the old config; expose the current one at a stable path for SUPER+R to load
+    environment.etc."mango/config.conf".source =
+      "${self.packages.${pkgs.stdenv.hostPlatform.system}.apertureMango}/config.conf";
+
     # The SDDM theme has no session picker, so make sure mango is what launches
     services.displayManager.defaultSession = lib.mkDefault "mango";
 
@@ -123,7 +128,7 @@
             "SUPER+SHIFT,o,toggle_named_scratchpad,md\\.obsidian\\.Obsidian,none,obsidian"
             "NONE,Print,spawn,${screenshot}"
             "CTRL+ALT,l,spawn,${lock}"
-            "SUPER,r,reload_config"
+            "SUPER,r,load_config_file,/etc/mango/config.conf"
             "SUPER+SHIFT,e,quit"
 
             "SUPER+CTRL,f,togglefullscreen"
