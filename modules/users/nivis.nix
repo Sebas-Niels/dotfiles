@@ -29,7 +29,6 @@
         signal-desktop
         yazi
         spotiflac
-        ghostty
         stoat-desktop
         jetbrains.rider
         brave

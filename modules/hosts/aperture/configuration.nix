@@ -16,6 +16,7 @@
       graphics
       steam
       kitty
+      ghostty
       starship
       zsh
       defaultApps
