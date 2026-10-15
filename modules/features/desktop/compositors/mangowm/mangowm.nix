@@ -97,7 +97,7 @@
           windowrule = [
             "isfloating:1,width:1620,height:910,appid:^kitty-float$"
             # Obsidian lives in a named scratchpad, toggled with SUPER+SHIFT+O
-            "isnamedscratchpad:1,width:1800,height:1100,appid:^obsidian$"
+            "isnamedscratchpad:1,width:1800,height:1100,appid:^md\\.obsidian\\.Obsidian$"
           ];
 
           "exec-once" = [
@@ -115,7 +115,7 @@
             "SUPER,Return,spawn,${floatingKitty}"
             "SUPER,q,killclient"
             "SUPER,o,toggleoverview"
-            "SUPER+SHIFT,o,toggle_named_scratchpad,obsidian,none,obsidian"
+            "SUPER+SHIFT,o,toggle_named_scratchpad,md\\.obsidian\\.Obsidian,none,obsidian"
             "NONE,Print,spawn,${screenshot}"
             "CTRL+ALT,l,spawn,${lock}"
             "SUPER,r,reload_config"
