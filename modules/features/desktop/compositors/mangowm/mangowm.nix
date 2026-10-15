@@ -35,7 +35,7 @@
       zsh = lib.getExe self'.packages.apertureZsh;
       fastfetch = lib.getExe self'.packages.apertureFastfetch;
 
-      # Floating ghostty running fastfetch, sized/centred by the window rule below
+      # Floating ghostty running fastfetch, sized by the window rule below
       floatingTerminal = pkgs.writeShellScript "mango-floating-terminal" ''
         exec ${ghostty} --class=com.mitchellh.ghostty-float -e ${zsh} -c '${fastfetch}; exec ${zsh}'
       '';
@@ -104,7 +104,10 @@
           devicerule = [ "name:wch.cn TouchScreen,monitor:serial:578526065656" ];
 
           windowrule = [
-            "isfloating:1,width:1620,height:910,appid:^com\\.mitchellh\\.ghostty-float$"
+            # Floating terminal sized to fit fastfetch exactly: its output (logo included) is 123x30
+            # cells, plus 2 rows for the starship prompt. At font size 16 a cell is 13x28px, and each
+            # side adds ghostty's 2px padding and mango's 4px border: 123*13+12 x 32*28+12.
+            "isfloating:1,width:1611,height:908,appid:^com\\.mitchellh\\.ghostty-float$"
             # Obsidian lives in a named scratchpad, toggled with SUPER+SHIFT+O, sized like a
             # maximized window. Sizes <= 1 are fractions of the monitor: on the ultrawide that is
             # 3430x1386, the 3440x1396 area below the 44px waybar minus the 5px outer gaps.
