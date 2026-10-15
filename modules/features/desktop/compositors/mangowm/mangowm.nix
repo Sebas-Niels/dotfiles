@@ -69,10 +69,10 @@
             "XCURSOR_SIZE,24"
           ];
 
-          # Master/stack tiling on every tag; tags 1-3 stay visible in waybar even when empty
+          # Master/stack tiling on every tag; tags 1-5 stay visible in waybar even when empty
           # (rules apply in order, so no_hide must come after the wildcard rule)
           tagrule = [ "id:*,layout_name:tile" ]
-            ++ map (n: "id:${toString n},no_hide:1") (lib.range 1 3);
+            ++ map (n: "id:${toString n},no_hide:1") (lib.range 1 5);
 
           monitorrule = [
             # centre — Dell AW3425DWM ultrawide, pinned to its high refresh mode
