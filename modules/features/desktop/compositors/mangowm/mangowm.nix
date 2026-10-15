@@ -69,6 +69,10 @@
           gappoh = 5;
           gappov = 5;
 
+          # Scratchpads (only Obsidian) fill the whole monitor
+          scratchpad_width_ratio = 1.0;
+          scratchpad_height_ratio = 1.0;
+
           cursor_theme = "breeze_cursors";
           cursor_size = 24;
 
@@ -96,8 +100,9 @@
 
           windowrule = [
             "isfloating:1,width:1620,height:910,appid:^kitty-float$"
-            # Obsidian lives in a named scratchpad, toggled with SUPER+SHIFT+O
-            "isnamedscratchpad:1,width:1800,height:1100,appid:^md\\.obsidian\\.Obsidian$"
+            # Obsidian lives in a named scratchpad, toggled with SUPER+SHIFT+O; no size here so
+            # the scratchpad ratios above make it fill the monitor
+            "isnamedscratchpad:1,appid:^md\\.obsidian\\.Obsidian$"
           ];
 
           "exec-once" = [
