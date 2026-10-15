@@ -105,11 +105,13 @@
 
           windowrule = [
             "isfloating:1,width:1620,height:910,appid:^kitty-float$"
-            # Obsidian lives in a named scratchpad, toggled with SUPER+SHIFT+O, filling the monitor.
-            # Sizes <= 1 are fractions of the monitor; the height leaves room for the 44px waybar
-            # (1396/1440). scratchpad_*_ratio would be ignored: mango only applies it to windows
+            # Obsidian lives in a named scratchpad, toggled with SUPER+SHIFT+O, sized like a
+            # maximized window. Sizes <= 1 are fractions of the monitor: on the ultrawide that is
+            # 3430x1386, the 3440x1396 area below the 44px waybar minus the 5px outer gaps.
+            # It can't be any bigger: mango shrinks floating windows within a gap of the work area
+            # to 90% of it. scratchpad_*_ratio would be ignored: mango only applies it to windows
             # that are not already floating, and this rule makes Obsidian float on map.
-            "isnamedscratchpad:1,width:1.0,height:0.9694,appid:^md\\.obsidian\\.Obsidian$"
+            "isnamedscratchpad:1,width:0.9971,height:0.9625,appid:^md\\.obsidian\\.Obsidian$"
           ];
 
           "exec-once" = [
