@@ -43,6 +43,8 @@
           background-opacity = 0.75;
           background-blur = 64;
           command = lib.getExe self'.packages.apertureZsh;
+          # Close without asking, even with a program still running
+          confirm-close-surface = false;
         };
       };
     };
