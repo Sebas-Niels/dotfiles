@@ -131,8 +131,8 @@
 
           bind = [
             "SUPER,d,spawn,${lib.getExe self'.packages.apertureFuzzel}"
-            "SUPER+SHIFT,Return,spawn,${ghostty}"
-            "SUPER,Return,spawn,${floatingTerminal}"
+            "SUPER,Return,spawn,${ghostty}"
+            "SUPER+SHIFT,Return,spawn,${floatingTerminal}"
             "SUPER,q,killclient"
             "SUPER,o,toggleoverview"
             "SUPER+SHIFT,o,toggle_named_scratchpad,md\\.obsidian\\.Obsidian,none,obsidian"
