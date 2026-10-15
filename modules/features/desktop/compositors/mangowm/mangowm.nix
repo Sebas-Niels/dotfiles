@@ -78,10 +78,6 @@
           gappoh = 5;
           gappov = 5;
 
-          # Scratchpads (only Obsidian) fill the whole monitor
-          scratchpad_width_ratio = 1.0;
-          scratchpad_height_ratio = 1.0;
-
           cursor_theme = "breeze_cursors";
           cursor_size = 24;
 
@@ -109,9 +105,11 @@
 
           windowrule = [
             "isfloating:1,width:1620,height:910,appid:^kitty-float$"
-            # Obsidian lives in a named scratchpad, toggled with SUPER+SHIFT+O; no size here so
-            # the scratchpad ratios above make it fill the monitor
-            "isnamedscratchpad:1,appid:^md\\.obsidian\\.Obsidian$"
+            # Obsidian lives in a named scratchpad, toggled with SUPER+SHIFT+O, filling the monitor.
+            # Sizes <= 1 are fractions of the monitor; the height leaves room for the 44px waybar
+            # (1396/1440). scratchpad_*_ratio would be ignored: mango only applies it to windows
+            # that are not already floating, and this rule makes Obsidian float on map.
+            "isnamedscratchpad:1,width:1.0,height:0.9694,appid:^md\\.obsidian\\.Obsidian$"
           ];
 
           "exec-once" = [
