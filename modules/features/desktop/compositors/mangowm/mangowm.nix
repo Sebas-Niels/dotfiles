@@ -18,6 +18,10 @@
     environment.etc."mango/config.conf".source =
       "${self.packages.${pkgs.stdenv.hostPlatform.system}.apertureMango}/config.conf";
 
+    # Ships mangoReloadConfig.service, which nixos-rebuild reloads whenever the config changes,
+    # pushing the new config into the running mango (started from exec-once below)
+    systemd.packages = [ self.packages.${pkgs.stdenv.hostPlatform.system}.apertureMango ];
+
     # The SDDM theme has no session picker, so make sure mango is what launches
     services.displayManager.defaultSession = lib.mkDefault "mango";
 
@@ -115,6 +119,8 @@
             "${lib.getExe self'.packages.apertureWaybar}"
             "${lib.getExe self'.packages.apertureMako}"
             "${brightness}"
+            # Hot-reload the config on rebuild
+            "systemctl --user start mangoReloadConfig.service"
             # Start focused on the centre monitor
             "mmsg dispatch focusmon,serial:BH96444"
           ];
