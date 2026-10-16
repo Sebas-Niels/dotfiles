@@ -100,6 +100,10 @@
         start_bar "$@"
 
         trap 'kill "$bar" 2>/dev/null' EXIT
+        # This script is also named waybar, so the theme menu's `pkill -USR2 -x waybar` reaches it
+        # too; without a handler that would kill it, and the EXIT trap would take the bar with it.
+        # A no-op handler keeps it alive (an empty trap would mark USR2 ignored, which exec passes on).
+        trap ':' USR2
 
         self=$(${pkgs.coreutils}/bin/readlink -f "$0")
         while :; do
