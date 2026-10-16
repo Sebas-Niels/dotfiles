@@ -88,18 +88,31 @@
       '';
 
       # nixos-rebuild doesn't restart anything started by the compositor, so waybar watches for a
-      # switch itself: once the system's waybar is a different build, it hands over to that one
+      # switch itself: once the system's waybar is a different build, it hands over to that one.
+      # The same check brings the bar back if it crashes.
       waybar = pkgs.writeShellScript "waybar" ''
         ${lib.getExe self'.packages.apertureTheme} init
-        ${lib.getExe pkgs.waybar} -c ${waybarConfig} \
-          -s "$HOME/.local/state/aperture-theme/current/waybar.css" "$@" &
-        bar=$!
+        start_bar() {
+          ${lib.getExe pkgs.waybar} -c ${waybarConfig} \
+            -s "$HOME/.local/state/aperture-theme/current/waybar.css" "$@" &
+          bar=$!
+        }
+        start_bar "$@"
 
         trap 'kill "$bar" 2>/dev/null' EXIT
 
         self=$(${pkgs.coreutils}/bin/readlink -f "$0")
-        while kill -0 "$bar" 2>/dev/null; do
+        while :; do
           ${pkgs.coreutils}/bin/sleep 3
+          if ! kill -0 "$bar" 2>/dev/null; then
+            status=0
+            wait "$bar" || status=$?
+            # A clean exit or the compositor going away means it should stay down
+            [ "$status" -eq 0 ] && exit
+            [ -S "$XDG_RUNTIME_DIR/''${WAYLAND_DISPLAY:-wayland-0}" ] || exit
+            start_bar "$@"
+            continue
+          fi
           installed=$(${pkgs.coreutils}/bin/readlink -f /run/current-system/sw/bin/waybar) || continue
           if [ "$installed" != "$self" ]; then
             kill "$bar"
