@@ -137,6 +137,8 @@
             # to 90% of it. scratchpad_*_ratio would be ignored: mango only applies it to windows
             # that are not already floating, and this rule makes Obsidian float on map.
             "isnamedscratchpad:1,width:0.9971,height:0.9625,appid:^md\\.obsidian\\.Obsidian$"
+            # rmpc runs in kitty in a named scratchpad, toggled with SUPER+SHIFT+M
+            "isnamedscratchpad:1,width:1620,height:910,appid:^kitty-rmpc$"
             # LibreWolf always opens on tag 2 and the Steam client on tag 3 (games are
             # steam_app_<id>, so they stay where they are launched)
             "tags:2,appid:^librewolf$"
@@ -145,8 +147,6 @@
 
           "exec-once" = [
             "${lib.getExe self'.packages.apertureSwww}"
-            # rmpc runs in kitty in a named scratchpad, toggled with SUPER+SHIFT+M
-            "isnamedscratchpad:1,width:1620,height:910,appid:^kitty-rmpc$"
             "${lib.getExe self'.packages.apertureWaybar}"
             "${lib.getExe self'.packages.apertureMako}"
             # Start the theme menu hidden so SUPER+T opens it instantly
@@ -166,6 +166,7 @@
             "SUPER,q,killclient"
             "SUPER,o,toggleoverview"
             "SUPER+SHIFT,o,toggle_named_scratchpad,md\\.obsidian\\.Obsidian,none,obsidian"
+            "SUPER+SHIFT,m,toggle_named_scratchpad,kitty-rmpc,none,${kitty} --class=kitty-rmpc ${rmpc}"
             "NONE,Print,spawn,${screenshot}"
             "CTRL+ALT,l,spawn,${lock}"
             "SUPER,r,load_config_file,/etc/mango/config.conf"
@@ -174,7 +175,6 @@
             "SUPER+CTRL,f,togglefullscreen"
             "SUPER+SHIFT,f,togglemaximizescreen"
             "SUPER,space,togglefloating"
-            "SUPER+SHIFT,m,toggle_named_scratchpad,kitty-rmpc,none,${kitty} --class=kitty-rmpc ${rmpc}"
 
             # grow/shrink the master area, and add/remove master windows
             "SUPER,equal,setmfact,+0.05"
