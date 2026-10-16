@@ -22,6 +22,7 @@
       zsh
       defaultApps
       fastfetch
+      mpd
       rmpc
       foreignApps
       lazygit
