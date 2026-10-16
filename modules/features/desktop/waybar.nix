@@ -32,6 +32,10 @@
         pulseaudio = {
           format = "vol {volume}%";
           format-muted = "muted";
+          # Toggles pwvucontrol as a mango scratchpad (sized by its window rule), so a second
+          # click hides it again
+          on-click = "mmsg dispatch 'toggle_named_scratchpad,com\\.saivert\\.pwvucontrol,none,${lib.getExe pkgs.pwvucontrol}'";
+          on-click-right = "${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
         };
 
         network = {

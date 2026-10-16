@@ -139,6 +139,8 @@
             "isnamedscratchpad:1,width:0.9971,height:0.9625,appid:^md\\.obsidian\\.Obsidian$"
             # rmpc runs in kitty in a named scratchpad, toggled with SUPER+SHIFT+M
             "isnamedscratchpad:1,width:1620,height:910,appid:^kitty-rmpc$"
+            # pwvucontrol, toggled by clicking the volume in waybar
+            "isnamedscratchpad:1,width:1100,height:720,appid:^com\\.saivert\\.pwvucontrol$"
             # LibreWolf always opens on tag 2 and the Steam client on tag 3 (games are
             # steam_app_<id>, so they stay where they are launched)
             "tags:2,appid:^librewolf$"
