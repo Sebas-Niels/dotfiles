@@ -159,6 +159,8 @@
             "is_named_scratchpad:1,width:1620,height:910,app_id:^kitty-rmpc$"
             # pwvucontrol, toggled by clicking the volume in waybar
             "is_named_scratchpad:1,width:1100,height:720,app_id:^com\\.saivert\\.pwvucontrol$"
+            # Bitwarden in a named scratchpad, toggled with SUPER+SHIFT+B
+            "is_named_scratchpad:1,width:1100,height:720,app_id:^bitwarden$"
             # LibreWolf always opens on tag 2 and the Steam client on tag 3 (games are
             # steam_app_<id>, so they stay where they are launched)
             "tags:2,app_id:^librewolf$"
@@ -189,6 +191,7 @@
             "SUPER,o,toggleoverview"
             "SUPER+SHIFT,o,toggle_named_scratchpad,md\\.obsidian\\.Obsidian,none,obsidian"
             "SUPER+SHIFT,m,toggle_named_scratchpad,kitty-rmpc,none,${kitty} --class=kitty-rmpc ${rmpc}"
+            "SUPER+SHIFT,b,toggle_named_scratchpad,bitwarden,none,bitwarden"
             "NONE,Print,spawn,${screenshot}"
             "CTRL+ALT,l,spawn,${lock}"
             "SUPER,r,load_config_file,/etc/mango/config.conf"
