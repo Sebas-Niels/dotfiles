@@ -2,8 +2,9 @@
 # teal sky between them. Orange takes most of the colours, the crimson of the cloud
 # shadows is red, the sky's teal is the secondary highlight and positive, and warnings
 # are the pale orange of the sunlit cloud tops since there is no yellow. The terminal
-# has no blue either: blue takes the terracotta of the lit roofs, magenta the dusky rose
-# of the cloud shadows and cyan the peach of the lit clouds, leaving teal to green only
+# keeps to the browns, oranges and golds that fill the image: green is the olive-ochre of
+# the foliage under the window, yellow the gold of the cloud tops, blue the curtains'
+# brown, magenta the maroon of the cloud shadows and cyan the clouds' orange
 {
   name = "Ember Sky";
   variant = "dark";
@@ -21,8 +22,8 @@
     green = "#7cb0a4";
   };
   ansi = [
-    "#2a130c" "#d64553" "#6f9a8e" "#f2aa69" "#b85a40" "#c8706e" "#e0a888" "#d8c2b4"
-    "#7a4a38" "#e8606c" "#94bcb0" "#f8c090" "#d47452" "#dc8e88" "#ecc0a4" "#f6e8dc"
+    "#2a130c" "#d4502c" "#a89050" "#e8a848" "#9a6440" "#a8484e" "#e07838" "#dcc8b0"
+    "#6a3c28" "#ec6e48" "#c8b070" "#f8c870" "#c08a60" "#c86860" "#f09a5c" "#f6e8dc"
   ];
   term = {
     cursor = "#e6783c";
