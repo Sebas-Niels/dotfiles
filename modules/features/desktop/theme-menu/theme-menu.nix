@@ -39,19 +39,23 @@
         apertureThemes
         apertureTheme
         apertureThemeMenu
-        # What the themes are drawn on: Breeze widgets for Qt and GTK, recoloured per theme,
-        # and the icon themes they switch between
+        # What the themes are drawn on: Darkly widgets for Qt and Breeze for GTK, recoloured per
+        # theme, and the icon themes they switch between. Breeze stays for Qt5 apps, which Darkly
+        # no longer builds for, and Breeze icons fill the gaps in Colloid.
+        pkgs.darkly
         pkgs.kdePackages.breeze
+        pkgs.kdePackages.breeze.qt5
         pkgs.kdePackages.breeze-gtk
         pkgs.kdePackages.breeze-icons
-        pkgs.papirus-icon-theme
+        pkgs.colloid-icon-theme
       ];
 
-      # Qt apps read their colours from kdeglobals only on the KDE platform theme
+      # Qt apps read their colours from kdeglobals only on the KDE platform theme. The widget
+      # style is picked there too (widgetStyle) rather than with qt.style, which has no Darkly
+      # and would pin it through QT_STYLE_OVERRIDE.
       qt = {
         enable = true;
         platformTheme = "kde";
-        style = "breeze";
       };
 
       # Light/dark preference, GTK theme and icons are set here on every switch; these defaults
@@ -62,7 +66,7 @@
           settings."org/gnome/desktop/interface" = {
             color-scheme = "prefer-dark";
             gtk-theme = "Breeze-Dark";
-            icon-theme = "Papirus-Dark";
+            icon-theme = "Colloid-Dark";
             cursor-theme = "breeze_cursors";
             cursor-size = lib.gvariant.mkInt32 24;
           };
@@ -186,6 +190,8 @@
           inherit (p) name variant ansi;
           thumbnail = thumbnail id wallpaper;
           dark = p.variant == "dark";
+          # Colloid's folders take the colour scheme's highlight, so in Qt they follow the accent
+          icons = if p.variant == "dark" then "Colloid-Dark" else "Colloid-Light";
           c = p.colors;
           term = {
             cursor = p.colors.accent;
@@ -282,10 +288,10 @@
 
           [KDE]
           contrast=4
-          widgetStyle=Breeze
+          widgetStyle=Darkly
 
           [Icons]
-          Theme=${if t.dark then "Papirus-Dark" else "Papirus-Light"}
+          Theme=${t.icons}
 
           [ColorEffects:Disabled]
           Color=${kde c.overlay}
@@ -352,6 +358,26 @@
           inactiveForeground=${kde c.subtext}
           inactiveBlend=${kde c.surface}
         '';
+
+      # Darkly, the Qt widget style. Dolphin's view and sidebar are drawn see-through, and mango
+      # blurs the wallpaper behind them; the rest of Dolphin, and every other Qt app, stays opaque
+      # (a toolbar opacity would turn translucency on for all of them). Light themes keep more
+      # of their background so dark text stays legible over a busy wallpaper. Read by Qt apps
+      # through XDG_CONFIG_DIRS like kdeglobals, and re-read when a switch changes the palette.
+      darklyConfig =
+        t:
+        lib.generators.toINI { } {
+          Common = {
+            CornerRadius = 8;
+            # Thin scrollbars that widen under the pointer
+            ScrollBarTransient = true;
+          };
+          Style = {
+            DolphinViewOpacity = if t.dark then 55 else 70;
+            DolphinSidebarOpacity = if t.dark then 45 else 60;
+            MenuOpacity = if t.dark then 85 else 90;
+          };
+        };
 
       # Breeze-GTK has its colours baked in, so this mostly reaches libadwaita (GTK4) apps and
       # GTK3 themes that use the named colours
@@ -496,10 +522,11 @@
             dbus-send --session --type=signal /KGlobalSettings \
               org.kde.KGlobalSettings.notifyChange int32:0 int32:0 || true
 
-            local scheme=prefer-dark gtk=Breeze-Dark icons=Papirus-Dark
+            local scheme=prefer-dark gtk=Breeze-Dark icons
             if [ "$(cat "$state/current/variant")" = light ]; then
-              scheme=prefer-light gtk=Breeze icons=Papirus-Light
+              scheme=prefer-light gtk=Breeze
             fi
+            icons=$(cat "$state/current/icons")
             dconf write /org/gnome/desktop/interface/color-scheme "'$scheme'" || true
             dconf write /org/gnome/desktop/interface/gtk-theme "'$gtk'" || true
             dconf write /org/gnome/desktop/interface/icon-theme "'$icons'" || true
@@ -567,7 +594,9 @@
       config = {
         apertureTheme.targets = {
           "variant" = t: t.variant;
+          "icons" = t: t.icons;
           "xdg/kdeglobals" = kdeColors;
+          "xdg/darklyrc" = darklyConfig;
           "gtk-3.0.css" = gtk3Colors;
           "gtk-4.0.css" = gtk4Colors;
         };
