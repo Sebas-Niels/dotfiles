@@ -35,6 +35,29 @@ window#waybar {
   background: @yellow;
 }
 
-#clock, #pulseaudio, #network, #cpu, #memory, #tray {
+#clock, #pulseaudio, #custom-network, #cpu, #memory, #disk, #tray {
   padding: 0 15px;
+}
+
+#disk.critical {
+  color: @red;
+}
+
+#custom-network {
+  font-family: "JetBrainsMono Nerd Font", monospace;
+}
+
+#custom-network.no-internet {
+  color: @yellow;
+}
+
+#custom-network.offline {
+  color: @red;
+}
+
+/* A short line before each group on the right that's about something else:
+   volume | network | cpu mem | disks | tray. The margin shortens the line, not the text's centring */
+#custom-network, #cpu, #disk.root, #tray {
+  border-left: 1px solid @accent;
+  margin: 10px 0;
 }
