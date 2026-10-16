@@ -116,12 +116,15 @@
         ];
       toHex =
         channels:
-        "#" + lib.concatMapStrings (v: lib.toLower (lib.fixedWidthString 2 "0" (lib.toHexString v))) channels;
+        "#"
+        + lib.concatMapStrings (v: lib.toLower (lib.fixedWidthString 2 "0" (lib.toHexString v))) channels;
 
       # Colour helpers handed to every renderer next to the palette
       helpers = {
         # Blend a towards b by w (0..1)
-        mix = a: b: w: toHex (lib.zipListsWith (x: y: builtins.floor (x * (1 - w) + y * w + 0.5)) (rgb a) (rgb b));
+        mix =
+          a: b: w:
+          toHex (lib.zipListsWith (x: y: builtins.floor (x * (1 - w) + y * w + 0.5)) (rgb a) (rgb b));
         # "#89b4fa" -> "89b4fa"
         bare = lib.removePrefix "#";
         # "#89b4fa" -> "137,180,250"
@@ -181,29 +184,83 @@
       ) (lib.filterAttrs (_: type: type == "directory") (builtins.readDir ./_themes));
 
       # Dark themes first, then alphabetical
-      orderedThemes = lib.sort (
-        a: b: if a.dark != b.dark then a.dark else a.name < b.name
-      ) (lib.attrValues themes);
+      orderedThemes = lib.sort (a: b: if a.dark != b.dark then a.dark else a.name < b.name) (
+        lib.attrValues themes
+      );
+
+      # Colours the app renderers share, worked out from the palette the way Windmill Light was
+      # first tuned by hand: views and cards a step lighter than the window on light themes,
+      # light text on the accent there, and darkened accents wherever they are drawn as text
+      shades =
+        t:
+        let
+          inherit (t) c mix;
+        in
+        {
+          view = if t.dark then c.mantle else mix c.bg "#ffffff" 0.55;
+          # Cards and popovers sit above the window: the lighter view on light themes, surface on dark
+          card = if t.dark then c.surface else mix c.bg "#ffffff" 0.55;
+          onAccent = if t.dark then c.bg else mix c.bg "#ffffff" 0.7;
+          # The yellow is light on dark themes and dark on light ones
+          onYellow = if t.dark then c.bg else c.text;
+          ink = color: if t.dark then color else mix color "#000000" 0.15;
+          hover = mix c.accent c.bg 0.4;
+          raised = mix c.accent c.surface 0.5;
+          link = c.accent2;
+          visited = mix c.accent2 c.text 0.25;
+          unfocusedSelection = mix c.accent c.bg 0.5;
+          unfocusedBorders = mix c.overlay c.bg 0.5;
+        };
 
       kdeColors =
         t:
         let
           inherit (t) c kde mix;
-          view = if t.dark then c.mantle else mix c.bg "#ffffff" 0.55;
-          group = bg: alt: fg: ''
-            BackgroundNormal=${kde bg}
-            BackgroundAlternate=${kde alt}
-            ForegroundNormal=${kde fg}
-            ForegroundInactive=${kde c.subtext}
-            ForegroundActive=${kde c.accent}
-            ForegroundLink=${kde c.accent}
-            ForegroundVisited=${kde c.accent2}
-            ForegroundNegative=${kde c.red}
-            ForegroundNeutral=${kde c.yellow}
-            ForegroundPositive=${kde c.green}
-            DecorationFocus=${kde c.accent}
-            DecorationHover=${kde (mix c.accent c.text 0.25)}
-          '';
+          s = shades t;
+          group =
+            {
+              bg,
+              alt,
+              fg,
+              inactive ? c.subtext,
+              active ? c.accent,
+              link ? s.link,
+              visited ? s.visited,
+              negative ? c.red,
+              neutral ? c.yellow,
+              positive ? c.green,
+            }:
+            ''
+              BackgroundNormal=${kde bg}
+              BackgroundAlternate=${kde alt}
+              ForegroundNormal=${kde fg}
+              ForegroundInactive=${kde inactive}
+              ForegroundActive=${kde active}
+              ForegroundLink=${kde link}
+              ForegroundVisited=${kde visited}
+              ForegroundNegative=${kde negative}
+              ForegroundNeutral=${kde neutral}
+              ForegroundPositive=${kde positive}
+              DecorationFocus=${kde c.accent}
+              DecorationHover=${kde s.hover}
+            '';
+          # For groups with a background of their own (selection, tooltips): every foreground is
+          # pulled towards the group's text so it stays legible on that background
+          onOwn =
+            bg: alt: fg:
+            let
+              over = color: mix color fg 0.75;
+            in
+            group {
+              inherit bg alt fg;
+              inactive = mix fg bg 0.2;
+              active = over c.accent;
+              link = over s.link;
+              visited = over s.visited;
+              negative = over c.red;
+              neutral = over c.yellow;
+              positive = over c.green;
+            };
         in
         ''
           [General]
@@ -219,7 +276,7 @@
           Theme=${if t.dark then "Papirus-Dark" else "Papirus-Light"}
 
           [ColorEffects:Disabled]
-          Color=${kde c.surface}
+          Color=${kde c.overlay}
           ColorAmount=0
           ColorEffect=0
           ContrastAmount=0.65
@@ -239,75 +296,126 @@
           IntensityEffect=0
 
           [Colors:Window]
-          ${group c.bg c.mantle c.text}
+          ${group {
+            bg = c.bg;
+            alt = c.mantle;
+            fg = c.text;
+          }}
           [Colors:View]
-          ${group view (mix view c.surface 0.35) c.text}
+          ${group {
+            bg = s.view;
+            alt = mix s.view c.mantle 0.5;
+            fg = c.text;
+          }}
           [Colors:Button]
-          ${group c.surface c.overlay c.text}
+          ${group {
+            bg = c.surface;
+            alt = s.raised;
+            fg = c.text;
+          }}
           [Colors:Selection]
-          ${group c.accent (mix c.accent c.bg 0.2) c.bg}
+          ${onOwn c.accent (s.ink c.accent) s.onAccent}
           [Colors:Tooltip]
-          ${group c.surface c.overlay c.text}
+          ${
+            # A dark tooltip on light themes, a raised one on dark themes
+            if t.dark then onOwn c.surface c.overlay c.text else onOwn c.text (mix c.text c.bg 0.1) c.bg
+          }
           [Colors:Complementary]
-          ${group c.mantle c.surface c.text}
+          ${group {
+            bg = c.mantle;
+            alt = c.surface;
+            fg = c.text;
+          }}
           [Colors:Header]
-          ${group c.mantle c.bg c.text}
+          ${group {
+            bg = c.surface;
+            alt = s.raised;
+            fg = c.text;
+          }}
           [WM]
-          activeBackground=${kde c.mantle}
+          activeBackground=${kde c.surface}
           activeForeground=${kde c.text}
           activeBlend=${kde c.accent}
           inactiveBackground=${kde c.bg}
           inactiveForeground=${kde c.subtext}
-          inactiveBlend=${kde c.mantle}
+          inactiveBlend=${kde c.surface}
         '';
 
       # Breeze-GTK has its colours baked in, so this mostly reaches libadwaita (GTK4) apps and
       # GTK3 themes that use the named colours
-      gtk3Colors = t: ''
-        @define-color theme_bg_color ${t.c.bg};
-        @define-color theme_base_color ${t.c.mantle};
-        @define-color theme_fg_color ${t.c.text};
-        @define-color theme_text_color ${t.c.text};
-        @define-color theme_selected_bg_color ${t.c.accent};
-        @define-color theme_selected_fg_color ${t.c.bg};
-        @define-color insensitive_bg_color ${t.c.mantle};
-        @define-color insensitive_fg_color ${t.c.subtext};
-        @define-color borders ${t.c.overlay};
-        @define-color warning_color ${t.c.yellow};
-        @define-color error_color ${t.c.red};
-        @define-color success_color ${t.c.green};
-        @define-color link_color ${t.c.accent};
-      '';
+      gtk3Colors =
+        t:
+        let
+          inherit (t) c;
+          s = shades t;
+        in
+        ''
+          @define-color theme_bg_color ${c.bg};
+          @define-color theme_base_color ${s.view};
+          @define-color theme_fg_color ${c.text};
+          @define-color theme_text_color ${c.text};
+          @define-color theme_selected_bg_color ${c.accent};
+          @define-color theme_selected_fg_color ${s.onAccent};
+          @define-color insensitive_bg_color ${c.mantle};
+          @define-color insensitive_fg_color ${c.subtext};
+          @define-color insensitive_base_color ${c.bg};
+          @define-color theme_unfocused_bg_color ${c.bg};
+          @define-color theme_unfocused_base_color ${s.view};
+          @define-color theme_unfocused_fg_color ${c.text};
+          @define-color theme_unfocused_text_color ${c.text};
+          @define-color theme_unfocused_selected_bg_color ${s.unfocusedSelection};
+          @define-color theme_unfocused_selected_fg_color ${c.text};
+          @define-color borders ${c.overlay};
+          @define-color unfocused_borders ${s.unfocusedBorders};
+          @define-color warning_color ${c.yellow};
+          @define-color error_color ${c.red};
+          @define-color success_color ${c.green};
+          @define-color link_color ${s.link};
+          @define-color visited_link_color ${s.visited};
+        '';
 
-      gtk4Colors = t: ''
-        @define-color window_bg_color ${t.c.bg};
-        @define-color window_fg_color ${t.c.text};
-        @define-color view_bg_color ${t.c.mantle};
-        @define-color view_fg_color ${t.c.text};
-        @define-color headerbar_bg_color ${t.c.mantle};
-        @define-color headerbar_fg_color ${t.c.text};
-        @define-color headerbar_backdrop_color ${t.c.bg};
-        @define-color sidebar_bg_color ${t.c.mantle};
-        @define-color sidebar_fg_color ${t.c.text};
-        @define-color sidebar_backdrop_color ${t.c.bg};
-        @define-color card_bg_color ${t.c.surface};
-        @define-color card_fg_color ${t.c.text};
-        @define-color dialog_bg_color ${t.c.bg};
-        @define-color dialog_fg_color ${t.c.text};
-        @define-color popover_bg_color ${t.c.surface};
-        @define-color popover_fg_color ${t.c.text};
-        @define-color accent_bg_color ${t.c.accent};
-        @define-color accent_fg_color ${t.c.bg};
-        @define-color accent_color ${t.c.accent};
-        @define-color destructive_bg_color ${t.c.red};
-        @define-color destructive_fg_color ${t.c.bg};
-        @define-color success_bg_color ${t.c.green};
-        @define-color success_fg_color ${t.c.bg};
-        @define-color warning_bg_color ${t.c.yellow};
-        @define-color warning_fg_color ${t.c.bg};
-        @define-color error_bg_color ${t.c.red};
-        @define-color error_fg_color ${t.c.bg};
-      '';
+      gtk4Colors =
+        t:
+        let
+          inherit (t) c mix;
+          s = shades t;
+        in
+        ''
+          @define-color window_bg_color ${c.bg};
+          @define-color window_fg_color ${c.text};
+          @define-color view_bg_color ${s.view};
+          @define-color view_fg_color ${c.text};
+          @define-color headerbar_bg_color ${c.surface};
+          @define-color headerbar_fg_color ${c.text};
+          @define-color headerbar_border_color ${c.text};
+          @define-color headerbar_backdrop_color ${c.mantle};
+          @define-color sidebar_bg_color ${c.mantle};
+          @define-color sidebar_fg_color ${c.text};
+          @define-color sidebar_backdrop_color ${c.bg};
+          @define-color secondary_sidebar_bg_color ${mix c.bg c.mantle 0.5};
+          @define-color secondary_sidebar_fg_color ${c.text};
+          @define-color card_bg_color ${s.card};
+          @define-color card_fg_color ${c.text};
+          @define-color dialog_bg_color ${c.bg};
+          @define-color dialog_fg_color ${c.text};
+          @define-color popover_bg_color ${s.card};
+          @define-color popover_fg_color ${c.text};
+          @define-color accent_bg_color ${c.accent};
+          @define-color accent_fg_color ${s.onAccent};
+          @define-color accent_color ${s.ink c.accent};
+          @define-color destructive_bg_color ${c.red};
+          @define-color destructive_fg_color ${s.onAccent};
+          @define-color destructive_color ${s.ink c.red};
+          @define-color success_bg_color ${c.green};
+          @define-color success_fg_color ${s.onAccent};
+          @define-color success_color ${s.ink c.green};
+          @define-color warning_bg_color ${c.yellow};
+          @define-color warning_fg_color ${s.onYellow};
+          @define-color warning_color ${s.ink c.yellow};
+          @define-color error_bg_color ${c.red};
+          @define-color error_fg_color ${s.onAccent};
+          @define-color error_color ${s.ink c.red};
+        '';
 
       themeScript = pkgs.writeShellApplication {
         name = "aperture-theme";

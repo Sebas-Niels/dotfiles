@@ -1,4 +1,3 @@
-# Hand-tuned; its folder also carries its own KDE and GTK colours
 {
   name = "Windmill Light";
   variant = "light";
