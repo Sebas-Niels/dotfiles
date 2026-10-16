@@ -106,6 +106,10 @@
         trap ':' USR2
 
         self=$(${pkgs.coreutils}/bin/readlink -f "$0")
+        # The style lives in the theme package, not in this script, so a switch that only
+        # changes the CSS needs its own check: waybar reloads its style on USR2
+        css="$HOME/.local/state/aperture-theme/current/waybar.css"
+        style=$(${pkgs.coreutils}/bin/readlink -f "$css") || true
         while :; do
           ${pkgs.coreutils}/bin/sleep 3
           if ! kill -0 "$bar" 2>/dev/null; then
@@ -123,6 +127,11 @@
             wait "$bar" 2>/dev/null
             trap - EXIT
             exec /run/current-system/sw/bin/waybar "$@"
+          fi
+          current=$(${pkgs.coreutils}/bin/readlink -f "$css") || continue
+          if [ "$current" != "$style" ]; then
+            style=$current
+            kill -USR2 "$bar" 2>/dev/null || true
           fi
         done
       '';
