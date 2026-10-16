@@ -127,11 +127,9 @@
             "XCURSOR_SIZE,24"
           ];
 
-          # Every tag splits its width equally between its windows: vertical_tile lays its masters
-          # side by side in one row, and with every window a master each gets the same width.
-          # Tags 1-5 stay visible in waybar even when empty (rules apply in order, so no_hide must
-          # come after the wildcard rule)
-          tag_rule = [ "id:*,layout_name:vertical_tile,master_count:99" ]
+          # Master/stack tiling on every tag; tags 1-5 stay visible in waybar even when empty
+          # (rules apply in order, so no_hide must come after the wildcard rule)
+          tag_rule = [ "id:*,layout_name:tile" ]
             ++ map (n: "id:${toString n},no_hide:1") (lib.range 1 5);
 
           monitor_rule = [
@@ -197,6 +195,12 @@
             "SUPER+CTRL,f,togglefullscreen"
             "SUPER+SHIFT,f,togglemaximizescreen"
             "SUPER,space,togglefloating"
+
+            # grow/shrink the master area, and add/remove master windows
+            "SUPER,equal,setmfact,+0.05"
+            "SUPER,minus,setmfact,-0.05"
+            "SUPER,comma,incnmaster,+1"
+            "SUPER,period,incnmaster,-1"
 
             # focus the neighbouring window in each direction
             "SUPER,h,focusdir,left"
