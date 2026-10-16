@@ -109,10 +109,6 @@
           gappoh = 5;
           gappov = 5;
 
-          # No animations: windows, tags and layers (bars, menus, notifications) just appear
-          animations = 0;
-          layer_animations = 0;
-
           # Blur behind translucent windows (kitty); kitty's own background_blur only works on
           # macOS and KDE. The optimized blur is drawn once per monitor from the wallpaper.
           blur = 1;
