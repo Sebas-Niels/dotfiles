@@ -161,9 +161,11 @@
             "is_named_scratchpad:1,width:1100,height:720,app_id:^com\\.saivert\\.pwvucontrol$"
             # Bitwarden in a named scratchpad, toggled with SUPER+SHIFT+B
             "is_named_scratchpad:1,width:1100,height:720,app_id:^bitwarden$"
-            # LibreWolf always opens on tag 2, messaging on tag 3, game launchers on tag 4, and
-            # games on tag 5. Steam games are steam_app_<id>, and anything run through gamescope
-            # is gamescope
+            # kitty and VS Code always open on tag 1, LibreWolf on tag 2, messaging on tag 3, game
+            # launchers on tag 4, and games on tag 5. The kitty match is exact so the floating and
+            # scratchpad kitties are left alone. Steam games are steam_app_<id>, and anything run
+            # through gamescope is gamescope
+            "tags:1,app_id:^(kitty|code)$"
             "tags:2,app_id:^librewolf$"
             "tags:3,app_id:^(signal|vesktop)$"
             "tags:4,app_id:^(steam|net\\.lutris\\.Lutris)$"
