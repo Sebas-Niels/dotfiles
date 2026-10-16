@@ -23,6 +23,8 @@
   #
   # ansi is the 16-colour terminal palette (color0 .. color15); term overrides the terminal-only
   # colours (cursor, selection) where a theme's own port differs from the derived defaults.
+  # wallpaperTrimTop optionally cuts that many pixels off the top of the wallpaper, which moves
+  # it up on screen to show more of its bottom.
   flake.nixosModules.themeMenu =
     { pkgs, lib, ... }:
     let
@@ -153,6 +155,15 @@
           magick '${wallpaper}' -resize 'x900>' -quality 88 $out
         '';
 
+      # Keeps the extension, which awww goes by
+      trimTop =
+        id: wallpaper: px:
+        pkgs.runCommand "${id}-wallpaper.${lib.last (lib.splitString "." (baseNameOf wallpaper))}"
+          { nativeBuildInputs = [ pkgs.imagemagick ]; }
+          ''
+            magick '${wallpaper}' -chop 0x${toString px} -quality 95 $out
+          '';
+
       wallpaperNames = map (ext: "wallpaper.${ext}") [
         "jpg"
         "jpeg"
@@ -166,7 +177,8 @@
           dir = ./_themes + "/${id}";
           p = import (dir + "/palette.nix");
           own = lib.findFirst (f: builtins.pathExists (dir + "/${f}")) null wallpaperNames;
-          wallpaper = if own != null then dir + "/${own}" else gradientWallpaper id p.colors;
+          base = if own != null then dir + "/${own}" else gradientWallpaper id p.colors;
+          wallpaper = if p ? wallpaperTrimTop then trimTop id base p.wallpaperTrimTop else base;
         in
         helpers
         // {
