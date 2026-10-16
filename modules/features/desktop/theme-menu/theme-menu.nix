@@ -518,6 +518,10 @@
             if command -v mmsg >/dev/null; then
               mmsg dispatch load_config_file,/etc/mango/config.conf >/dev/null 2>&1 || true
             fi
+            # The coin re-reads its colours when asked; only reached if it is already running
+            if pgrep -f aperture-coinflip-config >/dev/null; then
+              aperture-coinflip reload >/dev/null 2>&1 || true
+            fi
             # Qt apps on the KDE platform theme (Dolphin) re-read kdeglobals on this signal
             dbus-send --session --type=signal /KGlobalSettings \
               org.kde.KGlobalSettings.notifyChange int32:0 int32:0 || true
