@@ -50,46 +50,13 @@
         tray.spacing = 12;
       };
 
-      # Rendered once per theme by the theme menu (see theme-menu.nix)
-      waybarStyle = t: ''
-        * {
-          font-family: monospace;
-          font-size: 20px;
-          border: none;
-          border-radius: 0;
-          min-height: 0;
-        }
-
-        window#waybar {
-          background: ${t.rgba t.c.bg "0.93"};
-          color: ${t.c.text};
-        }
-
-        #workspaces button {
-          padding: 0 24px;
-          color: ${t.c.text};
-          background: transparent;
-          transition: background-color 200ms ease, color 200ms ease;
-        }
-
-        #workspaces button:hover {
-          background: ${t.c.surface};
-        }
-
-        #workspaces button.active {
-          color: ${t.c.bg};
-          background: ${t.c.accent};
-        }
-
-        #workspaces button.urgent {
-          color: ${t.c.bg};
-          background: ${t.c.yellow};
-        }
-
-        #clock, #pulseaudio, #network, #cpu, #memory, #tray {
-          padding: 0 15px;
-        }
-      '';
+      # Rendered once per theme by the theme menu (see theme-menu.nix): the palette as named GTK
+      # colours, then the stylesheet, which only refers to them
+      waybarStyle =
+        t:
+        lib.concatStrings (lib.mapAttrsToList (name: hex: "@define-color ${name} ${hex};\n") t.c)
+        + "\n"
+        + builtins.readFile ./style.css;
 
       # nixos-rebuild doesn't restart anything started by the compositor, so waybar watches for a
       # switch itself: once the system's waybar is a different build, it hands over to that one.

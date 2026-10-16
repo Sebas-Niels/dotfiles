@@ -1,0 +1,40 @@
+/* The theme menu puts the palette in front of this file as @define-color lines (see waybar.nix):
+   @bg @mantle @surface @overlay @text @subtext @accent @accent2 @red @yellow @green */
+
+* {
+  font-family: monospace;
+  font-size: 20px;
+  border: none;
+  border-radius: 0;
+  min-height: 0;
+}
+
+window#waybar {
+  background: alpha(@bg, 0.93);
+  color: @text;
+}
+
+#workspaces button {
+  padding: 0 24px;
+  color: @text;
+  background: transparent;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+#workspaces button:hover {
+  background: @surface;
+}
+
+#workspaces button.active {
+  color: @bg;
+  background: @accent;
+}
+
+#workspaces button.urgent {
+  color: @bg;
+  background: @yellow;
+}
+
+#clock, #pulseaudio, #network, #cpu, #memory, #tray {
+  padding: 0 15px;
+}
