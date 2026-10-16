@@ -483,9 +483,10 @@
 
           link() {
             mkdir -p "$state"
-            # Swap the link atomically so nothing ever reads through a missing one
-            ln -sfn "$themes/$1" "$state/.current.tmp"
-            mv -Tf "$state/.current.tmp" "$state/current"
+            # Swap the link atomically so nothing ever reads through a missing one. waybar, mako
+            # and aperture-swww all run init at login, so each needs its own temporary link
+            ln -sfn "$themes/$1" "$state/.current.$$"
+            mv -Tf "$state/.current.$$" "$state/current"
 
             # GTK only reads gtk.css from the user's own config dir; never replace one the user wrote
             local v css
