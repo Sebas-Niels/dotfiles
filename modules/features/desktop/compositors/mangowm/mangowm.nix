@@ -7,6 +7,7 @@
       self.nixosModules.mako
       self.nixosModules.waybar
       self.nixosModules.themeMenu
+      self.nixosModules.coinflip
     ];
 
     programs.mango = {
@@ -47,6 +48,7 @@
       fastfetch = lib.getExe self'.packages.apertureFastfetch;
       themeMenu = lib.getExe self'.packages.apertureThemeMenu;
       rmpc = lib.getExe self'.packages.apertureRmpc;
+      coinflip = lib.getExe self'.packages.apertureCoinflip;
 
       # Floating kitty running fastfetch, sized by the window rule below
       floatingKitty = pkgs.writeShellScript "mango-floating-kitty" ''
@@ -169,6 +171,8 @@
             "${lib.getExe self'.packages.apertureMako}"
             # Start the theme menu hidden so SUPER+T opens it instantly
             "${themeMenu} daemon"
+            # The coin down the right of the Xeneon
+            "${coinflip} daemon"
             "${brightness}"
             # Hot-reload the config on rebuild
             "systemctl --user start mangoReloadConfig.service"
