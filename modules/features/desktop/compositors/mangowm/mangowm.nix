@@ -28,6 +28,16 @@
 
     # swaylock needs a PAM service to be able to unlock
     security.pam.services.swaylock = { };
+
+    # With several monitors the wlr portal asks which one to share, by default through whichever
+    # of wofi/rofi/bemenu/fuzzel it finds on PATH. Its user service's PATH has none of them, so
+    # every screenshare failed; point it at fuzzel directly
+    xdg.portal.wlr.settings.screencast = {
+      chooser_type = "dmenu";
+      chooser_cmd = "${
+        lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.apertureFuzzel
+      } --dmenu --prompt 'Share: '";
+    };
   };
 
   perSystem = { pkgs, lib, self', ... }:
