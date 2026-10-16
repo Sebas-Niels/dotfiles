@@ -1,18 +1,5 @@
 { self, ... }:
 {
-  # Runtime theme switching. Every theme folder in _themes/ is rendered at build time into
-  # /run/current-system/sw/share/aperture-themes/<theme>/: its wallpaper, plus one file per app
-  # (each app module adds its file through apertureTheme.targets). The apps read their colours
-  # through the symlink ~/.local/state/aperture-theme/current, which the quickshell menu (SUPER+T)
-  # re-points before telling every running app to reload.
-  #
-  # A theme folder holds (import-tree skips _themes/, so none of it is a flake module):
-  #
-  #   palette.nix      name, variant, colours and terminal palette, see below
-  #   wallpaper.*      jpg, jpeg, png or webp; without one, a gradient is drawn from the palette
-  #   <target file>    optional; used as-is instead of that app's generated file, named as in
-  #                    apertureTheme.targets (kitty.conf, waybar.css, xdg/kdeglobals, ...)
-  #
   # palette.nix colours:
   #
   #   bg       window background          text     main text
@@ -20,11 +7,6 @@
   #   surface  raised elements, buttons   accent   focus, selection, active workspace
   #   overlay  borders, selections        accent2  secondary highlight
   #   red / yellow / green               urgent / warning / positive
-  #
-  # ansi is the 16-colour terminal palette (color0 .. color15); term overrides the terminal-only
-  # colours (cursor, selection) where a theme's own port differs from the derived defaults.
-  # wallpaperTrimTop optionally cuts that many pixels off the top of the wallpaper, which moves
-  # it up on screen to show more of its bottom.
   flake.nixosModules.themeMenu =
     { pkgs, lib, ... }:
     let
@@ -39,9 +21,6 @@
         apertureThemes
         apertureTheme
         apertureThemeMenu
-        # What the themes are drawn on: Darkly widgets for Qt and Breeze for GTK, recoloured per
-        # theme, and the icon themes they switch between. Breeze stays for Qt5 apps, which Darkly
-        # no longer builds for, and Breeze icons fill the gaps in Colloid.
         pkgs.darkly
         pkgs.kdePackages.breeze
         pkgs.kdePackages.breeze.qt5
@@ -50,16 +29,11 @@
         pkgs.colloid-icon-theme
       ];
 
-      # Qt apps read their colours from kdeglobals only on the KDE platform theme. The widget
-      # style is picked there too (widgetStyle) rather than with qt.style, which has no Darkly
-      # and would pin it through QT_STYLE_OVERRIDE.
       qt = {
         enable = true;
         platformTheme = "kde";
       };
 
-      # Light/dark preference, GTK theme and icons are set here on every switch; these defaults
-      # match the default theme (Moonlight) until one is picked
       programs.dconf.enable = true;
       programs.dconf.profiles.user.databases = [
         {
@@ -73,7 +47,6 @@
         }
       ];
 
-      # Only the cursor: a theme or dark preference here would pin GTK apps over the switches
       environment.etc =
         lib.genAttrs
           [
@@ -89,13 +62,10 @@
           });
       environment.pathsToLink = [ "/share/aperture-themes" ];
 
-      # KDE/Qt apps (Dolphin) cascade kdeglobals over XDG_CONFIG_DIRS, so putting the current
-      # theme first recolours them without touching ~/.config/kdeglobals
       environment.sessionVariables.XDG_CONFIG_DIRS = lib.mkBefore [
         "$HOME/.local/state/aperture-theme/current/xdg"
       ];
 
-      # Make sure the current-theme link exists before anything reads through it
       system.userActivationScripts.apertureTheme = "${lib.getExe apertureTheme} init";
     };
 
@@ -125,22 +95,15 @@
         "#"
         + lib.concatMapStrings (v: lib.toLower (lib.fixedWidthString 2 "0" (lib.toHexString v))) channels;
 
-      # Colour helpers handed to every renderer next to the palette
       helpers = {
-        # Blend a towards b by w (0..1)
         mix =
           a: b: w:
           toHex (lib.zipListsWith (x: y: builtins.floor (x * (1 - w) + y * w + 0.5)) (rgb a) (rgb b));
-        # "#89b4fa" -> "89b4fa"
         bare = lib.removePrefix "#";
-        # "#89b4fa" -> "137,180,250"
         kde = hex: lib.concatMapStringsSep "," toString (rgb hex);
-        # "#89b4fa" "0.9" -> "rgba(137, 180, 250, 0.9)"
         rgba = hex: alpha: "rgba(${lib.concatMapStringsSep ", " toString (rgb hex)}, ${alpha})";
       };
 
-      # Soft glows of the two accents over the palette's background, for themes without a
-      # wallpaper of their own. Drawn small and scaled up, since the blur is the slow part.
       gradientWallpaper =
         id: c:
         pkgs.runCommand "${id}-wallpaper.jpg" { nativeBuildInputs = [ pkgs.imagemagick ]; } ''
@@ -152,14 +115,12 @@
             -filter Lanczos -resize 3840x2160 -attenuate 0.35 +noise Uniform -quality 92 $out
         '';
 
-      # Small copy for the menu's strip, so it never has to decode a dozen full-size wallpapers
       thumbnail =
         id: wallpaper:
         pkgs.runCommand "${id}-thumbnail.jpg" { nativeBuildInputs = [ pkgs.imagemagick ]; } ''
           magick '${wallpaper}' -resize 'x900>' -quality 88 $out
         '';
 
-      # Keeps the extension, which awww goes by
       trimTop =
         id: wallpaper: px:
         pkgs.runCommand "${id}-wallpaper.${lib.last (lib.splitString "." (baseNameOf wallpaper))}"
@@ -190,7 +151,6 @@
           inherit (p) name variant ansi;
           thumbnail = thumbnail id wallpaper;
           dark = p.variant == "dark";
-          # Colloid's folders take the colour scheme's highlight, so in Qt they follow the accent
           icons = if p.variant == "dark" then "Colloid-Dark" else "Colloid-Light";
           c = p.colors;
           term = {
@@ -201,14 +161,10 @@
         }
       ) (lib.filterAttrs (_: type: type == "directory") (builtins.readDir ./_themes));
 
-      # Dark themes first, then alphabetical
       orderedThemes = lib.sort (a: b: if a.dark != b.dark then a.dark else a.name < b.name) (
         lib.attrValues themes
       );
 
-      # Colours the app renderers share, worked out from the palette the way Windmill Light was
-      # first tuned by hand: views and cards a step lighter than the window on light themes,
-      # light text on the accent there, and darkened accents wherever they are drawn as text
       shades =
         t:
         let
@@ -216,10 +172,8 @@
         in
         {
           view = if t.dark then c.mantle else mix c.bg "#ffffff" 0.55;
-          # Cards and popovers sit above the window: the lighter view on light themes, surface on dark
           card = if t.dark then c.surface else mix c.bg "#ffffff" 0.55;
           onAccent = if t.dark then c.bg else mix c.bg "#ffffff" 0.7;
-          # The yellow is light on dark themes and dark on light ones
           onYellow = if t.dark then c.bg else c.text;
           ink = color: if t.dark then color else mix color "#000000" 0.15;
           hover = mix c.accent c.bg 0.4;
@@ -262,8 +216,6 @@
               DecorationFocus=${kde c.accent}
               DecorationHover=${kde s.hover}
             '';
-          # For groups with a background of their own (selection, tooltips): every foreground is
-          # pulled towards the group's text so it stays legible on that background
           onOwn =
             bg: alt: fg:
             let
@@ -334,10 +286,7 @@
           [Colors:Selection]
           ${onOwn c.accent (s.ink c.accent) s.onAccent}
           [Colors:Tooltip]
-          ${
-            # A dark tooltip on light themes, a raised one on dark themes
-            if t.dark then onOwn c.surface c.overlay c.text else onOwn c.text (mix c.text c.bg 0.1) c.bg
-          }
+          ${if t.dark then onOwn c.surface c.overlay c.text else onOwn c.text (mix c.text c.bg 0.1) c.bg}
           [Colors:Complementary]
           ${group {
             bg = c.mantle;
@@ -359,17 +308,11 @@
           inactiveBlend=${kde c.surface}
         '';
 
-      # Darkly, the Qt widget style. Dolphin's view and sidebar are drawn see-through, and mango
-      # blurs the wallpaper behind them; the rest of Dolphin, and every other Qt app, stays opaque
-      # (a toolbar opacity would turn translucency on for all of them). Light themes keep more
-      # of their background so dark text stays legible over a busy wallpaper. Read by Qt apps
-      # through XDG_CONFIG_DIRS like kdeglobals, and re-read when a switch changes the palette.
       darklyConfig =
         t:
         lib.generators.toINI { } {
           Common = {
             CornerRadius = 8;
-            # Thin scrollbars that widen under the pointer
             ScrollBarTransient = true;
           };
           Style = {
@@ -379,8 +322,6 @@
           };
         };
 
-      # Breeze-GTK has its colours baked in, so this mostly reaches libadwaita (GTK4) apps and
-      # GTK3 themes that use the named colours
       gtk3Colors =
         t:
         let
@@ -483,12 +424,9 @@
 
           link() {
             mkdir -p "$state"
-            # Swap the link atomically so nothing ever reads through a missing one. waybar, mako
-            # and aperture-swww all run init at login, so each needs its own temporary link
             ln -sfn "$themes/$1" "$state/.current.$$"
             mv -Tf "$state/.current.$$" "$state/current"
 
-            # GTK only reads gtk.css from the user's own config dir; never replace one the user wrote
             local v css
             for v in 3.0 4.0; do
               css="''${XDG_CONFIG_HOME:-$HOME/.config}/gtk-$v/gtk.css"
@@ -504,14 +442,11 @@
           }
 
           reload() {
-            # Only once aperture-swww has the daemon up; it sets the wallpaper itself at login
             if awww query >/dev/null 2>&1; then
               awww img --transition-type grow --transition-pos center --transition-fps 120 \
                 --transition-duration 1.2 "$(wallpaper)" || true
             fi
 
-            # Wrapped binaries show up as .<name>-wrapped (cut to 15 characters). pkill warns
-            # about patterns over 15 characters whenever nothing matches, even with -x
             pkill -USR1 -x '\.?kitty(-wrapped)?' 2>/dev/null || true
             pkill -USR2 -x '\.?ghostty(-wrapped)?' 2>/dev/null || true
             pkill -USR2 -x '\.?waybar(-wrapped)?' 2>/dev/null || true
@@ -519,11 +454,9 @@
             if command -v mmsg >/dev/null; then
               mmsg dispatch load_config_file,/etc/mango/config.conf >/dev/null 2>&1 || true
             fi
-            # The coin re-reads its colours when asked; only reached if it is already running
             if pgrep -f aperture-coinflip-config >/dev/null; then
               aperture-coinflip reload >/dev/null 2>&1 || true
             fi
-            # Qt apps on the KDE platform theme (Dolphin) re-read kdeglobals on this signal
             dbus-send --session --type=signal /KGlobalSettings \
               org.kde.KGlobalSettings.notifyChange int32:0 int32:0 || true
 
@@ -612,14 +545,12 @@
               id: t:
               [
                 {
-                  # Resolves to a file that keeps its extension, which awww goes by
                   name = "share/aperture-themes/${id}/wallpaper";
                   path = t.wallpaper;
                 }
               ]
               ++ lib.mapAttrsToList (file: render: {
                 name = "share/aperture-themes/${id}/${file}";
-                # A file of the same name in the theme's folder wins over the generated one
                 path =
                   if builtins.pathExists (t.dir + "/${file}") then
                     t.dir + "/${file}"
@@ -632,7 +563,6 @@
 
         packages.apertureTheme = themeScript;
 
-        # aperture-theme-menu [toggle|open|close] drives the running menu; `daemon` starts it
         packages.apertureThemeMenu = pkgs.writeShellApplication {
           name = "aperture-theme-menu";
           runtimeInputs = [
@@ -643,8 +573,6 @@
           text = ''
             qs() { quickshell -p ${menuConfig} "$@"; }
 
-            # Menus started from an earlier build keep running their old config; stop them so
-            # only this build's menu is ever around
             pgrep -af 'quickshell.*aperture-theme-menu-config' | grep -vF '${menuConfig}' \
               | while read -r pid _; do kill "$pid" 2>/dev/null || true; done || true
 
@@ -654,7 +582,6 @@
             fi
 
             if ! qs ipc call themes "$action" >/dev/null 2>&1; then
-              # Not running, or wedged: start it over
               pkill -f '${menuConfig}' || true
               qs --no-duplicate --daemonize
               for _ in $(seq 30); do

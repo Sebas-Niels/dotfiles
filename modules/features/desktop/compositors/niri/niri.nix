@@ -95,7 +95,6 @@
             };
           };
 
-
           xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite;
 
           input = {

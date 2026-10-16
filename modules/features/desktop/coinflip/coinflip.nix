@@ -1,8 +1,5 @@
 { self, ... }:
 {
-  # A coin to flip, kept down the right of the Xeneon Edge: tap it (or `aperture-coinflip flip`)
-  # to toss it, right click or long press to clear the tally. Drawn by quickshell in the
-  # current theme's colours, the coin struck from its yellow.
   flake.nixosModules.coinflip =
     { pkgs, ... }:
     {
@@ -44,7 +41,6 @@
           rim = mix c.yellow "#000000" 0.5;
         };
 
-      # aperture-coinflip [flip|reset|reload] drives the running coin; `daemon` starts it
       packages.apertureCoinflip = pkgs.writeShellApplication {
         name = "aperture-coinflip";
         runtimeInputs = [
@@ -55,8 +51,6 @@
         text = ''
           qs() { quickshell -p ${coinConfig} "$@"; }
 
-          # Coins started from an earlier build keep running their old config; stop them so
-          # only this build's coin is ever around
           pgrep -af 'quickshell.*aperture-coinflip-config' | grep -vF '${coinConfig}' \
             | while read -r pid _; do kill "$pid" 2>/dev/null || true; done || true
 
@@ -66,7 +60,6 @@
           fi
 
           if ! qs ipc call coinflip "$action" >/dev/null 2>&1; then
-            # Not running, or wedged: start it over
             pkill -f '${coinConfig}' || true
             qs --no-duplicate --daemonize
             for _ in $(seq 30); do

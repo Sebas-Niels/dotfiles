@@ -5,38 +5,44 @@
     ];
   };
 
-  perSystem = { pkgs, lib, self', ... }:
+  perSystem =
+    {
+      pkgs,
+      lib,
+      self',
+      ...
+    }:
     let
-      # Rendered once per theme by the theme menu (see theme-menu.nix)
-      fuzzelConfig = t: lib.generators.toINI { } {
-        main = {
-          font = "monospace:size=18";
-          terminal = "${lib.getExe self'.packages.apertureKitty} -e";
-          prompt = ''"> "'';
-          layer = "overlay";
-          width = 40;
-          lines = 12;
-          horizontal-pad = 24;
-          vertical-pad = 18;
-          inner-pad = 12;
-        };
+      fuzzelConfig =
+        t:
+        lib.generators.toINI { } {
+          main = {
+            font = "monospace:size=18";
+            terminal = "${lib.getExe self'.packages.apertureKitty} -e";
+            prompt = ''"> "'';
+            layer = "overlay";
+            width = 40;
+            lines = 12;
+            horizontal-pad = 24;
+            vertical-pad = 18;
+            inner-pad = 12;
+          };
 
-        # Colors are RRGGBBAA, no leading #
-        colors = {
-          background = "${t.bare t.c.bg}ee";
-          text = "${t.bare t.c.text}ff";
-          match = "${t.bare t.c.accent}ff";
-          selection = "${t.bare t.c.surface}ff";
-          selection-text = "${t.bare t.c.text}ff";
-          selection-match = "${t.bare t.c.accent}ff";
-          border = "${t.bare t.c.accent}ff";
-        };
+          colors = {
+            background = "${t.bare t.c.bg}ee";
+            text = "${t.bare t.c.text}ff";
+            match = "${t.bare t.c.accent}ff";
+            selection = "${t.bare t.c.surface}ff";
+            selection-text = "${t.bare t.c.text}ff";
+            selection-match = "${t.bare t.c.accent}ff";
+            border = "${t.bare t.c.accent}ff";
+          };
 
-        border = {
-          width = 3;
-          radius = 12;
+          border = {
+            width = 3;
+            radius = 12;
+          };
         };
-      };
 
       fuzzel = pkgs.writeShellScript "fuzzel" ''
         exec ${lib.getExe pkgs.fuzzel} --config "$HOME/.local/state/aperture-theme/current/fuzzel.ini" "$@"

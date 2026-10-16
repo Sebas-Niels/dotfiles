@@ -5,9 +5,14 @@
     ];
   };
 
-  perSystem = { pkgs, lib, self', ... }:
+  perSystem =
+    {
+      pkgs,
+      lib,
+      self',
+      ...
+    }:
     let
-      # Rendered once per theme by the theme menu (see theme-menu.nix)
       makoConfig = t: ''
         font=monospace 11
         anchor=top-right

@@ -1,8 +1,5 @@
 import QtQuick
 
-// A coin with thickness, turned by `angle` degrees about its horizontal axis: 0 shows heads,
-// 180 tails. The face is squashed by the angle's cosine, and the rim is a stack of discs
-// pushed out along the sine, so the coin keeps an edge when it is seen side-on.
 Item {
     id: coin
 
@@ -18,13 +15,11 @@ Item {
     readonly property real cosA: Math.cos(angle * Math.PI / 180)
     readonly property real sinA: Math.sin(angle * Math.PI / 180)
     readonly property real squash: Math.max(0.004, Math.abs(cosA))
-    // How far the visible face tips towards (+) or away from (-) the light above
     readonly property real tilt: cosA >= 0 ? -sinA : sinA
 
     width: size
     height: size
 
-    // The rim, back to front; the back face is never seen, so it is just more rim
     Repeater {
         id: layers
         model: Math.max(2, Math.round(coin.thickness))
@@ -58,7 +53,6 @@ Item {
             yScale: coin.squash
         }
 
-        // Catches the light as it tips up, and darkens as it tips away
         Rectangle {
             anchors.fill: parent
             radius: width / 2

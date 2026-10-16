@@ -15,8 +15,22 @@
     green = "#2df4c0";
   };
   ansi = [
-    "#000000" "#ff757f" "#2df4c0" "#ffc777" "#04d1f9" "#ecb2f0" "#b994f1" "#eeffff"
-    "#767676" "#f78b92" "#4ff0c6" "#fcce8b" "#2ddbfc" "#ebc5ed" "#bf9ef0" "#edf7f7"
+    "#000000"
+    "#ff757f"
+    "#2df4c0"
+    "#ffc777"
+    "#04d1f9"
+    "#ecb2f0"
+    "#b994f1"
+    "#eeffff"
+    "#767676"
+    "#f78b92"
+    "#4ff0c6"
+    "#fcce8b"
+    "#2ddbfc"
+    "#ebc5ed"
+    "#bf9ef0"
+    "#edf7f7"
   ];
   term = {
     cursor = "#5cb4fc";

@@ -9,8 +9,6 @@ ShellRoot {
     id: root
 
     readonly property string fontFamily: "JetBrainsMono Nerd Font"
-    // The Xeneon Edge. mango tells clients no model or serial, but nothing else here is
-    // 2560x720 (and its connector name can change between boots)
     readonly property var edge: {
         const screens = Quickshell.screens;
         for (let i = 0; i < screens.length; i++)
@@ -19,7 +17,6 @@ ShellRoot {
         return null;
     }
 
-    // Results, oldest first (true for heads), kept to what the row of dots shows
     property var history: []
     property int heads: 0
     property int tails: 0
@@ -28,8 +25,6 @@ ShellRoot {
     property bool revealed: false
     property bool flying: false
 
-    // The coin turns from spinFrom to spinTo while flight runs 0 -> 1, then rocks to rest while
-    // settle runs 0 -> 1. Whole turns are multiples of 360, so spinTo % 360 is the face up.
     property real spinFrom: 0
     property real spinTo: 0
     property real flight: 1
@@ -38,7 +33,6 @@ ShellRoot {
     readonly property real angle: flight < 1
         ? spinFrom + (spinTo - spinFrom) * (0.65 * flight + 0.35 * (1 - (1 - flight) * (1 - flight)))
         : spinTo + 22 * Math.pow(1 - settle, 2) * Math.sin(2 * Math.PI * 2.5 * settle)
-    // 0 on the table .. 1 at the top of the toss
     readonly property real lift: flight < 1
         ? 4 * flight * (1 - flight)
         : 0.07 * Math.pow(1 - settle, 2) * Math.abs(Math.sin(2 * Math.PI * 1.5 * settle))
@@ -111,14 +105,11 @@ ShellRoot {
         function reset(): void {
             root.reset();
         }
-        // The theme menu calls this after switching, since the current theme is a symlink
-        // that is re-pointed rather than a file that changes
         function reload(): void {
             themeFile.reload();
         }
     }
 
-    // Colours of the current theme, with Moonlight's until it has loaded
     FileView {
         id: themeFile
         path: Quickshell.env("HOME") + "/.local/state/aperture-theme/current/coinflip.json"
@@ -140,7 +131,6 @@ ShellRoot {
         }
     }
 
-    // Animated copy of the theme's colours
     Item {
         id: ui
         visible: false
@@ -170,10 +160,6 @@ ShellRoot {
         Behavior on rim { ColorAnimation { duration: 500; easing.type: Easing.OutCubic } }
     }
 
-    // A column down the right of the Xeneon that windows tile beside. The 5px around the card
-    // matches mango's outer gaps; the windows bring their own on the left. On the bottom layer
-    // because mango makes room for the newest surface first within a layer: on the top layer
-    // it would take the full height and squeeze waybar, rather than sit below it.
     PanelWindow {
         id: win
 
@@ -198,7 +184,6 @@ ShellRoot {
             id: card
 
             readonly property real coinSize: Math.min(width * 0.52, height * 0.27)
-            // Where the coin rests, and how high a toss takes it
             readonly property real restY: Math.round(height * 0.55)
             readonly property real tossHeight: restY - coinSize * 0.5 - 40
 
@@ -211,7 +196,6 @@ ShellRoot {
             border.color: Qt.alpha(ui.overlay, 0.8)
             clip: true
 
-            // Warm light falling on the spot the coin lands
             Glow {
                 width: card.coinSize * 2.4
                 height: width
@@ -232,7 +216,6 @@ ShellRoot {
                 font.weight: Font.DemiBold
             }
 
-            // Shadow on the table, smaller and fainter the higher the coin goes
             Glow {
                 width: card.coinSize * 1.1 * (1 - root.lift * 0.55)
                 height: width
@@ -256,7 +239,6 @@ ShellRoot {
                 rim: ui.rim
                 x: (card.width - width) / 2
                 y: card.restY - height / 2 - root.lift * card.tossHeight
-                // Nearer the eye at the top of the toss
                 scale: (1 + 0.14 * root.lift) * pressScale
 
                 Behavior on pressScale {
@@ -316,7 +298,6 @@ ShellRoot {
                 }
             }
 
-            // The tally: recent results as coins, newest on the right, and the split so far
             Column {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.bottom: parent.bottom
@@ -386,8 +367,6 @@ ShellRoot {
                 }
             }
 
-            // Anywhere on the card flips (the Xeneon is a touchscreen); a right click or a long
-            // press clears the tally
             MouseArea {
                 id: tap
                 anchors.fill: parent

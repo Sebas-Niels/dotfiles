@@ -1,8 +1,6 @@
 import QtQuick
 import QtQuick.Shapes
 
-// A soft round spot of colour that fades out towards the edge of the item, squashed to an
-// ellipse by `squash`
 Shape {
     id: glow
 

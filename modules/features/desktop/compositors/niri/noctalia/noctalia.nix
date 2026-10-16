@@ -14,9 +14,7 @@
       overlays = [
         (final: prev: {
           noctalia-qs = prev.noctalia-qs.overrideAttrs (old: {
-            buildInputs = builtins.filter
-              (p: (p.pname or "") != "breakpad")
-              (old.buildInputs or [ ]);
+            buildInputs = builtins.filter (p: (p.pname or "") != "breakpad") (old.buildInputs or [ ]);
             cmakeFlags = (old.cmakeFlags or [ ]) ++ [
               (prev.lib.cmakeBool "CRASH_REPORTER" false)
             ];

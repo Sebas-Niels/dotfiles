@@ -1,6 +1,3 @@
-# Sampled from the wallpaper: the teal-black night sky, slate mountains, snow lit pink by the
-# horizon, and the crimson of the trees. Those two hues, teal and crimson, are all it has, so
-# every colour is one of them or the grey of the snow
 {
   name = "Crimson Valley";
   variant = "dark";
@@ -18,8 +15,22 @@
     green = "#74b0bb";
   };
   ansi = [
-    "#0e2b32" "#df2029" "#4f8c98" "#c9c1c3" "#2f6070" "#a8182a" "#5fa3ad" "#b9b8bc"
-    "#2d4c52" "#f04048" "#74b0bb" "#e4dfe0" "#4f8496" "#c8303f" "#8cc6cf" "#eceaeb"
+    "#0e2b32"
+    "#df2029"
+    "#4f8c98"
+    "#c9c1c3"
+    "#2f6070"
+    "#a8182a"
+    "#5fa3ad"
+    "#b9b8bc"
+    "#2d4c52"
+    "#f04048"
+    "#74b0bb"
+    "#e4dfe0"
+    "#4f8496"
+    "#c8303f"
+    "#8cc6cf"
+    "#eceaeb"
   ];
   term = {
     cursor = "#e65d62";

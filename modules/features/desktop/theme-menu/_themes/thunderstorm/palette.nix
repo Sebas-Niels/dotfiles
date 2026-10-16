@@ -1,7 +1,3 @@
-# Sampled from the wallpaper: navy sky and sea, near-black rocks, and the cold blue-white of
-# the lightning. Every colour stays in the storm's blues, including the ones that usually stand
-# out, which differ only in brightness and saturation: red is the most vivid blue, yellow the
-# ice-white of the lightning and green the lighter sea
 {
   name = "Thunderstorm";
   variant = "dark";
@@ -19,8 +15,22 @@
     green = "#6fb3c9";
   };
   ansi = [
-    "#122b37" "#3d9ad1" "#6fb3c9" "#c2e0ec" "#4f86a6" "#8eb4c8" "#82bdd6" "#bfced2"
-    "#496977" "#5cb0e0" "#93cde0" "#dcedf3" "#6a9fc0" "#a9c6d6" "#9dd0e5" "#e7f2f5"
+    "#122b37"
+    "#3d9ad1"
+    "#6fb3c9"
+    "#c2e0ec"
+    "#4f86a6"
+    "#8eb4c8"
+    "#82bdd6"
+    "#bfced2"
+    "#496977"
+    "#5cb0e0"
+    "#93cde0"
+    "#dcedf3"
+    "#6a9fc0"
+    "#a9c6d6"
+    "#9dd0e5"
+    "#e7f2f5"
   ];
   term = {
     cursor = "#e7f6f9";
