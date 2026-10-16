@@ -483,10 +483,11 @@
                 --transition-duration 1.2 "$(wallpaper)" || true
             fi
 
-            # Wrapped binaries show up as .<name>-wrapped (cut to 15 characters)
-            pkill -USR1 -x '\.?kitty(-wrapped)?' || true
-            pkill -USR2 -x '\.?ghostty(-wrapped?)?' || true
-            pkill -USR2 -x '\.?waybar(-wrapped)?' || true
+            # Wrapped binaries show up as .<name>-wrapped (cut to 15 characters). pkill warns
+            # about patterns over 15 characters whenever nothing matches, even with -x
+            pkill -USR1 -x '\.?kitty(-wrapped)?' 2>/dev/null || true
+            pkill -USR2 -x '\.?ghostty(-wrapped)?' 2>/dev/null || true
+            pkill -USR2 -x '\.?waybar(-wrapped)?' 2>/dev/null || true
             makoctl reload >/dev/null 2>&1 || true
             if command -v mmsg >/dev/null; then
               mmsg dispatch load_config_file,/etc/mango/config.conf >/dev/null 2>&1 || true
