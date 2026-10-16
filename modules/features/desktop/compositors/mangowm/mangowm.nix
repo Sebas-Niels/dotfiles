@@ -8,6 +8,7 @@
       self.nixosModules.waybar
       self.nixosModules.themeMenu
       self.nixosModules.coinflip
+      self.nixosModules.lockscreen
     ];
 
     programs.mango = {
@@ -26,9 +27,6 @@
 
     # The SDDM theme has no session picker, so make sure mango is what launches
     services.displayManager.defaultSession = lib.mkDefault "mango";
-
-    # swaylock needs a PAM service to be able to unlock
-    security.pam.services.swaylock = { };
 
     # With several monitors the wlr portal asks which one to share, by default through whichever
     # of wofi/rofi/bemenu/fuzzel it finds on PATH. Its user service's PATH has none of them, so
@@ -64,7 +62,7 @@
         ${lib.getExe pkgs.grim} -g "$region" - | tee "$file" | ${pkgs.wl-clipboard}/bin/wl-copy --type image/png
       '';
 
-      lock = "${lib.getExe pkgs.swaylock} -f -c 000000";
+      lock = lib.getExe self'.packages.apertureLock;
 
       # Set every DDC/CI-capable monitor to 30% brightness at login
       brightness = pkgs.writeShellScript "mango-brightness" ''
