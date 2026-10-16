@@ -21,7 +21,7 @@
       "${self.packages.${pkgs.stdenv.hostPlatform.system}.apertureMango}/config.conf";
 
     # Ships mangoReloadConfig.service, which nixos-rebuild reloads whenever the config changes,
-    # pushing the new config into the running mango (started from exec-once below)
+    # pushing the new config into the running mango (started from exec_once below)
     systemd.packages = [ self.packages.${pkgs.stdenv.hostPlatform.system}.apertureMango ];
 
     # The SDDM theme has no session picker, so make sure mango is what launches
@@ -41,7 +41,7 @@
     };
   };
 
-  perSystem = { pkgs, lib, self', ... }:
+  perSystem = { pkgs, lib, self', inputs', ... }:
     let
       kitty = lib.getExe self'.packages.apertureKitty;
       zsh = lib.getExe self'.packages.apertureZsh;
@@ -81,33 +81,35 @@
       ]) (lib.range 1 9);
     in
     {
-      # Window border colours, rendered once per theme by the theme menu (see theme-menu.nix).
-      # The mango that wrapper-modules builds still uses the unseparated key names; the
-      # underscored ones (focus_color, ...) from newer mango are rejected as unknown keywords.
+      # Window border colours, rendered once per theme by the theme menu (see theme-menu.nix)
       apertureTheme.targets."mango.conf" = t: ''
-        bordercolor=0x${t.bare t.c.overlay}ff
-        focuscolor=0x${t.bare t.c.accent}ff
-        urgentcolor=0x${t.bare t.c.red}ff
-        scratchpadcolor=0x${t.bare t.c.accent2}ff
-        maximizescreencolor=0x${t.bare t.c.accent2}ff
-        rootcolor=0x${t.bare t.c.mantle}ff
+        border_color=0x${t.bare t.c.overlay}ff
+        focus_color=0x${t.bare t.c.accent}ff
+        urgent_color=0x${t.bare t.c.red}ff
+        scratchpad_color=0x${t.bare t.c.accent2}ff
+        maximized_screen_color=0x${t.bare t.c.accent2}ff
+        root_color=0x${t.bare t.c.mantle}ff
       '';
 
       packages.apertureMango = inputs.wrapper-modules.wrappers.mangowc.wrap {
         inherit pkgs;
+        # mango from its own flake rather than nixpkgs: newer releases give a window its tiled
+        # size before it first draws, so it slides in at that size instead of at its own saved
+        # size (Dolphin's is the whole screen) and then snapping to its tile mid-animation
+        package = inputs'.mango.packages.mango;
         # Last, so the theme's colours win; optional, so mango starts before a theme is picked
         extraConfig = ''
           source_optional=~/.local/state/aperture-theme/current/mango.conf
         '';
         settings = {
           xkb_rules_layout = "us";
-          numlockon = 1;
-          sloppyfocus = 1;
+          numlock_on = 1;
+          sloppy_focus = 1;
 
-          gappih = 5;
-          gappiv = 5;
-          gappoh = 5;
-          gappov = 5;
+          gap_inner_horizontal = 5;
+          gap_inner_vertical = 5;
+          gap_outer_horizontal = 5;
+          gap_outer_vertical = 5;
 
           # Blur behind translucent windows (kitty); kitty's own background_blur only works on
           # macOS and KDE. The optimized blur is drawn once per monitor from the wallpaper.
@@ -129,10 +131,10 @@
           # side by side in one row, and with every window a master each gets the same width.
           # Tags 1-5 stay visible in waybar even when empty (rules apply in order, so no_hide must
           # come after the wildcard rule)
-          tagrule = [ "id:*,layout_name:vertical_tile,master_count:99" ]
+          tag_rule = [ "id:*,layout_name:vertical_tile,master_count:99" ]
             ++ map (n: "id:${toString n},no_hide:1") (lib.range 1 5);
 
-          monitorrule = [
+          monitor_rule = [
             # centre — Dell AW3425DWM ultrawide, pinned to its high refresh mode
             "serial:BH96444,width:3440,height:1440,refresh:179.989,x:0,y:0,scale:1,primary:1"
             # right — Dell AW2724DM, pinned to its high refresh mode
@@ -142,28 +144,28 @@
           ];
 
           # Keep the Xeneon's touchscreen on the Xeneon
-          devicerule = [ "name:wch.cn TouchScreen,monitor:serial:578526065656" ];
+          device_rule = [ "name:wch.cn TouchScreen,monitor:serial:578526065656" ];
 
-          windowrule = [
-            "isfloating:1,width:1620,height:910,appid:^kitty-float$"
+          window_rule = [
+            "is_floating:1,width:1620,height:910,app_id:^kitty-float$"
             # Obsidian lives in a named scratchpad, toggled with SUPER+SHIFT+O, sized like a
             # maximized window. Sizes <= 1 are fractions of the monitor: on the ultrawide that is
             # 3430x1386, the 3440x1396 area below the 44px waybar minus the 5px outer gaps.
             # It can't be any bigger: mango shrinks floating windows within a gap of the work area
             # to 90% of it. scratchpad_*_ratio would be ignored: mango only applies it to windows
             # that are not already floating, and this rule makes Obsidian float on map.
-            "isnamedscratchpad:1,width:0.9971,height:0.9625,appid:^md\\.obsidian\\.Obsidian$"
+            "is_named_scratchpad:1,width:0.9971,height:0.9625,app_id:^md\\.obsidian\\.Obsidian$"
             # rmpc runs in kitty in a named scratchpad, toggled with SUPER+SHIFT+M
-            "isnamedscratchpad:1,width:1620,height:910,appid:^kitty-rmpc$"
+            "is_named_scratchpad:1,width:1620,height:910,app_id:^kitty-rmpc$"
             # pwvucontrol, toggled by clicking the volume in waybar
-            "isnamedscratchpad:1,width:1100,height:720,appid:^com\\.saivert\\.pwvucontrol$"
+            "is_named_scratchpad:1,width:1100,height:720,app_id:^com\\.saivert\\.pwvucontrol$"
             # LibreWolf always opens on tag 2 and the Steam client on tag 3 (games are
             # steam_app_<id>, so they stay where they are launched)
-            "tags:2,appid:^librewolf$"
-            "tags:3,appid:^steam$"
+            "tags:2,app_id:^librewolf$"
+            "tags:3,app_id:^steam$"
           ];
 
-          "exec-once" = [
+          exec_once = [
             "${lib.getExe self'.packages.apertureSwww}"
             "${lib.getExe self'.packages.apertureWaybar}"
             "${lib.getExe self'.packages.apertureMako}"
