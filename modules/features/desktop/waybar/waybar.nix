@@ -7,6 +7,39 @@
 
   perSystem = { pkgs, lib, self', ... }:
     let
+      # The network module only knows whether a link is up. The internet counts as there once a
+      # real HTTPS request gets through, which also catches broken DNS or a dead upstream.
+      # The icons are Material Design glyphs from the Nerd Font: ethernet, wifi and network-off
+      networkStatus = pkgs.writeShellApplication {
+        name = "waybar-network";
+        runtimeInputs = with pkgs; [ iproute2 iw curl jq gawk gnused ];
+        text = ''
+          dev=$(ip route show default | awk '{ print $5; exit }')
+          if [ -z "$dev" ]; then
+            jq -nc '{ text: "󰲛", class: "offline", tooltip: "offline: no default route" }'
+            exit
+          fi
+
+          if [ -d "/sys/class/net/$dev/wireless" ]; then
+            icon=󰖩
+            link="$(iw dev "$dev" link | sed -n 's/^\s*SSID: //p')"
+          else
+            icon=󰈀
+            link=ethernet
+          fi
+          addr=$(ip -4 -br addr show dev "$dev" | awk '{ print $3 }')
+
+          if curl -fsS -o /dev/null --max-time 4 https://one.one.one.one/cdn-cgi/trace 2>/dev/null; then
+            state=online
+          else
+            state="no internet"
+            icon=󰲛
+          fi
+          jq -nc --arg text "$icon" --arg class "''${state// /-}" \
+            --arg tooltip "$state: $link on $dev $addr" '{ $text, $class, $tooltip }'
+        '';
+      };
+
       waybarConfig = (pkgs.formats.json { }).generate "waybar-config.json" {
         layer = "top";
         position = "top";
@@ -16,7 +49,7 @@
         # mango exposes its tags over ext-workspace, not the dwl ipc protocol
         modules-left = [ "ext/workspaces" ];
         modules-center = [ "clock" ];
-        modules-right = [ "pulseaudio" "network" "cpu" "memory" "tray" ];
+        modules-right = [ "pulseaudio" "custom/network" "cpu" "memory" "disk#root" "disk#games" "tray" ];
 
         "ext/workspaces" = {
           format = "{name}";
@@ -38,14 +71,28 @@
           on-click-right = "${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
         };
 
-        network = {
-          format-wifi = "{essid} {signalStrength}%";
-          format-ethernet = "eth";
-          format-disconnected = "offline";
+        "custom/network" = {
+          exec = lib.getExe networkStatus;
+          return-type = "json";
+          interval = 10;
         };
 
         cpu.format = "cpu {usage}%";
         memory.format = "mem {percentage}%";
+
+        # One per SSD that is mounted; the tooltip has the exact numbers
+        "disk#root" = {
+          path = "/";
+          format = "/ {percentage_used}%";
+          tooltip-format = "{path}: {used} used, {free} free of {total}";
+          states.critical = 90;
+        };
+        "disk#games" = {
+          path = "/mnt/games";
+          format = "games {percentage_used}%";
+          tooltip-format = "{path}: {used} used, {free} free of {total}";
+          states.critical = 90;
+        };
 
         tray.spacing = 12;
       };
