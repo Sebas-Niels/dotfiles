@@ -40,7 +40,6 @@
       kdePackages.kio-extras
       kdePackages.qtwayland
       kdePackages.breeze
-      papirus-icon-theme
       claude-code
       unzip
       ddcutil # This is for allowing noctalia to change screen brightness
