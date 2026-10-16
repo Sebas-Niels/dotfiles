@@ -165,8 +165,8 @@
             # games on tag 5. Steam games are steam_app_<id>, and anything run through gamescope
             # is gamescope
             "tags:2,app_id:^librewolf$"
-            "tags:4,app_id:^(steam|net\\.lutris\\.Lutris)$"
             "tags:3,app_id:^(signal|vesktop)$"
+            "tags:4,app_id:^(steam|net\\.lutris\\.Lutris)$"
             "tags:5,app_id:^(steam_app_.*|gamescope)$"
           ];
 
