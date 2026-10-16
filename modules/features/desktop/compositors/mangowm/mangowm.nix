@@ -36,6 +36,7 @@
       zsh = lib.getExe self'.packages.apertureZsh;
       fastfetch = lib.getExe self'.packages.apertureFastfetch;
       themeMenu = lib.getExe self'.packages.apertureThemeMenu;
+      rmpc = lib.getExe self'.packages.apertureRmpc;
 
       # Floating kitty running fastfetch, sized by the window rule below
       floatingKitty = pkgs.writeShellScript "mango-floating-kitty" ''
@@ -136,6 +137,8 @@
 
           "exec-once" = [
             "${lib.getExe self'.packages.apertureSwww}"
+            # rmpc runs in kitty in a named scratchpad, toggled with SUPER+SHIFT+M
+            "isnamedscratchpad:1,width:1620,height:910,appid:^kitty-rmpc$"
             "${lib.getExe self'.packages.apertureWaybar}"
             "${lib.getExe self'.packages.apertureMako}"
             # Start the theme menu hidden so SUPER+T opens it instantly
@@ -163,6 +166,7 @@
             "SUPER+CTRL,f,togglefullscreen"
             "SUPER+SHIFT,f,togglemaximizescreen"
             "SUPER,space,togglefloating"
+            "SUPER+SHIFT,m,toggle_named_scratchpad,kitty-rmpc,none,${kitty} --class=kitty-rmpc ${rmpc}"
 
             # grow/shrink the master area, and add/remove master windows
             "SUPER,equal,setmfact,+0.05"
