@@ -25,7 +25,7 @@
         settings = {
           add_newline = false;
 
-          format = "┌[\\[](bright-red)$username$hostname$directory[\\] ](bright-red)$git_branch$git_status\n└─►$character\${custom.rootchar}\${custom.userchar}";
+          format = "┌[\\[](bright-red)$username$hostname$directory[\\] ](bright-red)$git_branch$git_status\n└─► $character\${custom.rootchar}";
 
           jobs = {
             disabled = false;
@@ -63,13 +63,6 @@
             rootchar = {
               when = "test $(id -u) -eq 0";
               command = "echo '#'";
-              format = "[$output ](#FD3DB5)";
-              shell = promptShell;
-            };
-
-            userchar = {
-              when = "test $(id -u) -ne 0";
-              command = "echo '$'";
               format = "[$output ](#FD3DB5)";
               shell = promptShell;
             };
