@@ -13,6 +13,7 @@
       sddm
       printing
       networkManager
+      sshAgent
       graphics
       steam
       kitty
