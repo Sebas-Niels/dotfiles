@@ -95,6 +95,14 @@
           gappoh = 5;
           gappov = 5;
 
+          # Blur behind translucent windows (kitty); kitty's own background_blur only works on
+          # macOS and KDE. The optimized blur is drawn once per monitor from the wallpaper.
+          blur = 1;
+          blur_layer = 0;
+          blur_optimized = 1;
+          blur_params_num_passes = 3;
+          blur_params_radius = 8;
+
           cursor_theme = "breeze_cursors";
           cursor_size = 24;
 

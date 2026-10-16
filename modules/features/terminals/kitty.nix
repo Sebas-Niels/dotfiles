@@ -44,8 +44,7 @@
         };
 
         settings = {
-          background_opacity = "0.75";
-          background_blur = "64";
+          background_opacity = "0.92";
           shell = lib.getExe self'.packages.apertureZsh;
         };
 
