@@ -45,6 +45,7 @@
 
         settings = {
           background_opacity = "0.92";
+          disable_ligatures = "always";
           shell = lib.getExe self'.packages.apertureZsh;
         };
 
