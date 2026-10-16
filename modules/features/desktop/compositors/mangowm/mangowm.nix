@@ -79,14 +79,16 @@
       ]) (lib.range 1 9);
     in
     {
-      # Window border colours, rendered once per theme by the theme menu (see theme-menu.nix)
+      # Window border colours, rendered once per theme by the theme menu (see theme-menu.nix).
+      # The mango that wrapper-modules builds still uses the unseparated key names; the
+      # underscored ones (focus_color, ...) from newer mango are rejected as unknown keywords.
       apertureTheme.targets."mango.conf" = t: ''
-        border_color=0x${t.bare t.c.overlay}ff
-        focus_color=0x${t.bare t.c.accent}ff
-        urgent_color=0x${t.bare t.c.red}ff
-        scratchpad_color=0x${t.bare t.c.accent2}ff
-        maximized_screen_color=0x${t.bare t.c.accent2}ff
-        root_color=0x${t.bare t.c.mantle}ff
+        bordercolor=0x${t.bare t.c.overlay}ff
+        focuscolor=0x${t.bare t.c.accent}ff
+        urgentcolor=0x${t.bare t.c.red}ff
+        scratchpadcolor=0x${t.bare t.c.accent2}ff
+        maximizescreencolor=0x${t.bare t.c.accent2}ff
+        rootcolor=0x${t.bare t.c.mantle}ff
       '';
 
       packages.apertureMango = inputs.wrapper-modules.wrappers.mangowc.wrap {
