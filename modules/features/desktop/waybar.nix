@@ -62,7 +62,7 @@
         }
 
         #workspaces button {
-          padding: 0 10px;
+          padding: 0 24px;
           color: ${t.c.text};
           background: transparent;
           transition: background-color 200ms ease, color 200ms ease;
