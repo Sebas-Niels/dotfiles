@@ -1,6 +1,3 @@
-# Sampled from the wallpaper: the pale aqua of the pond and sky, navy shadows, the ochre
-# and terracotta of the sunlit trees and houses, plum shade under the leaves, and the
-# green-teal of the water
 {
   name = "Tanuki Pond";
   variant = "light";
@@ -18,8 +15,22 @@
     green = "#4f8a6a";
   };
   ansi = [
-    "#1c2841" "#a7564d" "#4f8a6a" "#856a22" "#2e485d" "#694365" "#287c82" "#b2c7c2"
-    "#5a6478" "#c06a5e" "#6aa98a" "#b89659" "#4f6f8f" "#955c8a" "#5fb0b8" "#d8e7e4"
+    "#1c2841"
+    "#a7564d"
+    "#4f8a6a"
+    "#856a22"
+    "#2e485d"
+    "#694365"
+    "#287c82"
+    "#b2c7c2"
+    "#5a6478"
+    "#c06a5e"
+    "#6aa98a"
+    "#b89659"
+    "#4f6f8f"
+    "#955c8a"
+    "#5fb0b8"
+    "#d8e7e4"
   ];
   term = {
     cursor = "#287c82";

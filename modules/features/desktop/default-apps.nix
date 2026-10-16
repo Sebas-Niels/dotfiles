@@ -5,7 +5,6 @@
     let
       browser = "librewolf.desktop";
 
-      # Everything Brave registers itself for, so it never wins by fallback.
       browserTypes = [
         "text/html"
         "text/xml"
@@ -25,8 +24,6 @@
     {
       xdg.mime.defaultApplications = lib.genAttrs browserTypes (_: browser);
 
-      # Sandboxed apps (e.g. the Tuta AppImage's FHS env) can't see /etc/xdg, so
-      # also write the defaults into each user's own ~/.config/mimeapps.list.
       system.userActivationScripts.defaultApps = ''
         ${pkgs.xdg-utils}/bin/xdg-mime default ${browser} ${lib.concatStringsSep " " browserTypes}
       '';

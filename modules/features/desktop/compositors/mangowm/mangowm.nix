@@ -16,21 +16,14 @@
       package = self.packages.${pkgs.stdenv.hostPlatform.system}.apertureMango;
     };
 
-    # mango runs with -c pointing at an immutable store path, so reload_config would only ever
-    # re-read the old config; expose the current one at a stable path for SUPER+R to load
-    environment.etc."mango/config.conf".source =
-      "${self.packages.${pkgs.stdenv.hostPlatform.system}.apertureMango}/config.conf";
+    environment.etc."mango/config.conf".source = "${
+      self.packages.${pkgs.stdenv.hostPlatform.system}.apertureMango
+    }/config.conf";
 
-    # Ships mangoReloadConfig.service, which nixos-rebuild reloads whenever the config changes,
-    # pushing the new config into the running mango (started from exec_once below)
     systemd.packages = [ self.packages.${pkgs.stdenv.hostPlatform.system}.apertureMango ];
 
-    # The SDDM theme has no session picker, so make sure mango is what launches
     services.displayManager.defaultSession = lib.mkDefault "mango";
 
-    # With several monitors the wlr portal asks which one to share, by default through whichever
-    # of wofi/rofi/bemenu/fuzzel it finds on PATH. Its user service's PATH has none of them, so
-    # every screenshare failed; point it at fuzzel directly
     xdg.portal.wlr.settings.screencast = {
       chooser_type = "dmenu";
       chooser_cmd = "${
@@ -39,7 +32,14 @@
     };
   };
 
-  perSystem = { pkgs, lib, self', inputs', ... }:
+  perSystem =
+    {
+      pkgs,
+      lib,
+      self',
+      inputs',
+      ...
+    }:
     let
       kitty = lib.getExe self'.packages.apertureKitty;
       zsh = lib.getExe self'.packages.apertureZsh;
@@ -48,12 +48,10 @@
       rmpc = lib.getExe self'.packages.apertureRmpc;
       coinflip = lib.getExe self'.packages.apertureCoinflip;
 
-      # Floating kitty running fastfetch, sized by the window rule below
       floatingKitty = pkgs.writeShellScript "mango-floating-kitty" ''
         exec ${kitty} --class=kitty-float ${zsh} -c '${fastfetch}; exec ${zsh}'
       '';
 
-      # Region screenshot, copied to the clipboard and saved like niri did
       screenshot = pkgs.writeShellScript "mango-screenshot" ''
         dir="$HOME/Pictures/Screenshots"
         mkdir -p "$dir"
@@ -64,7 +62,6 @@
 
       lock = lib.getExe self'.packages.apertureLock;
 
-      # Set every DDC/CI-capable monitor to 30% brightness at login
       brightness = pkgs.writeShellScript "mango-brightness" ''
         ddcutil=${lib.getExe pkgs.ddcutil}
         for display in $($ddcutil detect --terse | ${lib.getExe pkgs.gawk} '/^Display/ {print $2}'); do
@@ -72,14 +69,12 @@
         done
       '';
 
-      # SUPER+N views tag N, SUPER+SHIFT+N moves the focused window there
       tagBinds = lib.concatMap (n: [
         "SUPER,${toString n},view,${toString n},0"
         "SUPER+SHIFT,${toString n},tag,${toString n},0"
       ]) (lib.range 1 9);
     in
     {
-      # Window border colours, rendered once per theme by the theme menu (see theme-menu.nix)
       apertureTheme.targets."mango.conf" = t: ''
         border_color=0x${t.bare t.c.overlay}ff
         focus_color=0x${t.bare t.c.accent}ff
@@ -91,11 +86,7 @@
 
       packages.apertureMango = inputs.wrapper-modules.wrappers.mangowc.wrap {
         inherit pkgs;
-        # mango from its own flake rather than nixpkgs: newer releases give a window its tiled
-        # size before it first draws, so it slides in at that size instead of at its own saved
-        # size (Dolphin's is the whole screen) and then snapping to its tile mid-animation
         package = inputs'.mango.packages.mango;
-        # Last, so the theme's colours win; optional, so mango starts before a theme is picked
         extraConfig = ''
           source_optional=~/.local/state/aperture-theme/current/mango.conf
         '';
@@ -109,8 +100,6 @@
           gap_outer_horizontal = 5;
           gap_outer_vertical = 5;
 
-          # Blur behind translucent windows (kitty); kitty's own background_blur only works on
-          # macOS and KDE. The optimized blur is drawn once per monitor from the wallpaper.
           blur = 1;
           blur_layer = 0;
           blur_optimized = 1;
@@ -125,11 +114,7 @@
             "XCURSOR_SIZE,24"
           ];
 
-          # Master/stack tiling on every tag; tags 1-5 stay visible in waybar even when empty
-          # (rules apply in order, so no_hide must come after the wildcard rule)
-          tag_rule = [ "id:*,layout_name:tile" ]
-            ++ map (n: "id:${toString n},no_hide:1") (lib.range 1 5);
-          # The master and the stack each get half the width (the stack's windows share its height)
+          tag_rule = [ "id:*,layout_name:tile" ] ++ map (n: "id:${toString n},no_hide:1") (lib.range 1 5);
           default_master_factor = 0.5;
 
           monitor_rule = [
@@ -141,28 +126,14 @@
             "serial:578526065656,width:2560,height:720,refresh:60.266,x:440,y:1440,scale:1"
           ];
 
-          # Keep the Xeneon's touchscreen on the Xeneon
           device_rule = [ "name:wch.cn TouchScreen,monitor:serial:578526065656" ];
 
           window_rule = [
             "is_floating:1,width:1620,height:910,app_id:^kitty-float$"
-            # Obsidian lives in a named scratchpad, toggled with SUPER+SHIFT+O, sized like a
-            # maximized window. Sizes <= 1 are fractions of the monitor: on the ultrawide that is
-            # 3430x1386, the 3440x1396 area below the 44px waybar minus the 5px outer gaps.
-            # It can't be any bigger: mango shrinks floating windows within a gap of the work area
-            # to 90% of it. scratchpad_*_ratio would be ignored: mango only applies it to windows
-            # that are not already floating, and this rule makes Obsidian float on map.
             "is_named_scratchpad:1,width:0.9971,height:0.9625,app_id:^md\\.obsidian\\.Obsidian$"
-            # rmpc runs in kitty in a named scratchpad, toggled with SUPER+SHIFT+M
             "is_named_scratchpad:1,width:1620,height:910,app_id:^kitty-rmpc$"
-            # pwvucontrol, toggled by clicking the volume in waybar
             "is_named_scratchpad:1,width:1100,height:720,app_id:^com\\.saivert\\.pwvucontrol$"
-            # Bitwarden in a named scratchpad, toggled with SUPER+SHIFT+B
             "is_named_scratchpad:1,width:1100,height:720,app_id:^bitwarden$"
-            # kitty and VS Code always open on tag 1, LibreWolf on tag 2, messaging on tag 3, game
-            # launchers on tag 4, and games on tag 5. The kitty match is exact so the floating and
-            # scratchpad kitties are left alone. Steam games are steam_app_<id>, and anything run
-            # through gamescope is gamescope
             "tags:1,app_id:^(kitty|code)$"
             "tags:2,app_id:^librewolf$"
             "tags:3,app_id:^(signal|vesktop)$"
@@ -174,14 +145,10 @@
             "${lib.getExe self'.packages.apertureSwww}"
             "${lib.getExe self'.packages.apertureWaybar}"
             "${lib.getExe self'.packages.apertureMako}"
-            # Start the theme menu hidden so SUPER+T opens it instantly
             "${themeMenu} daemon"
-            # The coin down the right of the Xeneon
             "${coinflip} daemon"
             "${brightness}"
-            # Hot-reload the config on rebuild
             "systemctl --user start mangoReloadConfig.service"
-            # Start focused on the centre monitor
             "mmsg dispatch focusmon,serial:BH96444"
           ];
 
@@ -223,7 +190,8 @@
             "SUPER+CTRL,l,exchange_client,right"
             "SUPER+CTRL,Left,exchange_client,left"
             "SUPER+CTRL,Right,exchange_client,right"
-          ] ++ tagBinds;
+          ]
+          ++ tagBinds;
 
           mousebind = [
             "SUPER,btn_left,moveresize,curmove"

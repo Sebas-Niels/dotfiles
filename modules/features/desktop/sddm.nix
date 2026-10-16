@@ -17,8 +17,6 @@
                 source: "MainContent.qml"
             }
 
-            // Blank the pointer on every screen, not just the primary one.
-            // enabled: false so it never swallows events meant for the form.
             MouseArea {
                 anchors.fill: parent
                 enabled: false

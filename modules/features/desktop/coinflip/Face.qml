@@ -1,8 +1,6 @@
 import QtQuick
 import QtQuick.Shapes
 
-// One face of the coin, drawn on a 100-unit grid and scaled up: a sun for heads, a crescent
-// moon and two sparkles for tails, struck in relief inside a beaded ring
 Item {
     id: face
 
@@ -20,7 +18,6 @@ Item {
         return `M ${cx - r} ${cy} A ${r} ${r} 0 1 0 ${cx + r} ${cy} A ${r} ${r} 0 1 0 ${cx - r} ${cy} Z`;
     }
 
-    // Disc with twelve rays, long and short in turn
     function sun(): string {
         let p = circle(50, 50, 13);
         for (let i = 0; i < 12; i++) {
@@ -33,7 +30,6 @@ Item {
         return p;
     }
 
-    // The part of circle (x1, y1, r1) outside circle (x2, y2, r2)
     function crescent(x1: real, y1: real, r1: real, x2: real, y2: real, r2: real): string {
         const dx = x2 - x1, dy = y2 - y1;
         const d = Math.hypot(dx, dy);
@@ -43,8 +39,6 @@ Item {
         const px = x1 + a * ux, py = y1 + a * uy;
         const p1 = [px - h * uy, py + h * ux];
         const p2 = [px + h * uy, py - h * ux];
-        // Both arcs run through the side facing away from the second circle's centre; an arc
-        // turns clockwise (sweep 1) when its midpoint lies clockwise of its start
         const sweep = (from, mid, cx, cy) => ((from[0] - cx) * (mid[1] - cy) - (from[1] - cy) * (mid[0] - cx)) > 0 ? 1 : 0;
         const m1 = [x1 - r1 * ux, y1 - r1 * uy];
         const m2 = [x2 - r2 * ux, y2 - r2 * uy];
@@ -66,7 +60,6 @@ Item {
         scale: face.size / 100
         transformOrigin: Item.TopLeft
 
-        // Polished field, lit from the upper left
         Shape {
             anchors.fill: parent
             preferredRendererType: Shape.CurveRenderer
@@ -86,7 +79,6 @@ Item {
                 PathSvg { path: face.circle(50, 50, 50) }
             }
 
-            // Raised outer lip
             ShapePath {
                 fillColor: "transparent"
                 strokeColor: Qt.alpha(face.metalDark, 0.9)
@@ -100,7 +92,6 @@ Item {
                 PathSvg { path: face.circle(50, 50, 45.6) }
             }
 
-            // Beads
             ShapePath {
                 fillColor: "transparent"
                 strokeColor: Qt.alpha(face.metalDark, 0.75)
@@ -119,7 +110,6 @@ Item {
             }
         }
 
-        // The emblem in relief: a shadow below right, a highlight above left, then the face
         Repeater {
             model: [
                 { dx: 0.9, dy: 1.1, color: Qt.alpha(face.metalDark, 0.95) },

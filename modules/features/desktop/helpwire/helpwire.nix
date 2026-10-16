@@ -8,11 +8,9 @@
     {
       environment.systemPackages = [ helpwire ];
 
-      # The app reads its config from this absolute path
       environment.etc."HelpWire/Operator/main.conf".source =
         "${helpwire}/etc/HelpWire/Operator/main.conf";
 
-      # State/log dirs the vendor scripts reference
       systemd.tmpfiles.rules = [
         "d /var/lib/HelpWire 1777 root root -"
         "d /var/log/HelpWire 1777 root root -"
@@ -122,7 +120,6 @@
                 $out/share/icons/hicolor/''${s}x''${s}/apps/helpwire-operator.png
             done
 
-            # Clean desktop entry; the vendor's Exec line is a /bin/sh wrapper we can't reuse
             cat > $out/share/applications/helpwire-operator.desktop <<EOF
             [Desktop Entry]
             Type=Application

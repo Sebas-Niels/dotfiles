@@ -1,6 +1,3 @@
-# Sampled from the wallpaper: the pale sky, sea blues, the crossing's yellow, the tram's
-# green and cream, and the warm brown of the sunlit street. Blues take most of the
-# colours, as they do in the picture
 {
   name = "Seaside Crossing";
   variant = "light";
@@ -18,8 +15,22 @@
     green = "#2e674e";
   };
   ansi = [
-    "#1b3a44" "#a85c3c" "#2e674e" "#85701a" "#2f6f9a" "#7ca3d1" "#3a8a95" "#a9c2c8"
-    "#4f6a75" "#c4784f" "#3c8a62" "#c9b24a" "#4f8fc0" "#82aee0" "#5fb0c5" "#e4ece8"
+    "#1b3a44"
+    "#a85c3c"
+    "#2e674e"
+    "#85701a"
+    "#2f6f9a"
+    "#7ca3d1"
+    "#3a8a95"
+    "#a9c2c8"
+    "#4f6a75"
+    "#c4784f"
+    "#3c8a62"
+    "#c9b24a"
+    "#4f8fc0"
+    "#82aee0"
+    "#5fb0c5"
+    "#e4ece8"
   ];
   term = {
     cursor = "#2f7fa6";

@@ -1,6 +1,3 @@
-# Sampled from the wallpaper, which is almost all cyan and blue with violet and pink
-# flowers: blues take most of the colours, the flowers' pink is red and the secondary
-# highlight, and warnings are a pale lavender since there is no yellow
 {
   name = "Torii Bloom";
   variant = "dark";
@@ -18,8 +15,22 @@
     green = "#40d9f7";
   };
   ansi = [
-    "#17224f" "#eb8adf" "#40d9f7" "#b8c6ff" "#216dd8" "#b378d7" "#2da7f3" "#c6d2f2"
-    "#2a3a80" "#f5a3ea" "#7ce6fa" "#d6dfff" "#5065da" "#cd7fda" "#6cc4f7" "#eef3ff"
+    "#17224f"
+    "#eb8adf"
+    "#40d9f7"
+    "#b8c6ff"
+    "#216dd8"
+    "#b378d7"
+    "#2da7f3"
+    "#c6d2f2"
+    "#2a3a80"
+    "#f5a3ea"
+    "#7ce6fa"
+    "#d6dfff"
+    "#5065da"
+    "#cd7fda"
+    "#6cc4f7"
+    "#eef3ff"
   ];
   term = {
     cursor = "#2da7f3";

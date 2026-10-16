@@ -13,8 +13,6 @@ ShellRoot {
     readonly property string fontFamily: "JetBrainsMono Nerd Font"
     readonly property string user: Quickshell.env("USER") ?? ""
     readonly property string wallpaper: "file://" + Quickshell.env("HOME") + "/.local/state/aperture-theme/current/wallpaper"
-    // The clock and the pill only go on the ultrawide; the other monitors just show the blur.
-    // mango tells clients no model or serial, but nothing else here is 3440 wide
     readonly property var main: {
         const screens = Quickshell.screens;
         for (let i = 0; i < screens.length; i++)
@@ -23,13 +21,10 @@ ShellRoot {
         return screens.length > 0 ? screens[0] : null;
     }
 
-    // Shared by every monitor's surface, so typing works on whichever one mango focuses
     property string password: ""
     property bool checking: false
     property bool failed: false
-    // Bumped on every wrong password, which the pills shake on
     property int failures: 0
-    // Runs 0 -> 1 as the lock fades in, and back to 0 before it lets go
     property real shown: 0
 
     function submit() {
@@ -100,7 +95,6 @@ ShellRoot {
         running: true
     }
 
-    // Let the clock and the blur fall away before handing the desktop back
     SequentialAnimation {
         id: fadeOut
 
@@ -119,7 +113,6 @@ ShellRoot {
         }
     }
 
-    // Colours of the current theme, with Moonlight's until it has loaded
     FileView {
         path: Quickshell.env("HOME") + "/.local/state/aperture-theme/current/lockscreen.json"
         printErrors: false
@@ -155,14 +148,12 @@ ShellRoot {
             Item {
                 id: page
 
-                // 1 on the 1440p monitors, smaller on the short Xeneon
                 readonly property real u: Math.max(0.5, Math.min(height / 1440, 1))
 
                 anchors.fill: parent
                 focus: true
                 Keys.onPressed: event => root.type(event)
 
-                // The wallpaper, blurred, and pushed back a little as the lock comes in
                 Image {
                     id: wall
                     anchors.fill: parent
@@ -185,7 +176,6 @@ ShellRoot {
                     opacity: 0.4 + 0.6 * root.shown
                 }
 
-                // Darker towards the edges, and most of all behind the clock and the pill
                 Rectangle {
                     anchors.fill: parent
                     opacity: root.shown
@@ -237,7 +227,6 @@ ShellRoot {
                         height: Math.round(56 * page.u)
                     }
 
-                    // Who is locked out, a circle with their initial over their name
                     Row {
                         anchors.horizontalCenter: parent.horizontalCenter
                         spacing: Math.round(12 * page.u)
@@ -314,7 +303,6 @@ ShellRoot {
                             }
                         }
 
-                        // Lock glyph on the left
                         Text {
                             anchors.left: parent.left
                             anchors.leftMargin: Math.round(22 * page.u)
@@ -339,7 +327,6 @@ ShellRoot {
                             Behavior on opacity { NumberAnimation { duration: 150 } }
                         }
 
-                        // One dot per character, kept within the pill; they breathe while PAM checks
                         Row {
                             id: dots
 
@@ -378,7 +365,6 @@ ShellRoot {
                     }
                 }
 
-                // A quiet hint along the bottom
                 Text {
                     visible: content.visible
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -392,7 +378,6 @@ ShellRoot {
                     font.letterSpacing: 3 * page.u
                 }
 
-                // Hide the pointer while locked
                 MouseArea {
                     anchors.fill: parent
                     cursorShape: Qt.BlankCursor

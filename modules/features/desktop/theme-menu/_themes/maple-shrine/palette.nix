@@ -1,6 +1,3 @@
-# Sampled from the wallpaper: the pale peach mist, maple reds, terracotta ground, tan
-# stone and the wine and plum of the shaded leaves. Everything in it is warm, so even
-# blue and green fall to wine, plum and tan
 {
   name = "Maple Shrine";
   variant = "light";
@@ -18,8 +15,22 @@
     green = "#6f5a32";
   };
   ansi = [
-    "#3a1c1c" "#a8322a" "#7a623a" "#b07a2a" "#5d293b" "#8a3a4f" "#9a6a50" "#d0b3a3"
-    "#7a5a50" "#c4483a" "#a08050" "#d7a35a" "#7a3a4a" "#b05a6a" "#c99d83" "#eedfd6"
+    "#3a1c1c"
+    "#a8322a"
+    "#7a623a"
+    "#b07a2a"
+    "#5d293b"
+    "#8a3a4f"
+    "#9a6a50"
+    "#d0b3a3"
+    "#7a5a50"
+    "#c4483a"
+    "#a08050"
+    "#d7a35a"
+    "#7a3a4a"
+    "#b05a6a"
+    "#c99d83"
+    "#eedfd6"
   ];
   term = {
     cursor = "#a8322a";

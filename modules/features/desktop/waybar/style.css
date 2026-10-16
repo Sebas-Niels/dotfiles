@@ -1,6 +1,3 @@
-/* The theme menu puts the palette in front of this file as @define-color lines (see waybar.nix):
-   @bg @mantle @surface @overlay @text @subtext @accent @accent2 @red @yellow @green */
-
 * {
   font-family: monospace;
   font-size: 20px;
@@ -55,8 +52,6 @@ window#waybar {
   color: @red;
 }
 
-/* A short line before each group on the right that's about something else:
-   volume | network | cpu mem | disks | tray. The margin shortens the line, not the text's centring */
 #custom-network, #cpu, #disk.root, #tray {
   border-left: 1px solid @accent;
   margin: 10px 0;

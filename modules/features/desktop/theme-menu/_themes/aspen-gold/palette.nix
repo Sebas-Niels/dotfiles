@@ -1,6 +1,3 @@
-# Sampled from the wallpaper: birch-bark white and grey, the amber and gold of the aspens,
-# rust cliffs and the dark olive of the pines. There is no blue in it, so the blue and
-# cyan terminal colours take bark brown and moss
 {
   name = "Aspen Gold";
   variant = "light";
@@ -18,8 +15,22 @@
     green = "#55702a";
   };
   ansi = [
-    "#2e241c" "#a8402c" "#55702a" "#8a700c" "#593c2b" "#9c4f2b" "#6f7d35" "#c9c2b5"
-    "#6e5f50" "#c0583a" "#7d9a3a" "#c8a020" "#8a5a3a" "#c8834b" "#a1ac38" "#ede5d6"
+    "#2e241c"
+    "#a8402c"
+    "#55702a"
+    "#8a700c"
+    "#593c2b"
+    "#9c4f2b"
+    "#6f7d35"
+    "#c9c2b5"
+    "#6e5f50"
+    "#c0583a"
+    "#7d9a3a"
+    "#c8a020"
+    "#8a5a3a"
+    "#c8834b"
+    "#a1ac38"
+    "#ede5d6"
   ];
   term = {
     cursor = "#c07a1c";

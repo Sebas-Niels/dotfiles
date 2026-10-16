@@ -16,7 +16,6 @@
       ...
     }:
     {
-      # Colours come from the theme menu (see theme-menu.nix)
       apertureTheme.targets."ghostty" = t: ''
         background = ${t.c.bg}
         foreground = ${t.c.text}
@@ -33,12 +32,10 @@
         settings = {
           font-family = "JetBrainsMono Nerd Font";
           font-size = 16;
-          # Optional (?) so ghostty still starts before a theme has been picked
           config-file = "?~/.local/state/aperture-theme/current/ghostty";
           background-opacity = 0.75;
           background-blur = 64;
           command = lib.getExe self'.packages.apertureZsh;
-          # Close without asking, even with a program still running
           confirm-close-surface = false;
         };
       };

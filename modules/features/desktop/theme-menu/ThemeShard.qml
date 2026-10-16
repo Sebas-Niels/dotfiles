@@ -2,9 +2,6 @@ import QtQuick
 import QtQuick.Effects
 import QtQuick.Shapes
 
-// One theme in the strip: a slanted slice of its wallpaper that widens to show more of it when
-// selected. The bounding box is the slice's width plus the slant, so neighbours overlap by the
-// slant and their edges run parallel.
 Item {
     id: shard
 
@@ -13,7 +10,6 @@ Item {
 
     property bool selected: false
     property bool active: false
-    // 0..1, driven by the menu's open animation
     property real reveal: 1
 
     property real collapsedWidth: 140
@@ -22,7 +18,6 @@ Item {
 
     readonly property var c: modelData.colors
 
-    // Width along the top and bottom edges
     property real shardWidth: selected ? expandedWidth : collapsedWidth
     Behavior on shardWidth {
         NumberAnimation { duration: 420; easing.type: Easing.OutQuint }
@@ -34,7 +29,6 @@ Item {
         y: 48 * (1 - shard.reveal)
     }
 
-    // Whether a point in this item's coordinates lies on the slice itself
     function hits(p: point): bool {
         if (p.y < 0 || p.y > height)
             return false;
@@ -55,7 +49,6 @@ Item {
             fillMode: Image.PreserveAspectCrop
             asynchronous: true
             smooth: true
-            // Settles from a slight zoom as it opens up
             scale: shard.selected ? 1 : 1.12
 
             Behavior on scale {
@@ -63,7 +56,6 @@ Item {
             }
         }
 
-        // Unselected slices sink back
         Rectangle {
             anchors.fill: parent
             color: "#000000"
@@ -104,7 +96,6 @@ Item {
         maskSpreadAtMin: 1
     }
 
-    // Accent edge on the selected slice, in its own theme's colour
     Shape {
         anchors.fill: parent
         preferredRendererType: Shape.CurveRenderer
@@ -128,7 +119,6 @@ Item {
         }
     }
 
-    // Marks the applied theme, centred on the slice's bottom edge
     Rectangle {
         y: shard.height - height - 16
         x: shard.slant * (1 - (y + height / 2) / shard.height) + shard.shardWidth / 2 - width / 2

@@ -16,7 +16,6 @@
       ...
     }:
     {
-      # Colours come from the theme menu (see theme-menu.nix)
       apertureTheme.targets."kitty.conf" = t: ''
         foreground ${t.c.text}
         background ${t.c.bg}
@@ -49,7 +48,6 @@
           shell = lib.getExe self'.packages.apertureZsh;
         };
 
-        # kitty skips a missing include, so this is safe before a theme has been picked
         extraConfig = ''
           include ~/.local/state/aperture-theme/current/kitty.conf
         '';

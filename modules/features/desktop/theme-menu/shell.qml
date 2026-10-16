@@ -16,10 +16,8 @@ ShellRoot {
     property bool open: false
     property string current: ""
     property int selected: 0
-    // Theme queued to apply once the running switch finishes
     property string pending: ""
 
-    // 0 closed .. 1 open; every enter/exit animation is driven from this one value
     property real progress: open ? 1 : 0
     Behavior on progress {
         NumberAnimation {
@@ -28,7 +26,6 @@ ShellRoot {
         }
     }
 
-    // The menu shows the selected theme's wallpaper and takes on its colours, as a live preview
     readonly property var preview: themes[selected] ?? themes[0]
 
     function indexOf(id: string): int {
@@ -53,7 +50,6 @@ ShellRoot {
         strip.reveal(selected, center, false);
     }
 
-    // Mouse wheel and touchpad scrolling step through the themes, a notch at a time
     property real wheelDelta: 0
     function wheel(event: var) {
         const d = event.angleDelta;
@@ -130,15 +126,11 @@ ShellRoot {
         onVisibleChanged: if (visible)
             Qt.callLater(() => {
                 keys.forceActiveFocus();
-                // The window only has its size once it is mapped
                 strip.reveal(root.selected, true, true);
             })
 
-        // Everything is sized off the strip, which follows the screen's height (the Xeneon Edge
-        // is only 720 pixels tall)
         readonly property real stripHeight: Math.round(Math.max(220, Math.min(560, height * 0.42)))
 
-        // Animated copy of the previewed palette
         Item {
             id: ui
             visible: false
@@ -197,8 +189,6 @@ ShellRoot {
             }
         }
 
-        // The previewed wallpaper, full screen. Two layers so a new one fades in over the old
-        // one once it has loaded.
         Item {
             id: backdrop
 
@@ -254,7 +244,6 @@ ShellRoot {
                 }
             }
 
-            // Shade toward the bottom so the name stays readable on any wallpaper
             Rectangle {
                 z: 2
                 anchors.fill: parent
@@ -265,7 +254,6 @@ ShellRoot {
                 }
             }
 
-            // Clicking anywhere off the strip closes the menu
             MouseArea {
                 z: 3
                 anchors.fill: parent
@@ -299,11 +287,8 @@ ShellRoot {
             readonly property real gap: Math.max(6, Math.round(win.stripHeight * 0.025))
             readonly property real step: collapsedWidth + gap
             readonly property real pad: Math.round(win.stripHeight * 0.12)
-            // Width once the selection has settled: one slice open, the rest collapsed
             readonly property real fullWidth: (root.themes.length - 1) * step + expandedWidth + slant
 
-            // Scene position of the last real pointer movement; slices sliding under a still
-            // pointer must not change the selection
             property point lastPointer: Qt.point(-1, -1)
 
             anchors.horizontalCenter: parent.horizontalCenter
@@ -318,7 +303,6 @@ ShellRoot {
             flickableDirection: Flickable.HorizontalFlick
             boundsBehavior: Flickable.StopAtBounds
 
-            // Scroll so slice i is in view, or centred when moving with the keyboard
             function reveal(i: int, center: bool, instant: bool) {
                 const x = i * step;
                 const w = expandedWidth + slant;
@@ -352,7 +336,6 @@ ShellRoot {
 
             onWidthChanged: reveal(root.selected, true, true)
 
-            // Ahead of the Flickable's own wheel scrolling
             WheelHandler {
                 onWheel: event => root.wheel(event)
             }
@@ -382,7 +365,6 @@ ShellRoot {
                         expandedWidth: strip.expandedWidth
                         selected: index === root.selected
                         active: modelData.id === root.current
-                        // Slices rise in outward from the selected one
                         reveal: Math.max(0, Math.min(1, root.progress * 1.7 - Math.abs(index - root.selected) * 0.07))
                     }
                 }
@@ -403,8 +385,6 @@ ShellRoot {
                         root.select(i, false);
                 }
 
-                // A mouse has already selected by hovering, so one click applies; a touch
-                // selects with the first tap and applies with the second
                 onClicked: mouse => {
                     const i = strip.shardAt(mapToItem(null, mouse.x, mouse.y));
                     if (i < 0)

@@ -3,7 +3,6 @@ let
   user = "nivis";
 in
 {
-  # The music server; clients (rmpc, mpc) connect over its socket, /run/mpd/socket
   flake.nixosModules.mpd =
     { pkgs, ... }:
     {

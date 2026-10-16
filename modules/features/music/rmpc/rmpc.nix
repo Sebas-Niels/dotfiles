@@ -1,6 +1,5 @@
 { self, inputs, ... }:
 {
-  # A client for the mpd module's server
   flake.nixosModules.rmpc =
     { pkgs, ... }:
     {
