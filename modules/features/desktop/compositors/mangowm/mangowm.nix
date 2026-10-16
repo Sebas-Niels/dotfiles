@@ -131,6 +131,8 @@
           # (rules apply in order, so no_hide must come after the wildcard rule)
           tag_rule = [ "id:*,layout_name:tile" ]
             ++ map (n: "id:${toString n},no_hide:1") (lib.range 1 5);
+          # The master and the stack each get half the width (the stack's windows share its height)
+          default_master_factor = 0.5;
 
           monitor_rule = [
             # centre — Dell AW3425DWM ultrawide, pinned to its high refresh mode
