@@ -3,8 +3,8 @@
   flake.nixosModules.unity =
     { pkgs, ... }:
     let
-      uiScale = 1; # GDK only accepts integers
-      textScale = 1; # multiplies uiScale for text, so 1 * 1 = 1x text
+      uiScale = 2; # GDK only accepts integers
+      textScale = 0.65; # multiplies uiScale for text, so 2 * 0.65 = 1.3x text
 
       # Unity's shader compiler links against a Debian-style libtinfo.so.6 with
       # versioned symbols. nixpkgs' libtinfo is only a symlink to libncursesw, so
@@ -45,7 +45,7 @@
           }).overrideAttrs
             (old: {
               # The Linux editor has no UI scaling setting and only follows GDK's
-              # integer scale. GDK_DPI_SCALE scales text on top of that.
+              # integer scale. GDK_DPI_SCALE shrinks text back for a ~1.3x feel.
               # The editor is launched by the hub, so it inherits these.
               postFixup = (old.postFixup or "") + ''
                 wrapProgram $out/opt/unityhub/unityhub \
