@@ -28,6 +28,7 @@
       lazygit
       helpwire
       godot
+      unity
       lutris
       mangowm
     ];
