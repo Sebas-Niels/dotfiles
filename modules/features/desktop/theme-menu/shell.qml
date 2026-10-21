@@ -17,6 +17,8 @@ ShellRoot {
     property string current: ""
     property int selected: 0
     property string pending: ""
+    // Variant shown while browsing; themes without that variant fall back to their own
+    property string mode: "dark"
 
     property real progress: open ? 1 : 0
     Behavior on progress {
@@ -26,17 +28,36 @@ ShellRoot {
         }
     }
 
-    readonly property var preview: themes[selected] ?? themes[0]
+    readonly property var preview: pick(themes[selected] ?? themes[0], mode)
+
+    // A theme (wallpaper) in one variant, flattened to what the UI shows
+    function pick(theme: var, variant: string): var {
+        const v = theme.variants[variant] ?? theme.variants[theme.primary];
+        return {
+            name: theme.name,
+            wallpaper: theme.wallpaper,
+            thumbnail: theme.thumbnail,
+            id: v.id,
+            variant: v.variant,
+            colors: v.colors
+        };
+    }
 
     function indexOf(id: string): int {
         for (let i = 0; i < themes.length; i++)
-            if (themes[i].id === id)
-                return i;
+            for (const variant in themes[i].variants)
+                if (themes[i].variants[variant].id === id)
+                    return i;
         return 0;
     }
 
     function show() {
         selected = indexOf(current);
+        const theme = themes[selected];
+        mode = theme.primary;
+        for (const variant in theme.variants)
+            if (theme.variants[variant].id === current)
+                mode = variant;
         strip.reveal(selected, true, true);
         open = true;
     }
@@ -63,8 +84,8 @@ ShellRoot {
 
     function apply(i: int) {
         selected = i;
-        current = themes[i].id;
-        pending = themes[i].id;
+        current = pick(themes[i], mode).id;
+        pending = current;
         flush();
         hide();
     }
@@ -170,6 +191,14 @@ ShellRoot {
                 case Qt.Key_L:
                 case Qt.Key_Tab:
                     root.select(s + 1, true);
+                    break;
+                case Qt.Key_Up:
+                case Qt.Key_K:
+                    root.mode = "light";
+                    break;
+                case Qt.Key_Down:
+                case Qt.Key_J:
+                    root.mode = "dark";
                     break;
                 case Qt.Key_Home:
                     root.select(0, true);
@@ -364,7 +393,8 @@ ShellRoot {
                         collapsedWidth: strip.collapsedWidth
                         expandedWidth: strip.expandedWidth
                         selected: index === root.selected
-                        active: modelData.id === root.current
+                        active: root.indexOf(root.current) === index
+                        c: root.pick(modelData, root.mode).colors
                         reveal: Math.max(0, Math.min(1, root.progress * 1.7 - Math.abs(index - root.selected) * 0.07))
                     }
                 }
@@ -461,7 +491,7 @@ ShellRoot {
             opacity: 0.85 * root.progress
 
             Repeater {
-                model: [["← →", "browse"], ["enter", "apply"], ["esc", "close"]]
+                model: [["← →", "browse"], ["↑ ↓", "light / dark"], ["enter", "apply"], ["esc", "close"]]
 
                 Row {
                     id: hint

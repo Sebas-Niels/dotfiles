@@ -136,7 +136,9 @@
         "webp"
       ];
 
-      themes = lib.mapAttrs (
+      # Each theme directory holds palette.nix and optionally palette-<other variant>.nix, giving
+      # the same wallpaper in both modes. The alternate one is installed as "<id>.<variant>".
+      groups = lib.mapAttrs (
         id: _:
         let
           dir = ./_themes + "/${id}";
@@ -144,26 +146,46 @@
           own = lib.findFirst (f: builtins.pathExists (dir + "/${f}")) null wallpaperNames;
           base = if own != null then dir + "/${own}" else gradientWallpaper id p.colors;
           wallpaper = if p ? wallpaperTrimTop then trimTop id base p.wallpaperTrimTop else base;
+          thumb = thumbnail id wallpaper;
+
+          mk =
+            themeId: p:
+            helpers
+            // {
+              inherit dir wallpaper;
+              inherit (p) name variant ansi;
+              id = themeId;
+              thumbnail = thumb;
+              dark = p.variant == "dark";
+              icons = if p.variant == "dark" then "Colloid-Dark" else "Colloid-Light";
+              c = p.colors;
+              term = {
+                cursor = p.colors.accent;
+                selection = p.colors.overlay;
+              }
+              // (p.term or { });
+            };
+
+          primary = mk id p;
+          altVariant = if primary.dark then "light" else "dark";
+          altFile = dir + "/palette-${altVariant}.nix";
         in
-        helpers
-        // {
-          inherit id dir wallpaper;
-          inherit (p) name variant ansi;
-          thumbnail = thumbnail id wallpaper;
-          dark = p.variant == "dark";
-          icons = if p.variant == "dark" then "Colloid-Dark" else "Colloid-Light";
-          c = p.colors;
-          term = {
-            cursor = p.colors.accent;
-            selection = p.colors.overlay;
-          }
-          // (p.term or { });
+        {
+          inherit id primary;
+          variants = [
+            primary
+          ]
+          ++ lib.optional (builtins.pathExists altFile) (mk "${id}.${altVariant}" (import altFile));
         }
       ) (lib.filterAttrs (_: type: type == "directory") (builtins.readDir ./_themes));
 
-      orderedThemes = lib.sort (a: b: if a.dark != b.dark then a.dark else a.name < b.name) (
-        lib.attrValues themes
+      themes = lib.listToAttrs (
+        lib.concatMap (g: map (t: lib.nameValuePair t.id t) g.variants) (lib.attrValues groups)
       );
+
+      orderedGroups = lib.sort (
+        a: b: if a.primary.dark != b.primary.dark then a.primary.dark else a.primary.name < b.primary.name
+      ) (lib.attrValues groups);
 
       shades =
         t:
@@ -497,17 +519,21 @@
 
         var list = ${
           builtins.toJSON (
-            map (t: {
-              inherit (t)
-                id
-                name
-                variant
-                ansi
-                ;
-              colors = t.c;
-              wallpaper = "file://${t.wallpaper}";
-              thumbnail = "file://${t.thumbnail}";
-            }) orderedThemes
+            map (g: {
+              inherit (g.primary) name;
+              primary = g.primary.variant;
+              wallpaper = "file://${g.primary.wallpaper}";
+              thumbnail = "file://${g.primary.thumbnail}";
+              variants = lib.listToAttrs (
+                map (
+                  t:
+                  lib.nameValuePair t.variant {
+                    inherit (t) id variant ansi;
+                    colors = t.c;
+                  }
+                ) g.variants
+              );
+            }) orderedGroups
           )
         };
       '';

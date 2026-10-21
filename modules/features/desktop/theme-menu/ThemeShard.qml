@@ -16,7 +16,7 @@ Item {
     property real expandedWidth: 560
     property real slant: 110
 
-    readonly property var c: modelData.colors
+    property var c: modelData.variants[modelData.primary].colors
 
     property real shardWidth: selected ? expandedWidth : collapsedWidth
     Behavior on shardWidth {
