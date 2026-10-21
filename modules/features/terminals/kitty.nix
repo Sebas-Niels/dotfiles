@@ -46,6 +46,8 @@
           background_opacity = "0.92";
           disable_ligatures = "always";
           shell = lib.getExe self'.packages.apertureZsh;
+          # Whole directory so starfield.slang lands next to the pipeline that loads it
+          custom_shaders = "${./shaders}/starfield.pipeline";
         };
 
         extraConfig = ''

@@ -1,0 +1,6 @@
+# Stars slowly wandering on their own random paths (see starfield.slang).
+# No animation_start, so it keeps animating whether or not the window is focused.
+startgroup
+    animation_step 50
+    shaders starfield
+endgroup
