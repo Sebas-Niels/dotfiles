@@ -30,6 +30,7 @@
       godot
       unity
       lutris
+      flatpakGames
       mangowm
     ];
 

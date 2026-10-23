@@ -52,6 +52,17 @@
         exec ${kitty} --class=kitty-float ${zsh} -c '${fastfetch}; exec ${zsh}'
       '';
 
+      # Flatpaks that keep running in the background after their window closes; SUPER+q kills their sandbox instead
+      killFlatpaks = [ "com.adamcake.Bolt" ];
+
+      killClient = pkgs.writeShellScript "mango-kill-client" ''
+        appid=$(mmsg get focusing-client | ${lib.getExe pkgs.gnused} -nE 's/.*"appid":"([^"]*)".*/\1/p')
+        case "$appid" in
+          ${lib.concatStringsSep "|" killFlatpaks}) exec ${pkgs.flatpak}/bin/flatpak kill "$appid" ;;
+          *) exec mmsg dispatch killclient ;;
+        esac
+      '';
+
       screenshot = pkgs.writeShellScript "mango-screenshot" ''
         dir="$HOME/Pictures/Screenshots"
         mkdir -p "$dir"
@@ -140,7 +151,7 @@
             "tags:2,app_id:^librewolf$"
             "tags:3,app_id:^(signal|vesktop)$"
             "tags:4,app_id:^(steam|net\\.lutris\\.Lutris)$"
-            "tags:5,app_id:^(steam_app_.*|gamescope)$"
+            "tags:5,app_id:^(steam_app_.*|gamescope|com\\.adamcake\\.Bolt|net-runelite-.*|RuneLite)$"
           ];
 
           exec_once = [
@@ -159,7 +170,7 @@
             "SUPER,t,spawn,${themeMenu} toggle"
             "SUPER,Return,spawn,${kitty}"
             "SUPER+SHIFT,Return,spawn,${floatingKitty}"
-            "SUPER,q,killclient"
+            "SUPER,q,spawn,${killClient}"
             "SUPER,o,toggleoverview"
             "SUPER+SHIFT,o,toggle_named_scratchpad,md\\.obsidian\\.Obsidian,none,obsidian"
             "SUPER+SHIFT,m,toggle_named_scratchpad,kitty-rmpc,none,${kitty} --class=kitty-rmpc ${rmpc}"
