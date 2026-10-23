@@ -40,7 +40,7 @@
 
           border = {
             width = 3;
-            radius = 12;
+            radius = 0;
           };
         };
 
