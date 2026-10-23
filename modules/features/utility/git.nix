@@ -1,8 +1,10 @@
 { self, ... }:
 {
   flake.nixosModules.git =
-    { ... }:
+    { pkgs, ... }:
     {
+      environment.systemPackages = [ pkgs.gh ];
+
       programs.git = {
         enable = true;
         config = {
