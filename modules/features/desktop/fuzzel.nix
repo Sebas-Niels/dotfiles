@@ -39,7 +39,7 @@
           };
 
           border = {
-            width = 3;
+            width = 1;
             radius = 0;
           };
         };
