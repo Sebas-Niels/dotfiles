@@ -18,7 +18,6 @@
     environment.systemPackages = with pkgs; [
       protontricks
       protonup-ng
-      scanmem
     ];
 
     environment.sessionVariables = {
