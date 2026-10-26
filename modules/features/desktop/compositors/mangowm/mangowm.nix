@@ -8,6 +8,7 @@
       self.nixosModules.waybar
       self.nixosModules.themeMenu
       self.nixosModules.coinflip
+      self.nixosModules.displayMenu
       self.nixosModules.lockscreen
     ];
 
@@ -72,13 +73,6 @@
       '';
 
       lock = lib.getExe self'.packages.apertureLock;
-
-      brightness = pkgs.writeShellScript "mango-brightness" ''
-        ddcutil=${lib.getExe pkgs.ddcutil}
-        for display in $($ddcutil detect --terse | ${lib.getExe pkgs.gawk} '/^Display/ {print $2}'); do
-          $ddcutil --display "$display" setvcp 10 30
-        done
-      '';
 
       tagBinds = lib.concatMap (n: [
         "SUPER,${toString n},view,${toString n},0"
@@ -160,7 +154,8 @@
             "${lib.getExe self'.packages.apertureMako}"
             "${themeMenu} daemon"
             "${coinflip} daemon"
-            "${brightness}"
+            "${lib.getExe self'.packages.apertureDisplayDaemon}"
+            "${lib.getExe self'.packages.apertureDisplayMenu} daemon"
             "systemctl --user start mangoReloadConfig.service"
             "mmsg dispatch focusmon,serial:BH96444"
           ];
