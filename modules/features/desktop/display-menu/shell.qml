@@ -366,7 +366,7 @@ ShellRoot {
                 : Math.max(win.gap, Math.min(parent.width - width - win.gap, root.anchorX - width / 2))
             y: win.gap - 10 * (1 - root.progress)
             opacity: root.progress
-            radius: 16
+            radius: 0
             color: Qt.alpha(ui.mantle, 0.94)
             border.width: 1
             border.color: Qt.alpha(ui.overlay, 0.8)
@@ -544,7 +544,7 @@ ShellRoot {
                         Rectangle {
                             width: parent.width
                             height: 30
-                            radius: 8
+                            radius: 0
                             color: addArea.containsMouse ? ui.surface : "transparent"
                             border.width: 1
                             border.color: Qt.alpha(ui.overlay, 0.8)

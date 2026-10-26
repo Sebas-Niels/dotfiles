@@ -41,7 +41,7 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
         width: parent.width
         height: 8
-        radius: 4
+        radius: 0
         color: slider.track
 
         Rectangle {

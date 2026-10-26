@@ -12,7 +12,7 @@ Rectangle {
 
     implicitWidth: row.implicitWidth + 16
     implicitHeight: row.implicitHeight + 8
-    radius: 8
+    radius: 0
     color: "transparent"
     border.width: 1
     border.color: hover
@@ -51,7 +51,7 @@ Rectangle {
                 Rectangle {
                     width: digits.implicitWidth + 4
                     height: digits.implicitHeight
-                    radius: 4
+                    radius: 0
                     color: area.containsMouse ? field.hover : "transparent"
 
                     Behavior on color { ColorAnimation { duration: 120 } }
