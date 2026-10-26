@@ -100,8 +100,14 @@
           interval = 10;
         };
 
-        cpu.format = "cpu {usage}%";
-        memory.format = "mem {percentage}%";
+        cpu = {
+          format = "cpu {usage}%";
+          interval = 1;
+        };
+        memory = {
+          format = "mem {percentage}%";
+          interval = 1;
+        };
 
         "disk#root" = {
           path = "/";
