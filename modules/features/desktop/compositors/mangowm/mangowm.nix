@@ -1,15 +1,14 @@
 { self, inputs, ... }: {
   flake.nixosModules.mangowm = { pkgs, lib, ... }: {
-    imports = [
+    imports = with self.nixosModules; [
       inputs.mango.nixosModules.mango
-      self.nixosModules.fuzzel
-      self.nixosModules.swww
-      self.nixosModules.mako
-      self.nixosModules.waybar
-      self.nixosModules.themeMenu
-      self.nixosModules.coinflip
-      self.nixosModules.displayMenu
-      self.nixosModules.lockscreen
+      fuzzel
+      swww
+      mako
+      waybar
+      themeMenu
+      displayMenu
+      lockscreen
     ];
 
     programs.mango = {
@@ -47,7 +46,6 @@
       fastfetch = lib.getExe self'.packages.apertureFastfetch;
       themeMenu = lib.getExe self'.packages.apertureThemeMenu;
       rmpc = lib.getExe self'.packages.apertureRmpc;
-      coinflip = lib.getExe self'.packages.apertureCoinflip;
 
       floatingKitty = pkgs.writeShellScript "mango-floating-kitty" ''
         exec ${kitty} --class=kitty-float ${zsh} -c '${fastfetch}; exec ${zsh}'
@@ -152,7 +150,6 @@
             "${lib.getExe self'.packages.apertureSwww}"
             "${lib.getExe self'.packages.apertureWaybar}"
             "${lib.getExe self'.packages.apertureMako}"
-            "${coinflip} daemon"
             "${lib.getExe self'.packages.apertureDisplayDaemon}"
             "systemctl --user start mangoReloadConfig.service"
             "mmsg dispatch focusmon,serial:BH96444"
