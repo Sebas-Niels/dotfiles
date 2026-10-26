@@ -33,6 +33,7 @@
         jetbrains.rider
         brave
         bazecor
+        libreoffice
       ];
     };
 
