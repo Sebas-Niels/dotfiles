@@ -152,10 +152,8 @@
             "${lib.getExe self'.packages.apertureSwww}"
             "${lib.getExe self'.packages.apertureWaybar}"
             "${lib.getExe self'.packages.apertureMako}"
-            "${themeMenu} daemon"
             "${coinflip} daemon"
             "${lib.getExe self'.packages.apertureDisplayDaemon}"
-            "${lib.getExe self'.packages.apertureDisplayMenu} daemon"
             "systemctl --user start mangoReloadConfig.service"
             "mmsg dispatch focusmon,serial:BH96444"
           ];

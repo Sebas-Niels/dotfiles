@@ -606,9 +606,6 @@
               | while read -r pid _; do kill "$pid" 2>/dev/null || true; done || true
 
             action="''${1:-toggle}"
-            if [ "$action" = daemon ]; then
-              exec quickshell -p ${menuConfig} --no-duplicate
-            fi
 
             if ! qs ipc call themes "$action" >/dev/null 2>&1; then
               pkill -f '${menuConfig}' || true

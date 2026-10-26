@@ -64,6 +64,15 @@ ShellRoot {
         open = false;
     }
 
+    // Quit once closed and idle instead of holding memory between uses; the launcher starts a new instance
+    readonly property bool idle: !open && progress === 0 && !cursor.running && !status.running
+        && !brightnessProc.running && pendingBrightness < 0 && !commandProc.running && Object.keys(pending).length === 0
+    Timer {
+        running: root.idle
+        interval: 1000
+        onTriggered: Qt.quit()
+    }
+
     // Manual changes switch the matching schedule off; the script does the same on its side
     function setBrightness(v: int) {
         brightness = v;

@@ -15,6 +15,9 @@ ShellRoot {
 
     property bool open: false
     property string current: ""
+    // A fresh instance is started per use, so opening waits until the current theme is known
+    property bool ready: false
+    property bool showPending: false
     property int selected: 0
     property string pending: ""
     // Variant shown while browsing; themes without that variant fall back to their own
@@ -52,6 +55,10 @@ ShellRoot {
     }
 
     function show() {
+        if (!ready) {
+            showPending = true;
+            return;
+        }
         selected = indexOf(current);
         const theme = themes[selected];
         mode = theme.primary;
@@ -63,7 +70,16 @@ ShellRoot {
     }
 
     function hide() {
+        showPending = false;
         open = false;
+    }
+
+    // Quit once closed and idle instead of holding memory between uses; the launcher starts a new instance
+    readonly property bool idle: !open && !showPending && progress === 0 && !applyProc.running && pending === ""
+    Timer {
+        running: root.idle
+        interval: 1000
+        onTriggered: Qt.quit()
     }
 
     function select(i: int, center: bool) {
@@ -119,7 +135,14 @@ ShellRoot {
         running: true
         command: [root.themeScript, "current"]
         stdout: StdioCollector {
-            onStreamFinished: root.current = this.text.trim()
+            onStreamFinished: {
+                root.current = this.text.trim();
+                root.ready = true;
+                if (root.showPending) {
+                    root.showPending = false;
+                    root.show();
+                }
+            }
         }
     }
 
