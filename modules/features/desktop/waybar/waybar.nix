@@ -59,6 +59,7 @@
         modules-left = [ "ext/workspaces" ];
         modules-center = [ "clock" ];
         modules-right = [
+          "custom/display"
           "pulseaudio"
           "custom/network"
           "cpu"
@@ -84,6 +85,13 @@
           format-muted = "muted";
           on-click = "mmsg dispatch 'toggle_named_scratchpad,com\\.saivert\\.pwvucontrol,none,${lib.getExe pkgs.pwvucontrol}'";
           on-click-right = "${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+        };
+
+        "custom/display" = {
+          format = "󰃠";
+          tooltip-format = "brightness and night light";
+          on-click = "${lib.getExe self'.packages.apertureDisplayMenu} toggle";
+          on-click-right = "${lib.getExe self'.packages.apertureDisplay} night toggle";
         };
 
         "custom/network" = {

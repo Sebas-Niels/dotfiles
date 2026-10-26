@@ -32,7 +32,7 @@ window#waybar {
   background: @yellow;
 }
 
-#clock, #pulseaudio, #custom-network, #cpu, #memory, #disk, #tray {
+#clock, #custom-display, #pulseaudio, #custom-network, #cpu, #memory, #disk, #tray {
   padding: 0 15px;
 }
 
@@ -40,7 +40,7 @@ window#waybar {
   color: @red;
 }
 
-#custom-network {
+#custom-display, #custom-network {
   font-family: "JetBrainsMono Nerd Font", monospace;
 }
 
