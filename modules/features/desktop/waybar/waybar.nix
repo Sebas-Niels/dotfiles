@@ -81,8 +81,8 @@
         };
 
         pulseaudio = {
-          format = "vol {volume}%";
-          format-muted = "muted";
+          format = "󰕾 {volume}%";
+          format-muted = "󰝟 {volume}%";
           on-click = "mmsg dispatch 'toggle_named_scratchpad,com\\.saivert\\.pwvucontrol,none,${lib.getExe pkgs.pwvucontrol}'";
           on-click-right = "${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
         };

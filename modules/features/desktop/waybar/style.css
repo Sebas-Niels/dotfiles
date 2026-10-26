@@ -40,7 +40,7 @@ window#waybar {
   color: @red;
 }
 
-#custom-display, #custom-network {
+#custom-display, #pulseaudio, #custom-network {
   font-family: "JetBrainsMono Nerd Font", monospace;
 }
 
