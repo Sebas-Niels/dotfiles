@@ -3,7 +3,6 @@
 #![enable(unwrap_variant_newtypes)]
 (
     address: "/run/mpd/socket",
-    // rmpc 0.11's default tabs, without the lyrics pane under the album art
     tabs: [
         (
             name: "Queue",

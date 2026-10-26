@@ -1,6 +1,5 @@
 import QtQuick
 
-// HH:MM picker: scroll or click the hours or minutes; left click steps up, right click down
 Rectangle {
     id: field
 
@@ -31,7 +30,6 @@ Rectangle {
         anchors.centerIn: parent
 
         Repeater {
-            // Hours step by an hour; minutes by 5 (or 1 with Shift)
             model: [
                 { step: 60, fine: 60 },
                 { step: 5, fine: 1 }

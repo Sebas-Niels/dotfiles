@@ -61,7 +61,6 @@
 
           ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 
-          # Must stay last — hooks run in registration order.
           source ${pkgs.zsh-syntax-highlighting}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
         '';
       };

@@ -37,7 +37,6 @@
       ];
     };
 
-    # Bazecor needs its udev rules to access the Dygma Defy's serial port
     services.udev.packages = [ pkgs.bazecor ];
 
     fonts.packages = with pkgs; [

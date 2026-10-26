@@ -51,14 +51,23 @@
         exec ${kitty} --class=kitty-float ${zsh} -c '${fastfetch}; exec ${zsh}'
       '';
 
-      # Flatpaks that keep running in the background after their window closes; SUPER+q kills their sandbox instead
       killFlatpaks = [ "com.adamcake.Bolt" ];
 
-      killClient = pkgs.writeShellScript "mango-kill-client" ''
+      closeClient = pkgs.writeShellScript "mango-close-client" ''
         appid=$(mmsg get focusing-client | ${lib.getExe pkgs.gnused} -nE 's/.*"appid":"([^"]*)".*/\1/p')
         case "$appid" in
           ${lib.concatStringsSep "|" killFlatpaks}) exec ${pkgs.flatpak}/bin/flatpak kill "$appid" ;;
           *) exec mmsg dispatch killclient ;;
+        esac
+      '';
+
+      killClient = pkgs.writeShellScript "mango-kill-client" ''
+        client=$(mmsg get focusing-client)
+        appid=$(echo "$client" | ${lib.getExe pkgs.gnused} -nE 's/.*"appid":"([^"]*)".*/\1/p')
+        pid=$(echo "$client" | ${lib.getExe pkgs.gnused} -nE 's/.*"pid":([0-9]+).*/\1/p')
+        case "$appid" in
+          ${lib.concatStringsSep "|" killFlatpaks}) exec ${pkgs.flatpak}/bin/flatpak kill "$appid" ;;
+          *) [ -n "$pid" ] && exec ${pkgs.procps}/bin/kill "$pid" ;;
         esac
       '';
 
@@ -123,11 +132,8 @@
           default_master_factor = 0.5;
 
           monitor_rule = [
-            # centre — Dell AW3425DWM ultrawide, pinned to its high refresh mode
             "serial:BH96444,width:3440,height:1440,refresh:179.989,x:0,y:0,scale:1,primary:1"
-            # right — Dell AW2724DM, pinned to its high refresh mode
             "serial:GFGYHV3,width:2560,height:1440,refresh:143.973,x:3440,y:0,scale:1"
-            # bottom — Corsair Xeneon Edge, centred under the ultrawide
             "serial:578526065656,width:2560,height:720,refresh:60.266,x:440,y:1440,scale:1"
           ];
 
@@ -160,7 +166,8 @@
             "SUPER,t,spawn,${themeMenu} toggle"
             "SUPER,Return,spawn,${kitty}"
             "SUPER+SHIFT,Return,spawn,${floatingKitty}"
-            "SUPER,q,spawn,${killClient}"
+            "SUPER,q,spawn,${closeClient}"
+            "SUPER+SHIFT,q,spawn,${killClient}"
             "SUPER,o,toggleoverview"
             "SUPER+SHIFT,o,toggle_named_scratchpad,md\\.obsidian\\.Obsidian,none,obsidian"
             "SUPER+SHIFT,m,toggle_named_scratchpad,kitty-rmpc,none,${kitty} --class=kitty-rmpc ${rmpc}"
@@ -174,13 +181,11 @@
             "SUPER+SHIFT,f,togglemaximizescreen"
             "SUPER,space,togglefloating"
 
-            # grow/shrink the master area, and add/remove master windows
             "SUPER,equal,setmfact,+0.05"
             "SUPER,minus,setmfact,-0.05"
             "SUPER,comma,incnmaster,+1"
             "SUPER,period,incnmaster,-1"
 
-            # focus the neighbouring window in each direction
             "SUPER,h,focusdir,left"
             "SUPER,l,focusdir,right"
             "SUPER,k,focusdir,up"
@@ -188,7 +193,6 @@
             "SUPER,Left,focusdir,left"
             "SUPER,Right,focusdir,right"
 
-            # swap the focused window with its neighbour
             "SUPER+CTRL,h,exchange_client,left"
             "SUPER+CTRL,l,exchange_client,right"
             "SUPER+CTRL,Left,exchange_client,left"
@@ -201,7 +205,6 @@
             "SUPER,btn_right,moveresize,curresize"
           ];
 
-          # mouse wheel scrolling
           axisbind = [
             "SUPER,UP,focusdir,left"
             "SUPER,DOWN,focusdir,right"

@@ -12,7 +12,6 @@ ShellRoot {
     readonly property string displayDaemon: "@displayDaemon@"
     readonly property string fontFamily: "JetBrainsMono Nerd Font"
 
-    // Night filter strength 0–100 maps onto a colour temperature, 0 being neutral
     readonly property int warmest: 1500
     readonly property int coolest: 6000
     function kelvin(strength: real): int {
@@ -35,7 +34,6 @@ ShellRoot {
     property int nightOn: 21 * 60 + 30
     property int nightOff: 7 * 60
     property string activePoint: ""
-    // Points are only reloaded when the menu opens, so rows don't re-sort under the cursor while editing
     property bool loadPoints: true
 
     ListModel {
@@ -43,7 +41,6 @@ ShellRoot {
     }
 
     property int pendingBrightness: -1
-    // Latest unsent command per key, run one at a time in the order they were first queued
     property var pending: ({})
 
     property real progress: open ? 1 : 0
@@ -64,7 +61,6 @@ ShellRoot {
         open = false;
     }
 
-    // Quit once closed and idle instead of holding memory between uses; the launcher starts a new instance
     readonly property bool idle: !open && progress === 0 && !cursor.running && !status.running
         && !brightnessProc.running && pendingBrightness < 0 && !commandProc.running && Object.keys(pending).length === 0
     Timer {
@@ -73,7 +69,6 @@ ShellRoot {
         onTriggered: Qt.quit()
     }
 
-    // Manual changes switch the matching schedule off; the script does the same on its side
     function setBrightness(v: int) {
         brightness = v;
         brightnessSchedule = false;
@@ -92,7 +87,6 @@ ShellRoot {
         queue("warmth", [displayScript, "warmth", String(kelvin(w))]);
     }
 
-    // ddcutil takes a few hundred ms per call, so only the latest value is sent
     function flushBrightness() {
         if (brightnessProc.running || pendingBrightness < 0)
             return;
@@ -152,7 +146,6 @@ ShellRoot {
         flush();
     }
 
-    // Schedule changes can switch brightness or the night light, so re-read state once it settles
     function flush() {
         if (commandProc.running)
             return;
@@ -214,7 +207,6 @@ ShellRoot {
                         }
                     }
                     root.activePoint = s.activePoint;
-                    // The night light needs wl-gammarelay-rs; the daemon is single-instance, so starting it is safe
                     if (s.relay === false)
                         Quickshell.execDetached([root.displayDaemon]);
                 } catch (e) {}
@@ -222,7 +214,6 @@ ShellRoot {
         }
     }
 
-    // Opens the menu on the monitor under the pointer, i.e. the bar that was clicked
     Process {
         id: cursor
         command: ["mmsg", "get", "cursorpos"]
@@ -309,7 +300,6 @@ ShellRoot {
             left: true
             right: true
         }
-        // Stays below waybar, so clicking its icon again closes the menu
         exclusionMode: ExclusionMode.Normal
         WlrLayershell.layer: WlrLayer.Overlay
         WlrLayershell.namespace: "aperture-display-menu"
@@ -381,7 +371,6 @@ ShellRoot {
             border.width: 1
             border.color: Qt.alpha(ui.overlay, 0.8)
 
-            // Swallows clicks so they don't reach the backdrop and close the menu
             MouseArea {
                 anchors.fill: parent
             }

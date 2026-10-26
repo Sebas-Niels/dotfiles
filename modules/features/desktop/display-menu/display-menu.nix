@@ -13,8 +13,6 @@
   perSystem =
     { pkgs, lib, ... }:
     let
-      # Brightness goes to every monitor over DDC/CI; the night filter is a gamma ramp
-      # applied by wl-gammarelay-rs, which has to be running (mango starts it).
       displayScript = pkgs.writeShellApplication {
         name = "aperture-display";
         runtimeInputs = with pkgs; [
@@ -38,7 +36,6 @@
             echo "$2" > "$state/$1"
           }
 
-          # Detecting monitors takes about a second, so the I2C buses are cached per session
           detect() {
             ddcutil detect --terse \
               | awk '/^Display/ { ok = 1 } /^Invalid/ { ok = 0 } ok && /I2C bus/ { sub("/dev/i2c-", "", $3); print $3 }' \
@@ -46,7 +43,6 @@
             mv -f "$buses.$$" "$buses"
           }
 
-          # Shorter DDC sleeps and no startup probing take a set from ~0.75s to ~0.25s
           brightness() {
             [ -s "$buses" ] || detect
             local bus list failed=0
@@ -92,7 +88,6 @@
             [[ "$1" =~ ^([01][0-9]|2[0-3]):[0-5][0-9]$ ]]
           }
 
-          # Brightness points, one "HH:MM percent" per line, sorted by time
           points() {
             if [ ! -e "$state/points" ]; then
               mkdir -p "$state"
@@ -101,7 +96,6 @@
             cat "$state/points"
           }
 
-          # The latest point at or before now; before the first one, yesterday's last still holds
           point() {
             local t level at current best="" last=""
             current=$(now)
@@ -115,7 +109,6 @@
             echo "''${best:-$last}"
           }
 
-          # Whether the night light should be on; the on-window may wrap past midnight
           period() {
             local current start end
             current=$(now)
@@ -128,13 +121,10 @@
             fi
           }
 
-          # The two schedules are independent; both used to share one "schedule" switch
           scheduled() {
             [ "$(get "$1-schedule" "$(get schedule off)")" = on ]
           }
 
-          # Only acts when the period or point changes, so a schedule switched back on picks up
-          # where it is. Editing the active point counts as a change, so it applies right away.
           tick() {
             local p pt
             if scheduled night; then
@@ -160,7 +150,6 @@
             if [ "$(get "$1" off)" = on ]; then echo true; else echo false; fi
           }
 
-          # Manual changes switch the matching schedule off rather than fighting it
           unschedule() {
             put "$1-schedule" off
           }
@@ -281,9 +270,6 @@
         '';
       };
 
-      # Runs the schedule and wl-gammarelay-rs. Only one instance holds the lock, so the menu can
-      # start it whenever it finds the night light daemon missing. The tint resets whenever
-      # wl-gammarelay-rs exits, so it is restarted and the night light reapplied.
       displayDaemon = pkgs.writeShellApplication {
         name = "aperture-display-daemon";
         runtimeInputs = [
@@ -294,7 +280,6 @@
           exec 9>"''${XDG_RUNTIME_DIR:-/tmp}/aperture-display-daemon.lock"
           flock -n 9 || exit 0
 
-          # Helpers don't inherit the lock, or their leftover children would hold it after a crash
           ${lib.getExe displayScript} watch 9>&- &
           while :; do
             ${lib.getExe displayScript} reapply 9>&- &

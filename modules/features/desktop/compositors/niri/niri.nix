@@ -61,7 +61,6 @@
           ];
 
           outputs = {
-            # centre — 3440x1440 ultrawide, pinned to its high refresh mode
             "Dell Inc. AW3425DWM BH96444" = {
               mode = "3440x1440@179.989";
               position = _: {
@@ -72,7 +71,6 @@
               };
               focus-at-startup = _: { };
             };
-            # right — 2560x1440, pinned to its high refresh mode
             "Dell Inc. AW2724DM GFGYHV3" = {
               mode = "2560x1440@143.973";
               position = _: {
@@ -82,7 +80,6 @@
                 };
               };
             };
-            # bottom — Corsair Xeneon Edge, centred under the ultrawide
             "Cyrix Corporation XENEON EDGE 578526065656" = {
               mode = "2560x720@60.266";
               scale = 1.0;
@@ -130,25 +127,21 @@
             # WHAT IS THE KEYBIND FOR LOCKING NIRI?!?!??!?!?!
             "Ctrl+Alt+L".spawn-sh = "${lib.getExe self'.packages.apertureNoctalia} ipc call lockScreen lock";
 
-            # scroll focus left/right through columns
             "Mod+H".focus-column-left = _: { };
             "Mod+L".focus-column-right = _: { };
             "Mod+Left".focus-column-left = _: { };
             "Mod+Right".focus-column-right = _: { };
 
-            # drag the focused column along with you
             "Mod+Ctrl+H".move-column-left = _: { };
             "Mod+Ctrl+L".move-column-right = _: { };
             "Mod+Ctrl+Left".move-column-left = _: { };
             "Mod+Ctrl+Right".move-column-right = _: { };
 
-            # jump to the ends of the scrollable row
             "Mod+Home".focus-column-first = _: { };
             "Mod+End".focus-column-last = _: { };
             "Mod+Ctrl+Home".move-column-to-first = _: { };
             "Mod+Ctrl+End".move-column-to-last = _: { };
 
-            # mouse wheel scrolling
             "Mod+WheelScrollRight".focus-column-right = _: { };
             "Mod+WheelScrollLeft".focus-column-left = _: { };
             "Mod+WheelScrollDown".focus-column-right = _: { };

@@ -10,13 +10,10 @@ Item {
     property color fill: "#82aaff"
     property color track: "#2f334d"
     property color knob: "#e4f3fa"
-    // Draws the track as a gradient from `track` to `fill` instead of a solid fill
     property bool gradient: false
 
-    // Emit while dragging; otherwise only on release, previewing the value in `shown` until then
     property bool live: true
 
-    // Only emitted for user input, so bindings to `value` stay intact
     signal moved(real value)
 
     property real dragValue: 0

@@ -1,12 +1,5 @@
 { self, ... }:
 {
-  # palette.nix colours:
-  #
-  #   bg       window background          text     main text
-  #   mantle   bars, darker panels        subtext  dimmed text
-  #   surface  raised elements, buttons   accent   focus, selection, active workspace
-  #   overlay  borders, selections        accent2  secondary highlight
-  #   red / yellow / green               urgent / warning / positive
   flake.nixosModules.themeMenu =
     { pkgs, lib, ... }:
     let
@@ -136,8 +129,6 @@
         "webp"
       ];
 
-      # Each theme directory holds palette.nix and optionally palette-<other variant>.nix, giving
-      # the same wallpaper in both modes. The alternate one is installed as "<id>.<variant>".
       groups = lib.mapAttrs (
         id: _:
         let

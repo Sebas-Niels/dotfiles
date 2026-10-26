@@ -15,12 +15,10 @@ ShellRoot {
 
     property bool open: false
     property string current: ""
-    // A fresh instance is started per use, so opening waits until the current theme is known
     property bool ready: false
     property bool showPending: false
     property int selected: 0
     property string pending: ""
-    // Variant shown while browsing; themes without that variant fall back to their own
     property string mode: "dark"
 
     property real progress: open ? 1 : 0
@@ -33,7 +31,6 @@ ShellRoot {
 
     readonly property var preview: pick(themes[selected] ?? themes[0], mode)
 
-    // A theme (wallpaper) in one variant, flattened to what the UI shows
     function pick(theme: var, variant: string): var {
         const v = theme.variants[variant] ?? theme.variants[theme.primary];
         return {
@@ -74,7 +71,6 @@ ShellRoot {
         open = false;
     }
 
-    // Quit once closed and idle instead of holding memory between uses; the launcher starts a new instance
     readonly property bool idle: !open && !showPending && progress === 0 && !applyProc.running && pending === ""
     Timer {
         running: root.idle

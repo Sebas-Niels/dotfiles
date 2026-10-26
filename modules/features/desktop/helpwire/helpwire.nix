@@ -18,7 +18,6 @@
     };
 
   perSystem = { pkgs, lib, ... }: {
-    # Upstream only ships x86_64-linux binaries
     packages = lib.optionalAttrs (pkgs.stdenv.hostPlatform.system == "x86_64-linux") {
       helpwire-operator = pkgs.callPackage (
         {
@@ -84,11 +83,10 @@
             libxinerama
             libxrandr
             libxtst
-            # Needed by the bundled libQt5XcbQpa.so.5
-            libxcb-wm # libxcb-icccm.so.4
-            libxcb-image # libxcb-image.so.0
-            libxcb-keysyms # libxcb-keysyms.so.1
-            libxcb-render-util # libxcb-render-util.so.0
+            libxcb-wm
+            libxcb-image
+            libxcb-keysyms
+            libxcb-render-util
           ];
 
           unpackPhase = ''
