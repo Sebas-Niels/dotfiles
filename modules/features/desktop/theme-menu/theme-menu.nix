@@ -479,6 +479,9 @@
             if pgrep -f aperture-coinflip-config >/dev/null; then
               aperture-coinflip reload >/dev/null 2>&1 || true
             fi
+            if pgrep -f aperture-display-menu-config >/dev/null; then
+              aperture-display-menu reload >/dev/null 2>&1 || true
+            fi
             dbus-send --session --type=signal /KGlobalSettings \
               org.kde.KGlobalSettings.notifyChange int32:0 int32:0 || true
 
