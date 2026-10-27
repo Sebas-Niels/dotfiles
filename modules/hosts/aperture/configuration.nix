@@ -18,6 +18,7 @@
       steam
       kitty
       ghostty
+      librewolf
       starship
       zsh
       defaultApps
@@ -35,7 +36,6 @@
     ];
 
     environment.systemPackages = with pkgs; [
-      librewolf
       git
       kitty
       kdePackages.dolphin
