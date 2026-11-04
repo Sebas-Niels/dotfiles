@@ -1,6 +1,6 @@
 { ... }: {
   flake.nixosModules.sddm =
-    { pkgs, ... }:
+    { config, pkgs, ... }:
     let
       mainQml = pkgs.writeText "Main.qml" ''
         import QtQuick 2.15
@@ -41,30 +41,38 @@
               cp ${mainQml} "$d/Main.qml"
             '';
           });
+
+      # Only DP-1 is lit, so the greeter's one window always has keyboard focus.
+      westonIni = pkgs.writeText "weston.ini" ''
+        [core]
+        idle-time=600
+
+        [keyboard]
+        keymap_layout=${config.services.xserver.xkb.layout}
+        keymap_variant=${config.services.xserver.xkb.variant}
+
+        [output]
+        name=DP-1
+        mode=preferred
+
+        [output]
+        name=DP-2
+        mode=off
+
+        [output]
+        name=DP-3
+        mode=off
+      '';
     in
     {
-      services.xserver.enable = true;
-
-      services.xserver.displayManager.setupCommands = ''
-        ${pkgs.xrandr}/bin/xrandr --output DP-1 --primary
-        ${pkgs.xdotool}/bin/xdotool mousemove 1720 720
-
-        (
-          for i in $(${pkgs.coreutils}/bin/seq 1 20); do
-            ${pkgs.coreutils}/bin/sleep 1
-            eval "$(${pkgs.xdotool}/bin/xdotool getmouselocation --shell 2>/dev/null)"
-            [ -n "$WINDOW" ] && [ "$WINDOW" != 0 ] || continue
-            ${pkgs.xprop}/bin/xprop -id "$WINDOW" WM_CLASS 2>/dev/null \
-              | ${pkgs.gnugrep}/bin/grep -qi sddm || continue
-            ${pkgs.xdotool}/bin/xdotool windowfocus "$WINDOW" && break
-          done
-        ) > /tmp/greeter-focus.txt 2>&1 &
-      '';
-
       services.displayManager.sddm = {
         enable = true;
         theme = "${theme}/share/sddm/themes/where_is_my_sddm_theme";
         extraPackages = [ theme ];
+        wayland = {
+          enable = true;
+          compositorCommand = "${pkgs.lib.getExe pkgs.weston} --shell=kiosk -c ${westonIni}";
+        };
       };
     };
 }
