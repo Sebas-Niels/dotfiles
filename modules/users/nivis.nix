@@ -34,6 +34,7 @@
         brave
         bazecor
         libreoffice
+        osu-lazer-bin
       ];
     };
 
