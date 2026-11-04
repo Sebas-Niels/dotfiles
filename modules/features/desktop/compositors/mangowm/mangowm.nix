@@ -85,6 +85,16 @@
         "SUPER,${toString n},view,${toString n},0"
         "SUPER+SHIFT,${toString n},tag,${toString n},0"
       ]) (lib.range 1 9);
+
+      main = "serial:BH96444";
+      side = "serial:GFGYHV3";
+      utility = "serial:578526065656";
+
+      monitorBinds = lib.imap1 (n: monitor: "SUPER+ALT,${toString n},focusmon,${monitor}") [
+        main
+        side
+        utility
+      ];
     in
     {
       apertureTheme.targets."mango.conf" = t: ''
@@ -105,7 +115,10 @@
         settings = {
           xkb_rules_layout = "us";
           numlock_on = 1;
-          sloppy_focus = 1;
+          sloppy_focus = 0;
+          focus_cross_monitor = 1;
+          exchange_cross_monitor = 1;
+          warp_cursor = 0;
 
           border_px = 1;
 
@@ -132,12 +145,12 @@
           default_master_factor = 0.5;
 
           monitor_rule = [
-            "serial:BH96444,width:3440,height:1440,refresh:179.989,x:0,y:0,scale:1,primary:1"
-            "serial:GFGYHV3,width:2560,height:1440,refresh:143.973,x:3440,y:0,scale:1"
-            "serial:578526065656,width:2560,height:720,refresh:60.266,x:440,y:1440,scale:1"
+            "${main},width:3440,height:1440,refresh:179.989,x:0,y:0,scale:1,primary:1"
+            "${side},width:2560,height:1440,refresh:143.973,x:3440,y:0,scale:1"
+            "${utility},width:2560,height:720,refresh:60.266,x:440,y:1440,scale:1"
           ];
 
-          device_rule = [ "name:wch.cn TouchScreen,monitor:serial:578526065656" ];
+          device_rule = [ "name:wch.cn TouchScreen,monitor:${utility}" ];
 
           window_rule = [
             "is_floating:1,width:1620,height:910,app_id:^kitty-float$"
@@ -150,7 +163,7 @@
             "tags:3,app_id:^(signal|vesktop)$"
             "tags:4,app_id:^(steam|net\\.lutris\\.Lutris)$"
             "tags:5,app_id:^(steam_app_.*|gamescope|net-runelite-.*|RuneLite)$"
-            "monitor:serial:BH96444,app_id:^steam_app_1091500$"
+            "monitor:${main},app_id:^steam_app_1091500$"
           ];
 
           exec_once = [
@@ -159,7 +172,7 @@
             "${lib.getExe self'.packages.apertureMako}"
             "${lib.getExe self'.packages.apertureDisplayDaemon}"
             "systemctl --user start mangoReloadConfig.service"
-            "mmsg dispatch focusmon,serial:BH96444"
+            "mmsg dispatch focusmon,${main}"
           ];
 
           bind = [
@@ -194,12 +207,15 @@
             "SUPER,Left,focusdir,left"
             "SUPER,Right,focusdir,right"
 
-            "SUPER+CTRL,h,exchange_client,left"
-            "SUPER+CTRL,l,exchange_client,right"
-            "SUPER+CTRL,Left,exchange_client,left"
-            "SUPER+CTRL,Right,exchange_client,right"
+            "SUPER+CTRL,h,move_client,left"
+            "SUPER+CTRL,l,move_client,right"
+            "SUPER+CTRL,k,move_client,up"
+            "SUPER+CTRL,j,move_client,down"
+            "SUPER+CTRL,Left,move_client,left"
+            "SUPER+CTRL,Right,move_client,right"
           ]
-          ++ tagBinds;
+          ++ tagBinds
+          ++ monitorBinds;
 
           mousebind = [
             "SUPER,btn_left,moveresize,curmove"
