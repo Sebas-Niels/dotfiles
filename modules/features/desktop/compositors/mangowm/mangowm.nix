@@ -115,10 +115,10 @@
         settings = {
           xkb_rules_layout = "us";
           numlock_on = 1;
-          sloppy_focus = 0;
-          focus_cross_monitor = 1;
+          sloppy_focus = 1;
+          focus_cross_monitor = 0;
           exchange_cross_monitor = 1;
-          warp_cursor = 0;
+          warp_cursor = 1;
 
           border_px = 1;
 
