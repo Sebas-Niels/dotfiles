@@ -41,14 +41,14 @@
       ...
     }:
     let
-      kitty = lib.getExe self'.packages.apertureKitty;
+      ghostty = lib.getExe self'.packages.apertureGhostty;
       zsh = lib.getExe self'.packages.apertureZsh;
       fastfetch = lib.getExe self'.packages.apertureFastfetch;
       themeMenu = lib.getExe self'.packages.apertureThemeMenu;
       rmpc = lib.getExe self'.packages.apertureRmpc;
 
-      floatingKitty = pkgs.writeShellScript "mango-floating-kitty" ''
-        exec ${kitty} --class=kitty-float ${zsh} -c '${fastfetch}; exec ${zsh}'
+      floatingGhostty = pkgs.writeShellScript "mango-floating-ghostty" ''
+        exec ${ghostty} --class=ghostty.float -e ${zsh} -c '${fastfetch}; exec ${zsh}'
       '';
 
       killFlatpaks = [ "com.adamcake.Bolt" ];
@@ -153,12 +153,12 @@
           device_rule = [ "name:wch.cn TouchScreen,monitor:${utility}" ];
 
           window_rule = [
-            "is_floating:1,width:1620,height:910,app_id:^kitty-float$"
+            "is_floating:1,width:1620,height:910,app_id:^ghostty\\.float$"
             "is_named_scratchpad:1,width:0.9971,height:0.9625,app_id:^md\\.obsidian\\.Obsidian$"
-            "is_named_scratchpad:1,width:1620,height:910,app_id:^kitty-rmpc$"
+            "is_named_scratchpad:1,width:1620,height:910,app_id:^ghostty\\.rmpc$"
             "is_named_scratchpad:1,width:1100,height:720,app_id:^com\\.saivert\\.pwvucontrol$"
             "is_named_scratchpad:1,width:1100,height:720,app_id:^bitwarden$"
-            "tags:1,app_id:^(kitty|code)$"
+            "tags:1,app_id:^(com\\.mitchellh\\.ghostty|code)$"
             "tags:2,app_id:^librewolf$"
             "tags:3,app_id:^(signal|vesktop)$"
             "tags:4,app_id:^(steam|net\\.lutris\\.Lutris)$"
@@ -178,13 +178,13 @@
           bind = [
             "SUPER,d,spawn,${lib.getExe self'.packages.apertureFuzzel}"
             "SUPER,t,spawn,${themeMenu} toggle"
-            "SUPER,Return,spawn,${kitty}"
-            "SUPER+SHIFT,Return,spawn,${floatingKitty}"
+            "SUPER,Return,spawn,${ghostty}"
+            "SUPER+SHIFT,Return,spawn,${floatingGhostty}"
             "SUPER,q,spawn,${closeClient}"
             "SUPER+SHIFT,q,spawn,${killClient}"
             "SUPER,o,toggleoverview"
             "SUPER+SHIFT,o,toggle_named_scratchpad,md\\.obsidian\\.Obsidian,none,obsidian"
-            "SUPER+SHIFT,m,toggle_named_scratchpad,kitty-rmpc,none,${kitty} --class=kitty-rmpc ${rmpc}"
+            "SUPER+SHIFT,m,toggle_named_scratchpad,ghostty\\.rmpc,none,${ghostty} --class=ghostty.rmpc -e ${rmpc}"
             "SUPER+SHIFT,b,toggle_named_scratchpad,bitwarden,none,bitwarden"
             "NONE,Print,spawn,${screenshot}"
             "CTRL+ALT,l,spawn,${lock}"

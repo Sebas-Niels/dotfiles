@@ -53,7 +53,7 @@
 
           window-rules = [
             {
-              match = _: { props.app-id = "^kitty-float$"; };
+              match = _: { props.app-id = "^ghostty\\.float$"; };
               open-floating = true;
               default-column-width.fixed = 1620;
               default-window-height.fixed = 910;
@@ -110,9 +110,9 @@
           layout.gaps = 5;
           binds = {
             "Mod+D".spawn-sh = "${lib.getExe self'.packages.apertureNoctalia} ipc call launcher toggle";
-            "Mod+Return".spawn-sh = lib.getExe self'.packages.apertureKitty;
+            "Mod+Return".spawn-sh = lib.getExe self'.packages.apertureGhostty;
             "Mod+Shift+Return".spawn-sh =
-              "${lib.getExe self'.packages.apertureKitty} --class=kitty-float ${lib.getExe self'.packages.apertureZsh} -c '${lib.getExe self'.packages.apertureFastfetch}; exec ${lib.getExe self'.packages.apertureZsh}' & sleep 0.3 && niri msg action center-window";
+              "${lib.getExe self'.packages.apertureGhostty} --class=ghostty.float -e ${lib.getExe self'.packages.apertureZsh} -c '${lib.getExe self'.packages.apertureFastfetch}; exec ${lib.getExe self'.packages.apertureZsh}' & sleep 0.3 && niri msg action center-window";
             "Mod+Q".close-window = _: { };
             "Mod+O".toggle-overview = _: { };
             "Print".screenshot = _: { };

@@ -18,7 +18,7 @@
         lib.generators.toINI { } {
           main = {
             font = "monospace:size=18";
-            terminal = "${lib.getExe self'.packages.apertureKitty} -e";
+            terminal = "${lib.getExe self'.packages.apertureGhostty} -e";
             prompt = ''"> "'';
             layer = "overlay";
             width = 40;
