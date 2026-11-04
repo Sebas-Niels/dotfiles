@@ -119,6 +119,7 @@
           focus_cross_monitor = 0;
           exchange_cross_monitor = 1;
           warp_cursor = 1;
+          cursor_hide_on_keypress = 1;
 
           border_px = 1;
 
